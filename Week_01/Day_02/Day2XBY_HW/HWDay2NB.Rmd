@@ -34,7 +34,7 @@ is.na(calories)
 ```{r}
 ?drop_na()
 ```
-
+the answer did a filter is.na then count the na using summarise
 
 
 Question 3.
@@ -54,6 +54,8 @@ calories %>%
   arrange(average_cal)
 
 ```
+The answer did arrange then head (3) for most and least 
+
 This is part of Question 4:
 My summary, coffee, shaken iced beverages and classic espresso drinks 
 have the least calories.

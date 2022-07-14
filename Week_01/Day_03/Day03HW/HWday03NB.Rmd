@@ -81,8 +81,8 @@ Question 6.
 Finally, use the slice_min and slice_max functions on movies_imputed to get the movies with the 10 shortest and 10 longest runtimes.
 
 ```{r}
-longest <- movies_imputed %>% slice_max(runtime, n=10)
-shortest <- movies_imputed %>% slice_min(runtime,n=10)
+longest <- movies_imputed %>% slice_max(runtime, n=10, with_ties = FALSE)
+shortest <- movies_imputed %>% slice_min(runtime,n=10, with_ties = FALSE)
 longest
 shortest
 ```
@@ -98,5 +98,47 @@ movies_imputed <- movies_imputed %>%
                           budget
                           ))
 movies_imputed
+```
+
+
+
+Question 1.
+
+Using case_when, create a new column called budget_type and label budgets as follows:
+
+Budgets below 12 million as ‘Small budget’
+Budgets between 12 and 40 million as ‘Medium budget’
+Budgets 40 millions and above as ‘Big budget’
+Save this into a new variable called movie_budgets.
+
+Hint:
+1e6 is a shorthand way of writing 1 million (1×106)
+
+```{r}
+movies_budgets <- movies_imputed %>% 
+  mutate(budget_type = case_when(
+                                 budget < 12000000 ~ "Small budget",
+                                 budget < 40000000 ~ "Medium budget",
+                                 TRUE ~ "Big budget"))
+#the e thing did not work 
+  
+```
+
+
+
+Question 2.
+
+Take the original dataset with all the variables. Using across and where, summarise the number of missing values, first across all columns of type character, and then across all columns of type numeric.
+
+```{r}
+movies %>% 
+  select(where(is.character)) %>% 
+  mutate_all(na_if, "") %>% 
+  summarise(count = sum(is.na(across(where(is.character)))))
+  
+movies %>% 
+  select(where(is.numeric)) %>% 
+  mutate_all(na_if, 0 ) %>%
+  summarise(count = sum(is.na(across(where(is.numeric)))))
 ```
 

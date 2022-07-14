@@ -1791,7 +1791,8 @@ cleaning/prepping.</p>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<pre><code>It looks very full and not much of missing data. It has some information
+<pre><code>THIS IS PART OF Q1 NOT COMMENTS 
+It looks very full and not much of missing data. It has some information
 that won&#39;t be very useful for us eg. homepage,overview
 can find some interesting links between them, eg is there any link between  
 budget and popularity. </code></pre>
@@ -1803,9 +1804,9 @@ into a new variable called movies_selected. Hint: you will have to make
 a choice between original_title and title.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX3NlbGVjdGVkIDwtIG1vdmllcyAlPiUgXG4gIHNlbGVjdChjKHRpdGxlLHJ1bnRpbWUsYnVkZ2V0KSlcbiMgSSBwaWNrZWQgdGl0bGUsIGp1c3QgdGhpbmsgcGVvcGxlIG1pZ2h0IGtub3cgdGhlbSBiZXR0ZXIuIFxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX3NlbGVjdGVkIDwtIG1vdmllcyAlPiUgXG4gIHNlbGVjdCh0aXRsZSxydW50aW1lLGJ1ZGdldClcbiMgSSBwaWNrZWQgdGl0bGUsIGp1c3QgdGhpbmsgcGVvcGxlIG1pZ2h0IGtub3cgdGhlbSBiZXR0ZXIuIFxuYGBgIn0= -->
 <pre class="r"><code>movies_selected &lt;- movies %&gt;% 
-  select(c(title,runtime,budget))
+  select(title,runtime,budget)
 # I picked title, just think people might know them better. </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -1815,36 +1816,12 @@ a choice between original_title and title.</p>
 number of missing values in each column.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShtb3ZpZXMpXG5cbmBgYCJ9 -->
-<pre class="r"><code>summary(movies)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX3NlbGVjdGVkICU+JSBcbiAgc3VtbWFyaXNlKHRfbmEgPSBzdW0oaXMubmEodGl0bGUpKSxcbiAgICAgICAgICAgIHJfbmEgPSBzdW0oaXMubmEocnVudGltZSkpLFxuICAgICAgICAgICAgYl9uYSA9IHN1bShpcy5uYShidWRnZXQpKSlcbmBgYCJ9 -->
+<pre class="r"><code>movies_selected %&gt;% 
+  summarise(t_na = sum(is.na(title)),
+            r_na = sum(is.na(runtime)),
+            b_na = sum(is.na(budget)))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIG9yaWdpbmFsX3RpdGxlICAgICAgICB0aXRsZSAgICAgICAgICAgICBob21lcGFnZSAgICAgICAgICAgICBidWRnZXQgICAgICAgICBcbiBMZW5ndGg6NDgwMyAgICAgICAgTGVuZ3RoOjQ4MDMgICAgICAgIExlbmd0aDo0ODAzICAgICAgICBNaW4uICAgOiAgICAgICAgMCAgXG4gQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICAgMXN0IFF1LjogICA3OTAwMDAgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICAgTW9kZSAgOmNoYXJhY3RlciAgIE1lZGlhbiA6IDE1MDAwMDAwICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBNZWFuICAgOiAyOTA0NTA0MCAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgM3JkIFF1LjogNDAwMDAwMDAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE1heC4gICA6MzgwMDAwMDAwICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gb3JpZ2luYWxfbGFuZ3VhZ2UgICAgb3ZlcnZpZXcgICAgICAgICAgIHBvcHVsYXJpdHkgICAgICByZWxlYXNlX2RhdGUgICAgICBcbiBMZW5ndGg6NDgwMyAgICAgICAgTGVuZ3RoOjQ4MDMgICAgICAgIE1pbi4gICA6ICAwLjAwMCAgIExlbmd0aDo0ODAzICAgICAgIFxuIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICAgMXN0IFF1LjogIDQuNjY4ICAgQ2xhc3MgOmNoYXJhY3RlciAgXG4gTW9kZSAgOmNoYXJhY3RlciAgIE1vZGUgIDpjaGFyYWN0ZXIgICBNZWRpYW4gOiAxMi45MjIgICBNb2RlICA6Y2hhcmFjdGVyICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE1lYW4gICA6IDIxLjQ5MiAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgM3JkIFF1LjogMjguMzE0ICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBNYXguICAgOjg3NS41ODEgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgIHJldmVudWUgICAgICAgICAgICAgcnVudGltZSAgICAgICAgdGFnbGluZSAgICAgICAgICAgdm90ZV9hdmVyYWdlICAgICAgdm90ZV9jb3VudCAgICAgXG4gTWluLiAgIDowLjAwMGUrMDAgICBNaW4uICAgOiAgMC4wICAgTGVuZ3RoOjQ4MDMgICAgICAgIE1pbi4gICA6IDAuMDAwICAgTWluLiAgIDogICAgMC4wICBcbiAxc3QgUXUuOjAuMDAwZSswMCAgIDFzdCBRdS46IDk0LjAgICBDbGFzcyA6Y2hhcmFjdGVyICAgMXN0IFF1LjogNS42MDAgICAxc3QgUXUuOiAgIDU0LjAgIFxuIE1lZGlhbiA6MS45MTdlKzA3ICAgTWVkaWFuIDoxMDMuMCAgIE1vZGUgIDpjaGFyYWN0ZXIgICBNZWRpYW4gOiA2LjIwMCAgIE1lZGlhbiA6ICAyMzUuMCAgXG4gTWVhbiAgIDo4LjIyNmUrMDcgICBNZWFuICAgOjEwNi45ICAgICAgICAgICAgICAgICAgICAgIE1lYW4gICA6IDYuMDkyICAgTWVhbiAgIDogIDY5MC4yICBcbiAzcmQgUXUuOjkuMjkyZSswNyAgIDNyZCBRdS46MTE4LjAgICAgICAgICAgICAgICAgICAgICAgM3JkIFF1LjogNi44MDAgICAzcmQgUXUuOiAgNzM3LjAgIFxuIE1heC4gICA6Mi43ODhlKzA5ICAgTWF4LiAgIDozMzguMCAgICAgICAgICAgICAgICAgICAgICBNYXguICAgOjEwLjAwMCAgIE1heC4gICA6MTM3NTIuMCAgXG4gICAgICAgICAgICAgICAgICAgICBOQSdzICAgOjIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiJ9 -->
-<pre><code> original_title        title             homepage             budget         
- Length:4803        Length:4803        Length:4803        Min.   :        0  
- Class :character   Class :character   Class :character   1st Qu.:   790000  
- Mode  :character   Mode  :character   Mode  :character   Median : 15000000  
-                                                          Mean   : 29045040  
-                                                          3rd Qu.: 40000000  
-                                                          Max.   :380000000  
-                                                                             
- original_language    overview           popularity      release_date      
- Length:4803        Length:4803        Min.   :  0.000   Length:4803       
- Class :character   Class :character   1st Qu.:  4.668   Class :character  
- Mode  :character   Mode  :character   Median : 12.922   Mode  :character  
-                                       Mean   : 21.492                     
-                                       3rd Qu.: 28.314                     
-                                       Max.   :875.581                     
-                                                                           
-    revenue             runtime        tagline           vote_average      vote_count     
- Min.   :0.000e+00   Min.   :  0.0   Length:4803        Min.   : 0.000   Min.   :    0.0  
- 1st Qu.:0.000e+00   1st Qu.: 94.0   Class :character   1st Qu.: 5.600   1st Qu.:   54.0  
- Median :1.917e+07   Median :103.0   Mode  :character   Median : 6.200   Median :  235.0  
- Mean   :8.226e+07   Mean   :106.9                      Mean   : 6.092   Mean   :  690.2  
- 3rd Qu.:9.292e+07   3rd Qu.:118.0                      3rd Qu.: 6.800   3rd Qu.:  737.0  
- Max.   :2.788e+09   Max.   :338.0                      Max.   :10.000   Max.   :13752.0  
-                     NA&#39;s   :2                                                            </code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Question 4.</p>
@@ -1856,22 +1833,14 @@ Then count how many missing values there are now in the column
 runtime.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX3J1bnRpbWUgPC0gbW92aWVzX3NlbGVjdGVkICU+JSBcbiAgbXV0YXRlKHJ1bnRpbWUgPSBuYV9pZihydW50aW1lLDApKSBcblxubW92aWVzX3J1bnRpbWUgJT4lIFxuICBzdW1tYXJpc2UocmVfcl9uYSA9IHN1bShpcy5uYShydW50aW1lKSkpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX3J1bnRpbWUgPC0gbW92aWVzX3NlbGVjdGVkICU+JSBcbiAgbXV0YXRlKHJ1bnRpbWUgPSBuYV9pZihydW50aW1lLDApKSBcblxubW92aWVzX3J1bnRpbWUgJT4lIFxuICBzdW1tYXJpc2UocmVfcl9uYSA9IHN1bShpcy5uYShydW50aW1lKSkpXG5cbiNyZXR1cm5zIDM3IFxuXG5gYGAifQ== -->
 <pre class="r"><code>movies_runtime &lt;- movies_selected %&gt;% 
   mutate(runtime = na_if(runtime,0)) 
 
 movies_runtime %&gt;% 
-  summarise(re_r_na = sum(is.na(runtime)))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6MSwic3VtbWFyeSI6eyJEZXNjcmlwdGlvbiI6WyJkZiBbMSDDlyAxXSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVAwUXFDTUJTOW1rc2NGRUxmMEtOQytOSUhSQjhRQmI3SnNsV1NiVEluOWZYV25XeFFlOW5kUFR2bjdKekRyaXhvU1FGZ0JsR0lKOEVya05OeG4yMWhRaUNBQ0JJejMvaThtZ0NBaFoxcmowUUVlL0llTCtrUEdDdGVxVW93ajVzbytjb2QzeGtHdm1IZHN0NDNwQmVtV1g1VnFNVnQ5Q1N4N0hRakJZcENFNWQ0NGtCNVFEb0lrK0tTMWZkQlBMSmlZMzZ3Y2VBL21oOHovRmd2WXIzbVhOd2F3VjM0bHAxNWE1Y2wxcDNhNXAxcWhIWlZFTzF6TFRWelBGckwxaUZUT1JpL2NBT01uYVlCQUFBPSJ9 -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["re_r_na"],"name":[1],"type":["int"],"align":["right"]}],"data":[{"1":"37"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIzM3IFxuXG5gYGAifQ== -->
-<pre class="r"><code>#37 
+  summarise(re_r_na = sum(is.na(runtime)))
+
+#returns 37 
 </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -1890,13 +1859,6 @@ make sure.</p>
 movies_imputed %&gt;% 
   summarise(sum(is.na(runtime)))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6MSwic3VtbWFyeSI6eyJEZXNjcmlwdGlvbiI6WyJkZiBbMSDDlyAxXSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVBRUXJDTUJEY1ZxTzBvQWo5aEQwMEI3MzRBUEVCb3VBMTFxakJkaU5KaXI1ZTNaWUdTeTdaM2NuTzdNeCtlMXFucHhRQVJqQ082V1hVQWpzZWRzVUdPZ1FpR0VQUzFqZDlaeDBBTU9zckJFc01SUzB0TllzQm1ObW1YaXJMVVN4TmcwN1ZNczhEWG1MMGkzdXVGNDlDOGJJU05oUlBMOElKZmpYRXBla1RVS2I2NlpSR0lzV3RkUmFRSXhNQWl3WmJGNWVpdkRmNEtOYXI5c0kvNjlCYWFEUCs5bHFzMTVwSXZDbVUzbndsenJMcWh6bkY3ZEx5cDFIb2ZCUkNMWGZhQ2IrWGxycnlTQmNPUGo5TXF3Q05zZ0VBQUE9PSJ9 -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["sum(is.na(runtime))"],"name":[1],"type":["int"],"align":["right"]}],"data":[{"1":"0"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Question 6.</p>
@@ -1904,28 +1866,14 @@ movies_imputed %&gt;%
 to get the movies with the 10 shortest and 10 longest runtimes.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubG9uZ2VzdCA8LSBtb3ZpZXNfaW1wdXRlZCAlPiUgc2xpY2VfbWF4KHJ1bnRpbWUsIG49MTApXG5zaG9ydGVzdCA8LSBtb3ZpZXNfaW1wdXRlZCAlPiUgc2xpY2VfbWluKHJ1bnRpbWUsbj0xMClcbmxvbmdlc3RcbmBgYCJ9 -->
-<pre class="r"><code>longest &lt;- movies_imputed %&gt;% slice_max(runtime, n=10)
-shortest &lt;- movies_imputed %&gt;% slice_min(runtime,n=10)
-longest</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubG9uZ2VzdCA8LSBtb3ZpZXNfaW1wdXRlZCAlPiUgXG4gIHNsaWNlX21heChydW50aW1lLCBuPTEwLCB3aXRoX3RpZXMgPSBGQUxTRSlcblxuc2hvcnRlc3QgPC0gbW92aWVzX2ltcHV0ZWQgJT4lIFxuICBzbGljZV9taW4ocnVudGltZSxuPTEwLCB3aXRoX3RpZXMgPSBGQUxTRSlcblxuYGBgIn0= -->
+<pre class="r"><code>longest &lt;- movies_imputed %&gt;% 
+  slice_max(runtime, n=10, with_ties = FALSE)
+
+shortest &lt;- movies_imputed %&gt;% 
+  slice_min(runtime,n=10, with_ties = FALSE)
+</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6MTAsIm5jb2wiOjMsInN1bW1hcnkiOnsiRGVzY3JpcHRpb24iOlsiZGYgWzEwIMOXIDNdIl19fSwicmRmIjoiSDRzSUFBQUFBQUFBQTEyU3ZVN0RNQkRITDJrRFNoQUl3Y2ppamFsZHVyQWdGUlVvR3hKcUJTTnVZbHFyemprNERoOGJid0lqajRHRWhNUXI4Q1JNQmFjOUM1Rkl6dmwrNXp2Zi8rU0w0NnRlY3BVQVFBdmFvZnRIYmd2UmVIVGFPWUFsZ1FEYUVOZjJ3WVYzbHljQnR0MUtLTEEyNEVicGtyeU4wVXl3Z2M0TGpvK0VrcUd3OXJHY1ZHWktKQjRvb1F0dURmYzF6bml1aENXdmZaTG5Qckl6MUNqWXZiUXpabDNsUzRrWlJmYk9NUlZzWEdoa25JMWtMcGhFZHBRTEkxT2ZIRjlxblpWV3AzTUNtMmVDM3duY0w5bVFXK0hBVnQxZnYySzFiT2pmOWxkV3Y1R0ZsVVhpU0g1T2NmVkNsdkxuMTBEZlpsMDMySGw5OGlENCt2ajJlemlNSWZoOGY0SjQveTE4VHFFeDZRaDVMa3FhY3N0REs2MFM1S3liQ3ExVDdLYzNxYktwbTk3L01ySFI5MTFmcXU0bnBHYVM1bjJwNHFXL3o4TWs0NVozYjR6TGQ5NmlrYkt1Q3lzMXVxU3dmaEpSSXprd0RiQmRZZDFKMWtsbkZjNDd2ZDZxRFJmL0cxZEF6TzlicXp2REg2b1ZlYlVDcHhLOTlranhpVkRrYkRuSlM4WGR3a2owenlseHRPeGFiYmsvbDZSYWViSVVCNHRma0s2QlJRb0RBQUE9In0= -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["runtime"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["budget"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"Carlos","2":"338","3":"18000000"},{"1":"The Company","2":"276","3":"0"},{"1":"Gettysburg","2":"254","3":"0"},{"1":"Cleopatra","2":"248","3":"31115000"},{"1":"Hamlet","2":"242","3":"0"},{"1":"Emma","2":"240","3":"0"},{"1":"Gone with the Wind","2":"238","3":"4000000"},{"1":"Once Upon a Time in America","2":"229","3":"30000000"},{"1":"Woodstock","2":"225","3":"600000"},{"1":"Heaven's Gate","2":"219","3":"44000000"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[10]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hvcnRlc3RcbmBgYCJ9 -->
-<pre class="r"><code>shortest</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6MTAsIm5jb2wiOjMsInN1bW1hcnkiOnsiRGVzY3JpcHRpb24iOlsiZGYgWzEwIMOXIDNdIl19fSwicmRmIjoiSDRzSUFBQUFBQUFBQTExVFQyL1RNQlIzMm1YVElqRW1qUXNTQng4Um9wVlFMN0JUUjhzbWpaWldhNkdUT0xuSlcyemgycFh0Yk4xdFg0QlB0Uk5mYXZDYzJHaUtwZVRsL2Q3di9jM3oxZmg2a0YxbmhKQXUyZXZnTzhWUGtuNWZudmMra2hvaENka2poMTd1MEh4U013azV4aWNMaHYwZllDM0lvTDArb3lQT2pCUkFQeHQ5cDFBendyb05zNEh3YmdHTVhzR09Ec2FuOUZKWFJzRTlkWm95T2pmQWthcU55T2xLRzFrRWo3ZGpMYmRjS0V1Wkt1aUtNd24ybEM2TldJT2wrb1k2RG5TV0ExT3hoS25JT1FPSjBVM0JsQS91S1ZPMkM0U1RKYW9qSnFYM0hqbGVTVjRGMDRjelRNWHFSTE1ObEF6eklIY0NKU0FTY2kzWUhWMXE3VGpHdUlYZytLYUphU0d5TG94UVNxZ1NRUmM0cnhhK3VhYm9XV1hvUk54Q0hNdkxsYWREN1RyWG1pTjA1SWM4ZkUvcU0vd1U1UGloa1YrQ2ZoRmx3QytEbkFiNUxkaG5qWTduUmYzejRwbDhIWktmdjRQeGNVNmVuZVRQNDBOckMxTEZObGh6c3dIZENEcmhaQnpFZ2FtVUU1dW83cStyb2dUWENuT0lxOUdQb1h3OW5WQkExczZYUzJaanZnaG1CWE9zZjJQUUg3V25sc3VCM2pxaEZUcDEvTHFtTGVmRXRJRGpTdmxLaWw3T0svV3JOeGlFOFNUUHhwVUVMSDUzbTV5ZHZ5RldHcnNGVlFvVmUwOGxXLysvR0VmK052aU8rMXZjakxnU0dhSzI3N1Jqa1pmbFdrYWtibzQ4L1FOeVpHbFlwZ01BQUE9PSJ9 -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["runtime"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["budget"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"Vessel","2":"14","3":"0"},{"1":"A Charlie Brown Christmas","2":"25","3":"0"},{"1":"Sea Rex 3D: Journey to a Prehistoric World","2":"41","3":"5000000"},{"1":"Dolphins and Whales: Tribes of the Ocean","2":"42","3":"6000000"},{"1":"Michael Jordan to the Max","2":"46","3":"0"},{"1":"The Call of Cthulhu","2":"47","3":"50000"},{"1":"Alpha and Omega: The Legend of the Saw Tooth Cave","2":"53","3":"0"},{"1":"The Case of the Grinning Cat","2":"59","3":"0"},{"1":"Stories of Our Lives","2":"60","3":"0"},{"1":"Winnie the Pooh","2":"63","3":"30000000"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[10]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Question 7.</p>
@@ -1934,19 +1882,62 @@ with the median budget. Overwrite your movies_imputed so it contains the
 new budget values.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzX2ltcHV0ZWQgJT4lIFxuICBtdXRhdGUoYnVkZ2V0ID0gaWZfZWxzZShidWRnZXQgPCAxMDAsXG4gICAgICAgICAgICAgICAgICAgICAgICAgIG1lZGlhbihidWRnZXQsbmEucm0gPSBUUlVFKSxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgYnVkZ2V0XG4gICAgICAgICAgICAgICAgICAgICAgICAgICkpXG5tb3ZpZXNfaW1wdXRlZFxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzX2ltcHV0ZWQgJT4lIFxuICBtdXRhdGUoYnVkZ2V0ID0gaWZfZWxzZShidWRnZXQgPCAxMDAsXG4gICAgICAgICAgICAgICAgICAgICAgICAgIG1lZGlhbihidWRnZXQsbmEucm0gPSBUUlVFKSxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgYnVkZ2V0XG4gICAgICAgICAgICAgICAgICAgICAgICAgICkpXG5cbmBgYCJ9 -->
 <pre class="r"><code>movies_imputed &lt;- movies_imputed %&gt;% 
   mutate(budget = if_else(budget &lt; 100,
                           median(budget,na.rm = TRUE),
                           budget
                           ))
-movies_imputed</code></pre>
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>——EX——–</p>
+<p>Question 1.</p>
+<p>Using case_when, create a new column called budget_type and label
+budgets as follows:</p>
+<p>Budgets below 12 million as ‘Small budget’ Budgets between 12 and 40
+million as ‘Medium budget’ Budgets 40 millions and above as ‘Big budget’
+Save this into a new variable called movie_budgets.</p>
+<p>Hint: 1e6 is a shorthand way of writing 1 million (1×106)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW92aWVzX2J1ZGdldHMgPC0gbW92aWVzX2ltcHV0ZWQgJT4lIFxuICBtdXRhdGUoYnVkZ2V0X3R5cGUgPSBjYXNlX3doZW4oXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBidWRnZXQgPCAxMmU2IH4gXCJTbWFsbCBidWRnZXRcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJ1ZGdldCA8IDQwZTYgfiBcIk1lZGl1bSBidWRnZXRcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRSVUUgfiBcIkJpZyBidWRnZXRcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKSlcblxuICBcbmBgYCJ9 -->
+<pre class="r"><code>movies_budgets &lt;- movies_imputed %&gt;% 
+  mutate(budget_type = case_when(
+                                 budget &lt; 12e6 ~ &quot;Small budget&quot;,
+                                 budget &lt; 40e6 ~ &quot;Medium budget&quot;,
+                                 TRUE ~ &quot;Big budget&quot;
+                                 ))
+
+  </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Question 2.</p>
+<p>Take the original dataset with all the variables. Using across and
+where, summarise the number of missing values, first across all columns
+of type character, and then across all columns of type numeric.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI3NvIGhlcmUgSSB3YXMgdGhpbmtpbmcgYWJvdXQgYmxhbmsgc3BhY2UgYW5kIDBcbiNtdXRhdGVfYWxsIEkgZ29vZ2xlZCBpdC4uIFxubW92aWVzICU+JSBcbiAgc2VsZWN0KHdoZXJlKGlzLmNoYXJhY3RlcikpICU+JSBcbiAgbXV0YXRlX2FsbChuYV9pZiwgXCJcIikgJT4lIFxuICBzdW1tYXJpc2UoY291bnQgPSBzdW0oaXMubmEoYWNyb3NzKHdoZXJlKGlzLmNoYXJhY3RlcikpKSkpXG4gIFxubW92aWVzICU+JSBcbiAgc2VsZWN0KHdoZXJlKGlzLm51bWVyaWMpKSAlPiUgXG4gIG11dGF0ZV9hbGwobmFfaWYsIDAgKSAlPiVcbiAgc3VtbWFyaXNlKGNvdW50ID0gc3VtKGlzLm5hKGFjcm9zcyh3aGVyZShpcy5udW1lcmljKSkpKSlcbmBgYCJ9 -->
+<pre class="r"><code>#so here I was thinking about blank space and 0
+#mutate_all I googled it.. 
+movies %&gt;% 
+  select(where(is.character)) %&gt;% 
+  mutate_all(na_if, &quot;&quot;) %&gt;% 
+  summarise(count = sum(is.na(across(where(is.character)))))
+  
+movies %&gt;% 
+  select(where(is.numeric)) %&gt;% 
+  mutate_all(na_if, 0 ) %&gt;%
+  summarise(count = sum(is.na(across(where(is.numeric)))))</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoamFuaXRvcikKYGBgCgpRdWVzdGlvbiAxLgoKQWZ0ZXIgeW914oCZdmUgcmVhZCBpbiB0aGUgZGF0YSBhbmQgYXNzaWduZWQgaXQgdG8gYSB2YXJpYWJsZSB3aXRoIGEgdXNlZnVsIG5hbWUsIGludmVzdGlnYXRlIGl0LiBXcml0ZSBkb3duIHNvbWUgaWRlYXMgZm9yIHdoYXQgeW91IGNvdWxkIGRvIHRvIGZ1cnRoZXIgaW52ZXN0aWdhdGUvY2xlYW4gdGhpcyBkYXRhIHVzaW5nIHdoYXQgeW914oCZdmUgbGVhcm5lZCB0b2RheSAobm8gbmVlZCB0byBjb2RlIGl0IHRob3VnaCwganVzdCBqb3QgZG93biB0aG91Z2h0cyBhbmQgaWRlYXMpLiBGZWVsIGZyZWUgdG8gYWxzbyB3cml0ZSBkb3duIGFueSBnZW5lcmFsIHRob3VnaHRzIHlvdSBnZXQgbG9va2luZyBhdCB0aGUgZGF0YSAtIHRoaXMgdGFzayBpcyBqdXN0IHRvIGdldCB5b3UgdGhpbmtpbmcgYWJvdXQgZGF0YSBhbmQgZGF0YSBjbGVhbmluZy9wcmVwcGluZy4KCmBgYHtyfQptb3ZpZXMgPC0gcmVhZC5jc3YoImRhdGEvbW92aWVzLmNzdiIpCmBgYAoKYGBgCkl0IGxvb2tzIHZlcnkgZnVsbCBhbmQgbm90IG11Y2ggb2YgbWlzc2luZyBkYXRhLiBJdCBoYXMgc29tZSBpbmZvcm1hdGlvbgp0aGF0IHdvbid0IGJlIHZlcnkgdXNlZnVsIGZvciB1cyBlZy4gaG9tZXBhZ2Usb3ZlcnZpZXcKY2FuIGZpbmQgc29tZSBpbnRlcmVzdGluZyBsaW5rcyBiZXR3ZWVuIHRoZW0sIGVnIGlzIHRoZXJlIGFueSBsaW5rIGJldHdlZW4gIApidWRnZXQgYW5kIHBvcHVsYXJpdHkuIApgYGAKCgoKUXVlc3Rpb24gMi4KCkEgbG90IG9mIGludGVyZXN0aW5nIHN0dWZmIGluIHRoZXJlISBCdXQgZm9yIG5vdywgd2UgYXJlIG9ubHkgaW50ZXJlc3RlZCBpbiB0aGUgbW92aWVz4oCZIHRpdGxlcywgdGhlaXIgcnVudGltZSBhcyB3ZWxsIGFzIHRoZWlyIGJ1ZGdldC4gU2VsZWN0IHRoZSB0aHJlZSBjb2x1bW5zIHRoYXQgY29udGFpbiB0aGlzIGluZm9ybWF0aW9uIGFuZCBzYXZlIHRoZW0gaW50byBhIG5ldyB2YXJpYWJsZSBjYWxsZWQgbW92aWVzX3NlbGVjdGVkLiBIaW50OiB5b3Ugd2lsbCBoYXZlIHRvIG1ha2UgYSBjaG9pY2UgYmV0d2VlbiBvcmlnaW5hbF90aXRsZSBhbmQgdGl0bGUuCgpgYGB7cn0KbW92aWVzX3NlbGVjdGVkIDwtIG1vdmllcyAlPiUgCiAgc2VsZWN0KGModGl0bGUscnVudGltZSxidWRnZXQpKQojIEkgcGlja2VkIHRpdGxlLCBqdXN0IHRoaW5rIHBlb3BsZSBtaWdodCBrbm93IHRoZW0gYmV0dGVyLiAKYGBgCgoKUXVlc3Rpb24gMy4KCk9rLCBub3cgdGFrZSB5b3VyIHN1YnNldHRlZCBkYXRhIG1vdmllc19zZWxlY3RlZCwgYW5kIGNvdW50IHRoZSBudW1iZXIgb2YgbWlzc2luZyB2YWx1ZXMgaW4gZWFjaCBjb2x1bW4uCmBgYHtyfQptb3ZpZXNfc2VsZWN0ZWQgJT4lIAogIHN1bW1hcmlzZSh0X25hID0gc3VtKGlzLm5hKHRpdGxlKSksCiAgICAgICAgICAgIHJfbmEgPSBzdW0oaXMubmEocnVudGltZSkpLAogICAgICAgICAgICBiX25hID0gc3VtKGlzLm5hKGJ1ZGdldCkpKQpzdW1tYXJ5KG1vdmllcykgIyBpdCBsb29rZWQgdG9vIGdvb2Qgc28gSSBjaGVja2VkIC4uCmBgYAoKCgpRdWVzdGlvbiA0LgoKVGhlcmXigJlzIG5vdCB0b28gbWFueSBOQXMsIGJ1dCB0aGVyZSBhcmUgYWN0dWFsbHkgcXVpdGUgYSBmZXcgbW92aWVzIHdpdGggYSBydW50aW1lIG9mIDAgaW4gdGhpcyBkYXRhc2V0LiBTaW5jZSBpdOKAmXMgaW1wb3NzaWJsZSBmb3IgYSBtb3ZpZSB0byBoYXZlIGEgcnVudGltZSBvZiAwLCB1c2UgdGhlIGZ1bmN0aW9uIG5hX2lmIHRvIGNvbnZlcnQgcnVudGltZXMgb2YgbGVuZ3RoIDAgaW50byBOQXMuIFNhdmUgdGhpcyBpbnRvIGEgbmV3IHZhcmlhYmxlIGNhbGxlZCBtb3ZpZXNfcnVudGltZS4gVGhlbiBjb3VudCBob3cgbWFueSBtaXNzaW5nIHZhbHVlcyB0aGVyZSBhcmUgbm93IGluIHRoZSBjb2x1bW4gcnVudGltZS4KYGBge3J9Cm1vdmllc19ydW50aW1lIDwtIG1vdmllc19zZWxlY3RlZCAlPiUgCiAgbXV0YXRlKHJ1bnRpbWUgPSBuYV9pZihydW50aW1lLDApKSAKCm1vdmllc19ydW50aW1lICU+JSAKICBzdW1tYXJpc2UocmVfcl9uYSA9IHN1bShpcy5uYShydW50aW1lKSkpCiMzNyAKCmBgYAoKCgpRdWVzdGlvbiA1LgoKSW1wdXRlIHRoZSBtaXNzaW5nIHZhbHVlcyBpbiBydW50aW1lIHdpdGggdGhlIG1lZGlhbiBydW50aW1lIHVzaW5nIGNvYWxlc2NlIGFuZCBzYXZlIHRoaXMgaW50byBhIG5ldyB2YXJpYWJsZSBjYWxsZWQgbW92aWVzX2ltcHV0ZWQuIFRoZXJlIHNob3VsZCBub3cgYmUgbm8gbWlzc2luZyB2YWx1ZXMgaW4gdGhlIGNvbHVtbiBydW50aW1lIC0gY2hlY2sgdGhpcyB0byBtYWtlIHN1cmUuCgpgYGB7cn0KbW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzX3J1bnRpbWUgJT4lIAogIG11dGF0ZShydW50aW1lPWNvYWxlc2NlKHJ1bnRpbWUsIG1lZGlhbihydW50aW1lLCBuYS5ybSA9IFRSVUUpKSkKCm1vdmllc19pbXB1dGVkICU+JSAKICBzdW1tYXJpc2Uoc3VtKGlzLm5hKHJ1bnRpbWUpKSkKYGBgCgoKUXVlc3Rpb24gNi4KCkZpbmFsbHksIHVzZSB0aGUgc2xpY2VfbWluIGFuZCBzbGljZV9tYXggZnVuY3Rpb25zIG9uIG1vdmllc19pbXB1dGVkIHRvIGdldCB0aGUgbW92aWVzIHdpdGggdGhlIDEwIHNob3J0ZXN0IGFuZCAxMCBsb25nZXN0IHJ1bnRpbWVzLgoKYGBge3J9Cmxvbmdlc3QgPC0gbW92aWVzX2ltcHV0ZWQgJT4lIHNsaWNlX21heChydW50aW1lLCBuPTEwKQpzaG9ydGVzdCA8LSBtb3ZpZXNfaW1wdXRlZCAlPiUgc2xpY2VfbWluKHJ1bnRpbWUsbj0xMCkKbG9uZ2VzdApzaG9ydGVzdApgYGAKClF1ZXN0aW9uIDcuCgpVc2luZyB0aGUgaWZfZWxzZSBmdW5jdGlvbiwgaW1wdXRlIGFueXRoaW5nIHdpdGggYSBidWRnZXQgYmVsb3cgJDEwMCB3aXRoIHRoZSBtZWRpYW4gYnVkZ2V0LiBPdmVyd3JpdGUgeW91ciBtb3ZpZXNfaW1wdXRlZCBzbyBpdCBjb250YWlucyB0aGUgbmV3IGJ1ZGdldCB2YWx1ZXMuCgpgYGB7cn0KbW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzX2ltcHV0ZWQgJT4lIAogIG11dGF0ZShidWRnZXQgPSBpZl9lbHNlKGJ1ZGdldCA8IDEwMCwKICAgICAgICAgICAgICAgICAgICAgICAgICBtZWRpYW4oYnVkZ2V0LG5hLnJtID0gVFJVRSksCiAgICAgICAgICAgICAgICAgICAgICAgICAgYnVkZ2V0CiAgICAgICAgICAgICAgICAgICAgICAgICAgKSkKbW92aWVzX2ltcHV0ZWQKYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCmBgYHtyfQpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShqYW5pdG9yKQpgYGAKClF1ZXN0aW9uIDEuCgpBZnRlciB5b3XigJl2ZSByZWFkIGluIHRoZSBkYXRhIGFuZCBhc3NpZ25lZCBpdCB0byBhIHZhcmlhYmxlIHdpdGggYSB1c2VmdWwgbmFtZSwgaW52ZXN0aWdhdGUgaXQuIFdyaXRlIGRvd24gc29tZSBpZGVhcyBmb3Igd2hhdCB5b3UgY291bGQgZG8gdG8gZnVydGhlciBpbnZlc3RpZ2F0ZS9jbGVhbiB0aGlzIGRhdGEgdXNpbmcgd2hhdCB5b3XigJl2ZSBsZWFybmVkIHRvZGF5IChubyBuZWVkIHRvIGNvZGUgaXQgdGhvdWdoLCBqdXN0IGpvdCBkb3duIHRob3VnaHRzIGFuZCBpZGVhcykuIEZlZWwgZnJlZSB0byBhbHNvIHdyaXRlIGRvd24gYW55IGdlbmVyYWwgdGhvdWdodHMgeW91IGdldCBsb29raW5nIGF0IHRoZSBkYXRhIC0gdGhpcyB0YXNrIGlzIGp1c3QgdG8gZ2V0IHlvdSB0aGlua2luZyBhYm91dCBkYXRhIGFuZCBkYXRhIGNsZWFuaW5nL3ByZXBwaW5nLgoKYGBge3J9Cm1vdmllcyA8LSByZWFkLmNzdigiZGF0YS9tb3ZpZXMuY3N2IikKYGBgCgpgYGAKVEhJUyBJUyBQQVJUIE9GIFExIE5PVCBDT01NRU5UUyAKSXQgbG9va3MgdmVyeSBmdWxsIGFuZCBub3QgbXVjaCBvZiBtaXNzaW5nIGRhdGEuIEl0IGhhcyBzb21lIGluZm9ybWF0aW9uCnRoYXQgd29uJ3QgYmUgdmVyeSB1c2VmdWwgZm9yIHVzIGVnLiBob21lcGFnZSxvdmVydmlldwpjYW4gZmluZCBzb21lIGludGVyZXN0aW5nIGxpbmtzIGJldHdlZW4gdGhlbSwgZWcgaXMgdGhlcmUgYW55IGxpbmsgYmV0d2VlbiAgCmJ1ZGdldCBhbmQgcG9wdWxhcml0eS4gCmBgYAoKCgpRdWVzdGlvbiAyLgoKQSBsb3Qgb2YgaW50ZXJlc3Rpbmcgc3R1ZmYgaW4gdGhlcmUhIEJ1dCBmb3Igbm93LCB3ZSBhcmUgb25seSBpbnRlcmVzdGVkIGluIHRoZSBtb3ZpZXPigJkgdGl0bGVzLCB0aGVpciBydW50aW1lIGFzIHdlbGwgYXMgdGhlaXIgYnVkZ2V0LiBTZWxlY3QgdGhlIHRocmVlIGNvbHVtbnMgdGhhdCBjb250YWluIHRoaXMgaW5mb3JtYXRpb24gYW5kIHNhdmUgdGhlbSBpbnRvIGEgbmV3IHZhcmlhYmxlIGNhbGxlZCBtb3ZpZXNfc2VsZWN0ZWQuIEhpbnQ6IHlvdSB3aWxsIGhhdmUgdG8gbWFrZSBhIGNob2ljZSBiZXR3ZWVuIG9yaWdpbmFsX3RpdGxlIGFuZCB0aXRsZS4KCmBgYHtyfQptb3ZpZXNfc2VsZWN0ZWQgPC0gbW92aWVzICU+JSAKICBzZWxlY3QodGl0bGUscnVudGltZSxidWRnZXQpCiMgSSBwaWNrZWQgdGl0bGUsIGp1c3QgdGhpbmsgcGVvcGxlIG1pZ2h0IGtub3cgdGhlbSBiZXR0ZXIuIApgYGAKCgpRdWVzdGlvbiAzLgoKT2ssIG5vdyB0YWtlIHlvdXIgc3Vic2V0dGVkIGRhdGEgbW92aWVzX3NlbGVjdGVkLCBhbmQgY291bnQgdGhlIG51bWJlciBvZiBtaXNzaW5nIHZhbHVlcyBpbiBlYWNoIGNvbHVtbi4KYGBge3J9Cm1vdmllc19zZWxlY3RlZCAlPiUgCiAgc3VtbWFyaXNlKHRfbmEgPSBzdW0oaXMubmEodGl0bGUpKSwKICAgICAgICAgICAgcl9uYSA9IHN1bShpcy5uYShydW50aW1lKSksCiAgICAgICAgICAgIGJfbmEgPSBzdW0oaXMubmEoYnVkZ2V0KSkpCmBgYAoKCgpRdWVzdGlvbiA0LgoKVGhlcmXigJlzIG5vdCB0b28gbWFueSBOQXMsIGJ1dCB0aGVyZSBhcmUgYWN0dWFsbHkgcXVpdGUgYSBmZXcgbW92aWVzIHdpdGggYSBydW50aW1lIG9mIDAgaW4gdGhpcyBkYXRhc2V0LiBTaW5jZSBpdOKAmXMgaW1wb3NzaWJsZSBmb3IgYSBtb3ZpZSB0byBoYXZlIGEgcnVudGltZSBvZiAwLCB1c2UgdGhlIGZ1bmN0aW9uIG5hX2lmIHRvIGNvbnZlcnQgcnVudGltZXMgb2YgbGVuZ3RoIDAgaW50byBOQXMuIFNhdmUgdGhpcyBpbnRvIGEgbmV3IHZhcmlhYmxlIGNhbGxlZCBtb3ZpZXNfcnVudGltZS4gVGhlbiBjb3VudCBob3cgbWFueSBtaXNzaW5nIHZhbHVlcyB0aGVyZSBhcmUgbm93IGluIHRoZSBjb2x1bW4gcnVudGltZS4KCmBgYHtyfQptb3ZpZXNfcnVudGltZSA8LSBtb3ZpZXNfc2VsZWN0ZWQgJT4lIAogIG11dGF0ZShydW50aW1lID0gbmFfaWYocnVudGltZSwwKSkgCgptb3ZpZXNfcnVudGltZSAlPiUgCiAgc3VtbWFyaXNlKHJlX3JfbmEgPSBzdW0oaXMubmEocnVudGltZSkpKQoKI3JldHVybnMgMzcgCgpgYGAKCgpRdWVzdGlvbiA1LgoKSW1wdXRlIHRoZSBtaXNzaW5nIHZhbHVlcyBpbiBydW50aW1lIHdpdGggdGhlIG1lZGlhbiBydW50aW1lIHVzaW5nIGNvYWxlc2NlIGFuZCBzYXZlIHRoaXMgaW50byBhIG5ldyB2YXJpYWJsZSBjYWxsZWQgbW92aWVzX2ltcHV0ZWQuIFRoZXJlIHNob3VsZCBub3cgYmUgbm8gbWlzc2luZyB2YWx1ZXMgaW4gdGhlIGNvbHVtbiBydW50aW1lIC0gY2hlY2sgdGhpcyB0byBtYWtlIHN1cmUuCgpgYGB7cn0KbW92aWVzX2ltcHV0ZWQgPC0gbW92aWVzX3J1bnRpbWUgJT4lIAogIG11dGF0ZShydW50aW1lPWNvYWxlc2NlKHJ1bnRpbWUsIG1lZGlhbihydW50aW1lLCBuYS5ybSA9IFRSVUUpKSkKCm1vdmllc19pbXB1dGVkICU+JSAKICBzdW1tYXJpc2Uoc3VtKGlzLm5hKHJ1bnRpbWUpKSkKYGBgCgoKUXVlc3Rpb24gNi4KCkZpbmFsbHksIHVzZSB0aGUgc2xpY2VfbWluIGFuZCBzbGljZV9tYXggZnVuY3Rpb25zIG9uIG1vdmllc19pbXB1dGVkIHRvIGdldCB0aGUgbW92aWVzIHdpdGggdGhlIDEwIHNob3J0ZXN0IGFuZCAxMCBsb25nZXN0IHJ1bnRpbWVzLgoKYGBge3J9Cmxvbmdlc3QgPC0gbW92aWVzX2ltcHV0ZWQgJT4lIAogIHNsaWNlX21heChydW50aW1lLCBuPTEwLCB3aXRoX3RpZXMgPSBGQUxTRSkKCnNob3J0ZXN0IDwtIG1vdmllc19pbXB1dGVkICU+JSAKICBzbGljZV9taW4ocnVudGltZSxuPTEwLCB3aXRoX3RpZXMgPSBGQUxTRSkKCmBgYAoKUXVlc3Rpb24gNy4KClVzaW5nIHRoZSBpZl9lbHNlIGZ1bmN0aW9uLCBpbXB1dGUgYW55dGhpbmcgd2l0aCBhIGJ1ZGdldCBiZWxvdyAkMTAwIHdpdGggdGhlIG1lZGlhbiBidWRnZXQuIE92ZXJ3cml0ZSB5b3VyIG1vdmllc19pbXB1dGVkIHNvIGl0IGNvbnRhaW5zIHRoZSBuZXcgYnVkZ2V0IHZhbHVlcy4KCmBgYHtyfQptb3ZpZXNfaW1wdXRlZCA8LSBtb3ZpZXNfaW1wdXRlZCAlPiUgCiAgbXV0YXRlKGJ1ZGdldCA9IGlmX2Vsc2UoYnVkZ2V0IDwgMTAwLAogICAgICAgICAgICAgICAgICAgICAgICAgIG1lZGlhbihidWRnZXQsbmEucm0gPSBUUlVFKSwKICAgICAgICAgICAgICAgICAgICAgICAgICBidWRnZXQKICAgICAgICAgICAgICAgICAgICAgICAgICApKQoKYGBgCgotLS0tLS1FWC0tLS0tLS0tCgoKUXVlc3Rpb24gMS4KClVzaW5nIGNhc2Vfd2hlbiwgY3JlYXRlIGEgbmV3IGNvbHVtbiBjYWxsZWQgYnVkZ2V0X3R5cGUgYW5kIGxhYmVsIGJ1ZGdldHMgYXMgZm9sbG93czoKCkJ1ZGdldHMgYmVsb3cgMTIgbWlsbGlvbiBhcyDigJhTbWFsbCBidWRnZXTigJkKQnVkZ2V0cyBiZXR3ZWVuIDEyIGFuZCA0MCBtaWxsaW9uIGFzIOKAmE1lZGl1bSBidWRnZXTigJkKQnVkZ2V0cyA0MCBtaWxsaW9ucyBhbmQgYWJvdmUgYXMg4oCYQmlnIGJ1ZGdldOKAmQpTYXZlIHRoaXMgaW50byBhIG5ldyB2YXJpYWJsZSBjYWxsZWQgbW92aWVfYnVkZ2V0cy4KCkhpbnQ6CjFlNiBpcyBhIHNob3J0aGFuZCB3YXkgb2Ygd3JpdGluZyAxIG1pbGxpb24gKDHDlzEwNikKCmBgYHtyfQptb3ZpZXNfYnVkZ2V0cyA8LSBtb3ZpZXNfaW1wdXRlZCAlPiUgCiAgbXV0YXRlKGJ1ZGdldF90eXBlID0gY2FzZV93aGVuKAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBidWRnZXQgPCAxMmU2IH4gIlNtYWxsIGJ1ZGdldCIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJ1ZGdldCA8IDQwZTYgfiAiTWVkaXVtIGJ1ZGdldCIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRSVUUgfiAiQmlnIGJ1ZGdldCIKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKSkKCiAgCmBgYAoKCgpRdWVzdGlvbiAyLgoKVGFrZSB0aGUgb3JpZ2luYWwgZGF0YXNldCB3aXRoIGFsbCB0aGUgdmFyaWFibGVzLiBVc2luZyBhY3Jvc3MgYW5kIHdoZXJlLCBzdW1tYXJpc2UgdGhlIG51bWJlciBvZiBtaXNzaW5nIHZhbHVlcywgZmlyc3QgYWNyb3NzIGFsbCBjb2x1bW5zIG9mIHR5cGUgY2hhcmFjdGVyLCBhbmQgdGhlbiBhY3Jvc3MgYWxsIGNvbHVtbnMgb2YgdHlwZSBudW1lcmljLgoKYGBge3J9CiNzbyBoZXJlIEkgd2FzIHRoaW5raW5nIGFib3V0IGJsYW5rIHNwYWNlIGFuZCAwCiNtdXRhdGVfYWxsIEkgZ29vZ2xlZCBpdC4uIAptb3ZpZXMgJT4lIAogIHNlbGVjdCh3aGVyZShpcy5jaGFyYWN0ZXIpKSAlPiUgCiAgbXV0YXRlX2FsbChuYV9pZiwgIiIpICU+JSAKICBzdW1tYXJpc2UoY291bnQgPSBzdW0oaXMubmEoYWNyb3NzKHdoZXJlKGlzLmNoYXJhY3RlcikpKSkpCiAgCm1vdmllcyAlPiUgCiAgc2VsZWN0KHdoZXJlKGlzLm51bWVyaWMpKSAlPiUgCiAgbXV0YXRlX2FsbChuYV9pZiwgMCApICU+JQogIHN1bW1hcmlzZShjb3VudCA9IHN1bShpcy5uYShhY3Jvc3Mod2hlcmUoaXMubnVtZXJpYykpKSkpCmBgYAoKCgoK</div>
 
 
 

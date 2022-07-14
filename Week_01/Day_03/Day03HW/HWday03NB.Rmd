@@ -2,6 +2,8 @@
 title: "R Notebook"
 output: html_notebook
 ---
+
+
 ```{r}
 library(tidyverse)
 library(janitor)
@@ -16,6 +18,7 @@ movies <- read.csv("data/movies.csv")
 ```
 
 ```
+THIS IS PART OF Q1 NOT COMMENTS 
 It looks very full and not much of missing data. It has some information
 that won't be very useful for us eg. homepage,overview
 can find some interesting links between them, eg is there any link between  
@@ -30,7 +33,7 @@ A lot of interesting stuff in there! But for now, we are only interested in the 
 
 ```{r}
 movies_selected <- movies %>% 
-  select(c(title,runtime,budget))
+  select(title,runtime,budget)
 # I picked title, just think people might know them better. 
 ```
 
@@ -43,7 +46,6 @@ movies_selected %>%
   summarise(t_na = sum(is.na(title)),
             r_na = sum(is.na(runtime)),
             b_na = sum(is.na(budget)))
-summary(movies) # it looked too good so I checked ..
 ```
 
 
@@ -51,16 +53,17 @@ summary(movies) # it looked too good so I checked ..
 Question 4.
 
 There’s not too many NAs, but there are actually quite a few movies with a runtime of 0 in this dataset. Since it’s impossible for a movie to have a runtime of 0, use the function na_if to convert runtimes of length 0 into NAs. Save this into a new variable called movies_runtime. Then count how many missing values there are now in the column runtime.
+
 ```{r}
 movies_runtime <- movies_selected %>% 
   mutate(runtime = na_if(runtime,0)) 
 
 movies_runtime %>% 
   summarise(re_r_na = sum(is.na(runtime)))
-#37 
+
+#returns 37 
 
 ```
-
 
 
 Question 5.
@@ -81,10 +84,12 @@ Question 6.
 Finally, use the slice_min and slice_max functions on movies_imputed to get the movies with the 10 shortest and 10 longest runtimes.
 
 ```{r}
-longest <- movies_imputed %>% slice_max(runtime, n=10, with_ties = FALSE)
-shortest <- movies_imputed %>% slice_min(runtime,n=10, with_ties = FALSE)
-longest
-shortest
+longest <- movies_imputed %>% 
+  slice_max(runtime, n=10, with_ties = FALSE)
+
+shortest <- movies_imputed %>% 
+  slice_min(runtime,n=10, with_ties = FALSE)
+
 ```
 
 Question 7.
@@ -97,9 +102,10 @@ movies_imputed <- movies_imputed %>%
                           median(budget,na.rm = TRUE),
                           budget
                           ))
-movies_imputed
+
 ```
 
+------EX--------
 
 
 Question 1.
@@ -117,10 +123,11 @@ Hint:
 ```{r}
 movies_budgets <- movies_imputed %>% 
   mutate(budget_type = case_when(
-                                 budget < 12000000 ~ "Small budget",
-                                 budget < 40000000 ~ "Medium budget",
-                                 TRUE ~ "Big budget"))
-#the e thing did not work 
+                                 budget < 12e6 ~ "Small budget",
+                                 budget < 40e6 ~ "Medium budget",
+                                 TRUE ~ "Big budget"
+                                 ))
+
   
 ```
 
@@ -131,6 +138,8 @@ Question 2.
 Take the original dataset with all the variables. Using across and where, summarise the number of missing values, first across all columns of type character, and then across all columns of type numeric.
 
 ```{r}
+#so here I was thinking about blank space and 0
+#mutate_all I googled it.. 
 movies %>% 
   select(where(is.character)) %>% 
   mutate_all(na_if, "") %>% 
@@ -141,4 +150,7 @@ movies %>%
   mutate_all(na_if, 0 ) %>%
   summarise(count = sum(is.na(across(where(is.numeric)))))
 ```
+
+
+
 

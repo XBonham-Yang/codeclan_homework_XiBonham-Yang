@@ -1,0 +1,194 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+
+```{r}
+books <- read_csv("data/books.csv")
+glimpse(books)
+summary(books)
+# I had a quick look here, doesn't seem to have NA?
+# from summary, some of the numerical cols like num_pages and text_reviews_count
+# has a min of 0, I will treat them as NA
+```
+
+TASK 1: I want to find top 10 most highly rated books. 
+
+```{r}
+names(books)
+
+highly_rated <- books %>% 
+  select(title,average_rating) %>% 
+  slice_max(average_rating, n= 10, with_ties = FALSE)
+  
+highly_rated
+
+#the list of top ten most highly rated books look bit strange.
+#a lot of textbooks? 
+
+#I want to check for the top 1o how many ratings they got in total
+#if it's less than the average amount of ratings then they will be
+#kicked out of top 10
+```
+
+```{r}
+new_top_10 <- books %>% 
+  select(title, average_rating, ratings_count) %>% 
+  filter(ratings_count >= median(ratings_count)) %>% 
+  slice_max(average_rating, n = 10, with_ties = FALSE)
+
+new_top_10
+
+#This list looks a lot better. 
+```
+
+
+
+TASK 2: I want to have a look at publishers, 
+see who published most amount of book 
+
+```{r}
+books_publisher <- books %>% 
+  count(publisher)%>% 
+  slice_max(n, n = 10, with_ties = FALSE)
+books_publisher
+
+#Vintage published 318 books 
+#I used count here, I want to try group_by later.  
+```
+
+
+
+TASK 3: There's a lot of Harry Potter books. 
+I will have a look and see which one is the best. 
+
+```{r}
+hp_books <- books %>% 
+  select(title, authors, average_rating) %>% 
+   filter(grepl('Harry Potter', title)) %>% 
+  filter(grepl('J.K. Rowling', authors)) %>% 
+  slice_max(average_rating, n = 3, with_ties = FALSE)
+
+hp_books
+
+#Top 2 are not individual books.
+#So Harry Potter and the Half-Blood Prince is the best 4.57
+
+```
+
+
+
+TASK 4: Now I am going to have a look at authors, 
+see who wrote the highest amount of books. 
+I want to use group_by this time.
+
+```{r}
+authors_book <- books %>% 
+   group_by(authors)%>%
+  summarise(books_wrote = n()) %>% 
+  slice_max(books_wrote, n = 10, with_ties = FALSE)
+authors_book
+
+#P.G. Wodehouse and Stephen King wrote 40 books, 
+```
+
+
+
+TASK 5: I am going to have a look at languages, I will count 
+eng_US the smae as eng. I want to see which language published 
+the highest amount of books 
+
+```{r}
+lang_books <- books %>%
+  mutate(language_code = 
+         recode(language_code,
+         'en-CA' = 'eng',
+         'en-GB' = 'eng',
+         'en-US' = 'eng')) %>% 
+ count(language_code) %>% 
+  arrange(desc(n))
+lang_books
+
+#English ... Well.. not hard to guess 
+```
+
+TASK 6: I am going to treat all the 0 as NA in num_page,
+and replace them with the mean? I will find the shorest book.
+```{r}
+NA_books <- books %>% 
+  select(num_pages,title) %>% 
+  mutate(num_pages = na_if(num_pages, 0)) %>% 
+  mutate(num_pages, coalesce(num_pages, mean(num_pages, na.rm = TRUE))) %>% 
+  slice_min(num_pages, n=3, with_ties = FALSE)
+
+NA_books
+#It gives me three book that only had 1 page.
+#Well, I don't think it's correct.... But I don't know how to get ready
+#those clearly wrong numbers that aren't 0. There will be stupidly short 
+#books, so I don't want to loose that.... Oh well. 
+```
+
+
+TASK 7: I will call the books which have less than 100
+short books, 
+between 100 and 500, medium books 
+over 500, long books. 
+```{r}
+books %>% 
+  mutate(book_length = case_when(num_pages < 100 ~ "Short Book",
+                                 num_pages < 500 ~ "Medium Book",
+                                 TRUE ~ "Long Book"
+                                 ),
+         .after = num_pages)
+
+```
+
+
+TASK 8: It's non-sense here.
+An author is rated now by my formula:
+Score = average_rating * (rating_count/median_rating_count)
+
+I will drop all the 0 for now
+```{r}
+books %>% 
+  select(authors,average_rating, ratings_count) %>%
+  mutate(ratings_count = na_if(ratings_count, 0)) %>%
+  drop_na(ratings_count) %>% 
+  group_by(authors) %>% 
+  summarise(score = 
+              average_rating*
+              (ratings_count/median(ratings_count, na.rm = TRUE))) %>% 
+  arrange(desc(score))
+#George R.R. Martin has the highest score. 
+
+```
+
+
+TASK 9: I am going to compare books in eng and in spa 
+umm, my rule is stupid again.
+add up the mean oof all the col
+bigger one win.
+```{r}
+eng_spa_books <- books %>% 
+  select(language_code,ratings_count,num_pages, average_rating) %>%
+  filter(language_code == c("eng","spa")) %>% 
+  mutate(across(where(is.numeric), ~na_if(.x, 0))) %>% 
+  filter(if_all(where(is.numeric), ~!is.na(.x))) %>% 
+  group_by(language_code) %>% 
+  summarise(score = mean(ratings_count) 
+            + mean(num_pages) 
+            + mean(average_rating))
+eng_spa_books
+#eng is higher by a lot.... doesn't seem right.. 
+```
+
+
+
+
+

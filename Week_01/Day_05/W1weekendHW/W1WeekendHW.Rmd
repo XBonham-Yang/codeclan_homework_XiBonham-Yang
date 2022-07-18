@@ -119,7 +119,7 @@ lang_books
 ```
 
 TASK 6: I am going to treat all the 0 as NA in num_page,
-and replace them with the mean? I will find the shorest book.
+and replace them with the mean? I will find the shortest book.
 ```{r}
 NA_books <- books %>% 
   select(num_pages,title) %>% 
@@ -129,7 +129,7 @@ NA_books <- books %>%
 
 NA_books
 #It gives me three book that only had 1 page.
-#Well, I don't think it's correct.... But I don't know how to get ready
+#Well, I don't think it's correct.... But I don't know how to get ride of 
 #those clearly wrong numbers that aren't 0. There will be stupidly short 
 #books, so I don't want to loose that.... Oh well. 
 ```
@@ -166,13 +166,12 @@ books %>%
               (ratings_count/median(ratings_count, na.rm = TRUE))) %>% 
   arrange(desc(score))
 #George R.R. Martin has the highest score. 
-
 ```
 
 
 TASK 9: I am going to compare books in eng and in spa 
 umm, my rule is stupid again.
-add up the mean oof all the col
+add up the mean of all the col
 bigger one win.
 ```{r}
 eng_spa_books <- books %>% 

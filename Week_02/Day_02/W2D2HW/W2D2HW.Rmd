@@ -67,6 +67,17 @@ text %>%
 #not the same..?? 
 ```
 
+Here's the answer. 
+```
+codeclan_tweets %>%
+  summarise(avg_tweet_length = mean(display_text_width))
+  
+code_clan_tweets_text <- codeclan_tweets %>%
+  mutate(count_str_length = str_length(text)) %>%
+  select(count_str_length, display_text_width)
+
+code_clan_tweets_text
+```
 
 Question 6.
 The code_clan_info.csv data file contains status_url along with other info. Load this in, and join it to the code_clan_tweets tibble, so that you have a status_url for each tweet. Decide which variable to join the tibbles on.
@@ -78,8 +89,6 @@ sta <- info %>%
   select(status_url, tweet_id)
 
 joined <- full_join(tweets, sta, by = "tweet_id")
-
-
 
 ```
 
@@ -106,7 +115,12 @@ str_hash <- codeclan_hashtags %>%
   str_sub(start = 1, end = 2) %>% 
   str_detect("c\\(")
 ```
-
+That's not what the question asked, here's the answer 
+```
+hashtags_multiple <- codeclan_hashtags %>% 
+  mutate(first_letters = str_sub(lowcase_hashtag, 1, 2)) %>%
+  filter(str_detect(first_letters, "c\\("))
+```
 
 Question 9.
 Use the str_detect() function to find all tweets with text that mentions “Edinburgh”, and count how many such tweets there are.

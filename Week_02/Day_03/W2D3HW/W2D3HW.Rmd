@@ -1,0 +1,187 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+1 MVP
+
+
+Question 1.
+Find the weather forecast for the next three days online. Create a list of lists in which each inner list should be labelled with the name of the day of the week. Each inner list should contain named elements telling you the temperature, chance of rain and wind speed.
+
+Thu-12:21, 20%, 7mph
+Fri-11-19, 80%, 9mph
+Sat-16:21, 80%, 11mph
+
+```{r}
+weather <- list(
+  Thu = list(Tem = "12-21", Pre = 20, Wind = 7 ),
+  Fri = list(Tem = "11-19", Pre = 80, Wind = 9 ),
+  Sat = list(Tem = "16-21", Pre = 80, Wind = 11)
+)
+```
+
+
+Question 2.
+Using the list you’ve just made find:
+
+The chance of rain tomorrow
+The wind speed on the day after tomorrow
+The temperature tomorrow.
+```{r}
+weather$Thu$Pre
+
+weather$Fri$Wind
+
+weather$Thu$Tem
+```
+
+
+Question 3.
+Find a 14 day forecast online and create a matrix of the forecasts for temperature, where each week is one row and columns correspond to days.
+
+You will want to give a name to the matrix you create.
+```{r}
+weather_14 <- matrix(c("21/12","19/11","21/16","19/15","18/12","19/9","17/8",
+  "18/10","18/11","18/13","17/12","19/11","20/11","22/11"),
+  nrow = 2, ncol = 7, byrow = TRUE)
+
+colnames(weather_14) <- c("Thu","Fri","Sat","Sun","Mon","Tue","Wed")
+rownames(weather_14) <- c("Week_1", "Week_2")
+weather_14
+```
+
+
+
+Question 4.
+From the matrix you just made select:
+
+The third day of the second week
+The whole second week
+The first, third and fifth days in both weeks.
+```{r}
+weather_14[2,3]
+weather_14[2,]
+weather_14[,c(1,3,5)]
+```
+
+
+Question 5.
+Write a function that pre-appends “The answer is:” to any character input, while for numeric input, it either just returns the number for numbers less than 10, or divides the number by 10 for numbers greater than 10. For anything else return “Invalid input”.
+
+```{r}
+ans <- function(x){
+  if(is.character(x)){
+    return(paste("The answer  is:", x))
+  }else{
+    if(is.numeric(x)){
+    if(x<10){
+      return(x)
+    }else{
+      return(x/10)
+    }
+      }else{
+    return("Invalid input")
+  }
+  }
+}
+ans(5)
+ans(20)
+ans("Hi")
+ans(TRUE)
+```
+
+
+Question 6.
+Write a function which checks if two vectors have the same elements.
+
+If they have the same elements in the same order, return “Exactly the same”
+If they have the same elements but in a different order, return “The same”
+If they don’t have the same elements, return “Different”.
+Hints
+You can check if two vectors have the same elements but in a different order by using sort to sort each vector first and then checking if they are equal.
+Have a look at the all() function
+
+```{r}
+?sort
+same <- function(x,y){
+  if(identical(x,y)){
+    return("Exactly the same")
+  }else{
+    if(identical(sort(x), sort(y))){
+      return("The same")
+    }else{
+      return("Different")
+    }
+  }
+    
+}
+
+a <- c(1,2,3)
+b <- c(2,3,1)
+c <- c(4,5,6)
+d <- c(1,2,3)
+
+same(a,b)
+same(a,c)
+same(a,d)
+```
+
+
+
+Question 7.
+Write code that prints a multiplication table for numbers up to 12. i.e. there will be 12 rows and 12 columns, and each element should be the row number multiplied by the column number.
+```{r}
+#Don't know what it means by "Write code" Function? or create a matrix?
+m <- matrix(nrow=12,ncol=12)
+
+num_rows <- dim(m)[1]
+num_cols <- dim(m)[2]
+
+for(r in 1:num_rows){  
+  for(c in 1:num_cols){ 
+     m[r, c] <-r*c
+  }
+}
+
+m
+# isn't it the same as we did this afternoon? I don't thnk that I understand this question 
+```
+
+
+
+
+Question 8.
+Write a function that takes a vector, and creates a text art histogram, like the one below.
+
+You may want to use the function cat(). This is similar to print(), but prints directly, without vector markers. You can also include newlines "\n" when using cat().
+
+For example, the vector c(1, 2, 3, 4, 5, 1, 3, 4, 5, 1, 3, 4, 4, 3, 3, 3, 3) should produce the histogram below - the histogram dislpays the number of times each number appears in the vector.
+
+```{r}
+num_hist <- function(x){
+     o = sum(x==1)
+     t = sum(x==2)
+     th = sum(x==3)
+     f = sum(x==4)
+     fi = sum(x ==5)
+    
+    cat("1|", rep("*", o))
+    cat("\n")
+    cat("2|", rep("*", t))
+    cat("\n")
+    cat("3|",rep("*", th))
+    cat("\n")
+    cat("4|", rep("*", f))
+    cat("\n")
+    cat("5|", rep("*", fi))
+    
+    
+  }
+```
+
+```{r}
+test <- c(1,2,3,4,2,3,4)
+num_hist(test)
+```
+

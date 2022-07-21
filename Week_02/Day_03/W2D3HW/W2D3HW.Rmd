@@ -103,7 +103,7 @@ You can check if two vectors have the same elements but in a different order by 
 Have a look at the all() function
 
 ```{r}
-?sort
+sort
 same <- function(x,y){
   if(identical(x,y)){
     return("Exactly the same")
@@ -145,6 +145,8 @@ for(r in 1:num_rows){
 }
 
 m
+
+#1:12 %*% 1:12  is the same as above 
 # isn't it the same as we did this afternoon? I don't thnk that I understand this question 
 ```
 
@@ -185,3 +187,19 @@ test <- c(1,2,3,4,2,3,4)
 num_hist(test)
 ```
 
+make_histogram <- function(x){
+  
+  distinct <- sort(unique(x))   <==== it's in order 
+  
+  for (i in distinct){
+    
+    count <- sum(x == i)
+    
+    cat(i)
+    cat(" | ")
+    cat(rep("*", count))
+    cat("\n")
+    
+  }
+  
+}

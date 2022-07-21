@@ -1776,88 +1776,193 @@ elements telling you the temperature, chance of rain and wind speed.</p>
 <p>Thu-12:21, 20%, 7mph Fri-11-19, 80%, 9mph Sat-16:21, 80%, 11mph</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2VhdGhlciA8LSBsaXN0KFxuICBUaHUgPSBsaXN0KFRlbSA9IFwiMTItMjFcIiwgUHJlID0gMjAsIFdpbmQgPSA3ICksXG4gIEZyaSA9IGxpc3QoVGVtID0gXCIxMS0xOVwiLCBQcmUgPSA4MCwgV2luZCA9IDkgKSxcbiAgU2F0ID0gbGlzdChUZW0gPSBcIjE2LTIxXCIsIFByZSA9IDgwLCBXaW5kID0gMTEpXG4pXG5gYGAifQ== -->
-<pre class="r"><code>weather &lt;- list(
-  Thu = list(Tem = &quot;12-21&quot;, Pre = 20, Wind = 7 ),
-  Fri = list(Tem = &quot;11-19&quot;, Pre = 80, Wind = 9 ),
-  Sat = list(Tem = &quot;16-21&quot;, Pre = 80, Wind = 11)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxud2VhdGhlciA8LSBsaXN0KFxuICBUaHUgPSBsaXN0KFRlbSA9IFxcMTItMjFcXCwgUHJlID0gMjAsIFdpbmQgPSA3ICksXG4gIEZyaSA9IGxpc3QoVGVtID0gXFwxMS0xOVxcLCBQcmUgPSA4MCwgV2luZCA9IDkgKSxcbiAgU2F0ID0gbGlzdChUZW0gPSBcXDE2LTIxXFwsIFByZSA9IDgwLCBXaW5kID0gMTEpXG4pXG5gYGBcbmBgYCJ9 -->
+<pre class="r"><code>```r
+weather &lt;- list(
+  Thu = list(Tem = \12-21\, Pre = 20, Wind = 7 ),
+  Fri = list(Tem = \11-19\, Pre = 80, Wind = 9 ),
+  Sat = list(Tem = \16-21\, Pre = 80, Wind = 11)
 )</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Question 2. Using the list you’ve just made find:</p>
-<p>The chance of rain tomorrow The wind speed on the day after tomorrow
-The temperature tomorrow.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2VhdGhlciRUaHUkUHJlXG5gYGAifQ== -->
-<pre class="r"><code>weather$Thu$Pre</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDIwXG4ifQ== -->
-<pre><code>[1] 20</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2VhdGhlciRGcmkkV2luZFxuYGBgIn0= -->
-<pre class="r"><code>weather$Fri$Wind</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDlcbiJ9 -->
-<pre><code>[1] 9</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2VhdGhlciRUaHUkVGVtXG5gYGAifQ== -->
-<pre class="r"><code>weather$Thu$Tem</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiMTItMjFcIlxuIn0= -->
-<pre><code>[1] &quot;12-21&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Question 3. Find a 14 day forecast online and create a matrix of the
-forecasts for temperature, where each week is one row and columns
-correspond to days.</p>
-<p>You will want to give a name to the matrix you create.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2VhdGhlcl8xNCA8LSBtYXRyaXgoYyhcIjIxLzEyXCIsXCIxOS8xMVwiLFwiMjEvMTZcIixcIjE5LzE1XCIsXCIxOC8xMlwiLFwiMTkvOVwiLFwiMTcvOFwiLFxuICBcIjE4LzEwXCIsXCIxOC8xMVwiLFwiMTgvMTNcIixcIjE3LzEyXCIsXCIxOS8xMVwiLFwiMjAvMTFcIixcIjIyLzExXCIpLFxuICBucm93ID0gMiwgbmNvbCA9IDcsIGJ5cm93ID0gVFJVRSlcblxuY29sbmFtZXMod2VhdGhlcl8xNCkgPC0gYyhcIlRodVwiLFwiRnJpXCIsXCJTYXRcIixcIlN1blwiLFwiTW9uXCIsXCJUdWVcIixcIldlZFwiKVxucm93bmFtZXMod2VhdGhlcl8xNCkgPC0gYyhcIldlZWtfMVwiLCBcIldlZWtfMlwiKVxud2VhdGhlcl8xNFxuYGBgIn0= -->
-<pre class="r"><code>weather_14 &lt;- matrix(c(&quot;21/12&quot;,&quot;19/11&quot;,&quot;21/16&quot;,&quot;19/15&quot;,&quot;18/12&quot;,&quot;19/9&quot;,&quot;17/8&quot;,
-  &quot;18/10&quot;,&quot;18/11&quot;,&quot;18/13&quot;,&quot;17/12&quot;,&quot;19/11&quot;,&quot;20/11&quot;,&quot;22/11&quot;),
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+Question 2.
+Using the list you’ve just made find:
+
+The chance of rain tomorrow
+The wind speed on the day after tomorrow
+The temperature tomorrow.
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxud2VhdGhlciRUaHUkUHJlXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+weather$Thu$Pre</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDIwXG4ifQ== --&gt;
+</code></pre>
+<p>[1] 20</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxud2VhdGhlciRGcmkkV2luZFxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+weather$Fri$Wind</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDlcbiJ9 --&gt;
+</code></pre>
+<p>[1] 9</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxud2VhdGhlciRUaHUkVGVtXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+weather$Thu$Tem</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcMTItMjFcXFxuIn0= --&gt;
+</code></pre>
+<p>[1] \12-21<br />
+</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+Question 3.
+Find a 14 day forecast online and create a matrix of the forecasts for temperature, where each week is one row and columns correspond to days.
+
+You will want to give a name to the matrix you create.
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxud2VhdGhlcl8xNCA8LSBtYXRyaXgoYyhcXDIxLzEyXFwsXFwxOS8xMVxcLFxcMjEvMTZcXCxcXDE5LzE1XFwsXFwxOC8xMlxcLFxcMTkvOVxcLFxcMTcvOFxcLFxuICBcXDE4LzEwXFwsXFwxOC8xMVxcLFxcMTgvMTNcXCxcXDE3LzEyXFwsXFwxOS8xMVxcLFxcMjAvMTFcXCxcXDIyLzExXFwpLFxuICBucm93ID0gMiwgbmNvbCA9IDcsIGJ5cm93ID0gVFJVRSlcblxuY29sbmFtZXMod2VhdGhlcl8xNCkgPC0gYyhcXFRodVxcLFxcRnJpXFwsXFxTYXRcXCxcXFN1blxcLFxcTW9uXFwsXFxUdWVcXCxcXFdlZFxcKVxucm93bmFtZXMod2VhdGhlcl8xNCkgPC0gYyhcXFdlZWtfMVxcLCBcXFdlZWtfMlxcKVxud2VhdGhlcl8xNFxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+weather_14 &lt;- matrix(c(\21/12\,\19/11\,\21/16\,\19/15\,\18/12\,\19/9\,\17/8\,
+  \18/10\,\18/11\,\18/13\,\17/12\,\19/11\,\20/11\,\22/11\),
   nrow = 2, ncol = 7, byrow = TRUE)
 
-colnames(weather_14) &lt;- c(&quot;Thu&quot;,&quot;Fri&quot;,&quot;Sat&quot;,&quot;Sun&quot;,&quot;Mon&quot;,&quot;Tue&quot;,&quot;Wed&quot;)
-rownames(weather_14) &lt;- c(&quot;Week_1&quot;, &quot;Week_2&quot;)
+colnames(weather_14) &lt;- c(\Thu\,\Fri\,\Sat\,\Sun\,\Mon\,\Tue\,\Wed\)
+rownames(weather_14) &lt;- c(\Week_1\, \Week_2\)
 weather_14</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgIFRodSAgICAgRnJpICAgICBTYXQgICAgIFN1biAgICAgTW9uICAgICBUdWUgICAgIFdlZCAgICBcbldlZWtfMSBcIjIxLzEyXCIgXCIxOS8xMVwiIFwiMjEvMTZcIiBcIjE5LzE1XCIgXCIxOC8xMlwiIFwiMTkvOVwiICBcIjE3LzhcIiBcbldlZWtfMiBcIjE4LzEwXCIgXCIxOC8xMVwiIFwiMTgvMTNcIiBcIjE3LzEyXCIgXCIxOS8xMVwiIFwiMjAvMTFcIiBcIjIyLzExXCJcbiJ9 -->
-<pre><code>       Thu     Fri     Sat     Sun     Mon     Tue     Wed    
-Week_1 &quot;21/12&quot; &quot;19/11&quot; &quot;21/16&quot; &quot;19/15&quot; &quot;18/12&quot; &quot;19/9&quot;  &quot;17/8&quot; 
-Week_2 &quot;18/10&quot; &quot;18/11&quot; &quot;18/13&quot; &quot;17/12&quot; &quot;19/11&quot; &quot;20/11&quot; &quot;22/11&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Question 4. From the matrix you just made select:</p>
-<p>The third day of the second week The whole second week The first,
-third and fifth days in both weeks.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2VhdGhlcl8xNFssYygxLDMsNSldXG5cbmBgYCJ9 -->
-<pre class="r"><code>weather_14[,c(1,3,5)]
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiICAgICAgIFRodSAgICAgRnJpICAgICBTYXQgICAgIFN1biAgICAgTW9uICAgICBUdWUgICAgIFdlZCAgICBcbldlZWtfMSBcXDIxLzEyXFwgXFwxOS8xMVxcIFxcMjEvMTZcXCBcXDE5LzE1XFwgXFwxOC8xMlxcIFxcMTkvOVxcICBcXDE3LzhcXCBcbldlZWtfMiBcXDE4LzEwXFwgXFwxOC8xMVxcIFxcMTgvMTNcXCBcXDE3LzEyXFwgXFwxOS8xMVxcIFxcMjAvMTFcXCBcXDIyLzExXFxcbiJ9 --&gt;
 </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgIFRodSAgICAgU2F0ICAgICBNb24gICAgXG5XZWVrXzEgXCIyMS8xMlwiIFwiMjEvMTZcIiBcIjE4LzEyXCJcbldlZWtfMiBcIjE4LzEwXCIgXCIxOC8xM1wiIFwiMTkvMTFcIlxuIn0= -->
-<pre><code>       Thu     Sat     Mon    
-Week_1 &quot;21/12&quot; &quot;21/16&quot; &quot;18/12&quot;
-Week_2 &quot;18/10&quot; &quot;18/13&quot; &quot;19/11&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Question 5. Write a function that pre-appends “The answer is:” to any
-character input, while for numeric input, it either just returns the
-number for numbers less than 10, or divides the number by 10 for numbers
-greater than 10. For anything else return “Invalid input”.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5zIDwtIGZ1bmN0aW9uKHgpe1xuICBpZihpcy5jaGFyYWN0ZXIoeCkpe1xuICAgIHJldHVybihwYXN0ZShcIlRoZSBhbnN3ZXIgIGlzOlwiLCB4KSlcbiAgfWVsc2V7XG4gICAgaWYoaXMubnVtZXJpYyh4KSl7XG4gICAgaWYoeDwxMCl7XG4gICAgICByZXR1cm4oeClcbiAgICB9ZWxzZXtcbiAgICAgIHJldHVybih4LzEwKVxuICAgIH1cbiAgICAgIH1lbHNle1xuICAgIHJldHVybihcIkludmFsaWQgaW5wdXRcIilcbiAgfVxuICB9XG59XG5hbnMoNSlcbmBgYCJ9 -->
-<pre class="r"><code>ans &lt;- function(x){
+<pre><code>   Thu     Fri     Sat     Sun     Mon     Tue     Wed    </code></pre>
+<p>Week_1 \21/12 \19/11 \21/16 \19/15 \18/12 \19/9  \17/8  Week_2
+\18/10 \18/11 \18/13 \17/12 \19/11 \20/11 \22/11<br />
+</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+
+Question 4.
+From the matrix you just made select:
+
+The third day of the second week
+The whole second week
+The first, third and fifth days in both weeks.
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxud2VhdGhlcl8xNFssYygxLDMsNSldXG5cbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+weather_14[,c(1,3,5)]
+</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiICAgICAgIFRodSAgICAgU2F0ICAgICBNb24gICAgXG5XZWVrXzEgXFwyMS8xMlxcIFxcMjEvMTZcXCBcXDE4LzEyXFxcbldlZWtfMiBcXDE4LzEwXFwgXFwxOC8xM1xcIFxcMTkvMTFcXFxuIn0= --&gt;
+</code></pre>
+<pre><code>   Thu     Sat     Mon    </code></pre>
+<p>Week_1 \21/12 \21/16 \18/12<br />
+Week_2 \18/10 \18/13 \19/11<br />
+</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+Question 5.
+Write a function that pre-appends “The answer is:” to any character input, while for numeric input, it either just returns the number for numbers less than 10, or divides the number by 10 for numbers greater than 10. For anything else return “Invalid input”.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYW5zIDwtIGZ1bmN0aW9uKHgpe1xuICBpZihpcy5jaGFyYWN0ZXIoeCkpe1xuICAgIHJldHVybihwYXN0ZShcXFRoZSBhbnN3ZXIgIGlzOlxcLCB4KSlcbiAgfWVsc2V7XG4gICAgaWYoaXMubnVtZXJpYyh4KSl7XG4gICAgaWYoeDwxMCl7XG4gICAgICByZXR1cm4oeClcbiAgICB9ZWxzZXtcbiAgICAgIHJldHVybih4LzEwKVxuICAgIH1cbiAgICAgIH1lbHNle1xuICAgIHJldHVybihcXEludmFsaWQgaW5wdXRcXClcbiAgfVxuICB9XG59XG5hbnMoNSlcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+ans &lt;- function(x){
   if(is.character(x)){
-    return(paste(&quot;The answer  is:&quot;, x))
+    return(paste(\The answer  is:\, x))
   }else{
     if(is.numeric(x)){
     if(x&lt;10){
@@ -1866,55 +1971,109 @@ greater than 10. For anything else return “Invalid input”.</p>
       return(x/10)
     }
       }else{
-    return(&quot;Invalid input&quot;)
+    return(\Invalid input\)
   }
   }
 }
 ans(5)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDVcbiJ9 -->
-<pre><code>[1] 5</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5zKDIwKVxuYGBgIn0= -->
-<pre class="r"><code>ans(20)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDJcbiJ9 -->
-<pre><code>[1] 2</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5zKFwiSGlcIilcbmBgYCJ9 -->
-<pre class="r"><code>ans(&quot;Hi&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIGFuc3dlciAgaXM6IEhpXCJcbiJ9 -->
-<pre><code>[1] &quot;The answer  is: Hi&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5zKFRSVUUpXG5gYGAifQ== -->
-<pre class="r"><code>ans(TRUE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiSW52YWxpZCBpbnB1dFwiXG4ifQ== -->
-<pre><code>[1] &quot;Invalid input&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Question 6. Write a function which checks if two vectors have the
-same elements.</p>
-<p>If they have the same elements in the same order, return “Exactly the
-same” If they have the same elements but in a different order, return
-“The same” If they don’t have the same elements, return “Different”.
-Hints You can check if two vectors have the same elements but in a
-different order by using sort to sort each vector first and then
-checking if they are equal. Have a look at the all() function</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuP3NvcnRcbnNhbWUgPC0gZnVuY3Rpb24oeCx5KXtcbiAgaWYoaWRlbnRpY2FsKHgseSkpe1xuICAgIHJldHVybihcIkV4YWN0bHkgdGhlIHNhbWVcIilcbiAgfWVsc2V7XG4gICAgaWYoaWRlbnRpY2FsKHNvcnQoeCksIHNvcnQoeSkpKXtcbiAgICAgIHJldHVybihcIlRoZSBzYW1lXCIpXG4gICAgfWVsc2V7XG4gICAgICByZXR1cm4oXCJEaWZmZXJlbnRcIilcbiAgICB9XG4gIH1cbiAgICBcbn1cblxuYSA8LSBjKDEsMiwzKVxuYiA8LSBjKDIsMywxKVxuYyA8LSBjKDQsNSw2KVxuZCA8LSBjKDEsMiwzKVxuXG5zYW1lKGEsYilcbmBgYCJ9 -->
-<pre class="r"><code>?sort
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDVcbiJ9 --&gt;
+</code></pre>
+<p>[1] 5</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYW5zKDIwKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+ans(20)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDJcbiJ9 --&gt;
+</code></pre>
+<p>[1] 2</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYW5zKFxcSGlcXClcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+ans(\Hi\)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcVGhlIGFuc3dlciAgaXM6IEhpXFxcbiJ9 --&gt;
+</code></pre>
+<p>[1] answer is: Hi<br />
+</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYW5zKFRSVUUpXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+ans(TRUE)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcSW52YWxpZCBpbnB1dFxcXG4ifQ== --&gt;
+</code></pre>
+<p>[1] input<br />
+</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+Question 6.
+Write a function which checks if two vectors have the same elements.
+
+If they have the same elements in the same order, return “Exactly the same”
+If they have the same elements but in a different order, return “The same”
+If they don’t have the same elements, return “Different”.
+Hints
+You can check if two vectors have the same elements but in a different order by using sort to sort each vector first and then checking if they are equal.
+Have a look at the all() function
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuP3NvcnRcbnNhbWUgPC0gZnVuY3Rpb24oeCx5KXtcbiAgaWYoaWRlbnRpY2FsKHgseSkpe1xuICAgIHJldHVybihcXEV4YWN0bHkgdGhlIHNhbWVcXClcbiAgfWVsc2V7XG4gICAgaWYoaWRlbnRpY2FsKHNvcnQoeCksIHNvcnQoeSkpKXtcbiAgICAgIHJldHVybihcXFRoZSBzYW1lXFwpXG4gICAgfWVsc2V7XG4gICAgICByZXR1cm4oXFxEaWZmZXJlbnRcXClcbiAgICB9XG4gIH1cbiAgICBcbn1cblxuYSA8LSBjKDEsMiwzKVxuYiA8LSBjKDIsMywxKVxuYyA8LSBjKDQsNSw2KVxuZCA8LSBjKDEsMiwzKVxuXG5zYW1lKGEsYilcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+?sort
 same &lt;- function(x,y){
   if(identical(x,y)){
-    return(&quot;Exactly the same&quot;)
+    return(\Exactly the same\)
   }else{
     if(identical(sort(x), sort(y))){
-      return(&quot;The same&quot;)
+      return(\The same\)
     }else{
-      return(&quot;Different&quot;)
+      return(\Different\)
     }
   }
     
@@ -1926,31 +2085,74 @@ c &lt;- c(4,5,6)
 d &lt;- c(1,2,3)
 
 same(a,b)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIHNhbWVcIlxuIn0= -->
-<pre><code>[1] &quot;The same&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2FtZShhLGMpXG5gYGAifQ== -->
-<pre class="r"><code>same(a,c)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRGlmZmVyZW50XCJcbiJ9 -->
-<pre><code>[1] &quot;Different&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2FtZShhLGQpXG5gYGAifQ== -->
-<pre class="r"><code>same(a,d)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRXhhY3RseSB0aGUgc2FtZVwiXG4ifQ== -->
-<pre><code>[1] &quot;Exactly the same&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Question 7. Write code that prints a multiplication table for numbers
-up to 12. i.e. there will be 12 rows and 12 columns, and each element
-should be the row number multiplied by the column number.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0Rvbid0IGtub3cgd2hhdCBpdCBtZWFucyBieSBcIldyaXRlIGNvZGVcIiBGdW5jdGlvbj8gb3IgY3JlYXRlIGEgbWF0cml4P1xubSA8LSBtYXRyaXgobnJvdz0xMixuY29sPTEyKVxuXG5udW1fcm93cyA8LSBkaW0obSlbMV1cbm51bV9jb2xzIDwtIGRpbShtKVsyXVxuXG5mb3IociBpbiAxOm51bV9yb3dzKXsgIFxuICBmb3IoYyBpbiAxOm51bV9jb2xzKXsgXG4gICAgIG1bciwgY10gPC1yKmNcbiAgfVxufVxuXG5tXG5gYGAifQ== -->
-<pre class="r"><code>#Don&#39;t know what it means by &quot;Write code&quot; Function? or create a matrix?
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcVGhlIHNhbWVcXFxuIn0= --&gt;
+</code></pre>
+<p>[1] same<br />
+</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2FtZShhLGMpXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+same(a,c)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcRGlmZmVyZW50XFxcbiJ9 --&gt;
+</code></pre>
+<p>[1] <br />
+</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2FtZShhLGQpXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+same(a,d)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcRXhhY3RseSB0aGUgc2FtZVxcXG4ifQ== --&gt;
+</code></pre>
+<p>[1] the same<br />
+</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+
+Question 7.
+Write code that prints a multiplication table for numbers up to 12. i.e. there will be 12 rows and 12 columns, and each element should be the row number multiplied by the column number.
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuI0Rvbid0IGtub3cgd2hhdCBpdCBtZWFucyBieSBcXFdyaXRlIGNvZGVcXCBGdW5jdGlvbj8gb3IgY3JlYXRlIGEgbWF0cml4P1xubSA8LSBtYXRyaXgobnJvdz0xMixuY29sPTEyKVxuXG5udW1fcm93cyA8LSBkaW0obSlbMV1cbm51bV9jb2xzIDwtIGRpbShtKVsyXVxuXG5mb3IociBpbiAxOm51bV9yb3dzKXsgIFxuICBmb3IoYyBpbiAxOm51bV9jb2xzKXsgXG4gICAgIG1bciwgY10gPC1yKmNcbiAgfVxufVxuXG5tXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+#Don&#39;t know what it means by \Write code\ Function? or create a matrix?
 m &lt;- matrix(nrow=12,ncol=12)
 
 num_rows &lt;- dim(m)[1]
@@ -1963,75 +2165,115 @@ for(r in 1:num_rows){
 }
 
 m</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgWywxXSBbLDJdIFssM10gWyw0XSBbLDVdIFssNl0gWyw3XSBbLDhdIFssOV0gWywxMF0gWywxMV0gWywxMl1cbiBbMSxdICAgIDEgICAgMiAgICAzICAgIDQgICAgNSAgICA2ICAgIDcgICAgOCAgICA5ICAgIDEwICAgIDExICAgIDEyXG4gWzIsXSAgICAyICAgIDQgICAgNiAgICA4ICAgMTAgICAxMiAgIDE0ICAgMTYgICAxOCAgICAyMCAgICAyMiAgICAyNFxuIFszLF0gICAgMyAgICA2ICAgIDkgICAxMiAgIDE1ICAgMTggICAyMSAgIDI0ICAgMjcgICAgMzAgICAgMzMgICAgMzZcbiBbNCxdICAgIDQgICAgOCAgIDEyICAgMTYgICAyMCAgIDI0ICAgMjggICAzMiAgIDM2ICAgIDQwICAgIDQ0ICAgIDQ4XG4gWzUsXSAgICA1ICAgMTAgICAxNSAgIDIwICAgMjUgICAzMCAgIDM1ICAgNDAgICA0NSAgICA1MCAgICA1NSAgICA2MFxuIFs2LF0gICAgNiAgIDEyICAgMTggICAyNCAgIDMwICAgMzYgICA0MiAgIDQ4ICAgNTQgICAgNjAgICAgNjYgICAgNzJcbiBbNyxdICAgIDcgICAxNCAgIDIxICAgMjggICAzNSAgIDQyICAgNDkgICA1NiAgIDYzICAgIDcwICAgIDc3ICAgIDg0XG4gWzgsXSAgICA4ICAgMTYgICAyNCAgIDMyICAgNDAgICA0OCAgIDU2ICAgNjQgICA3MiAgICA4MCAgICA4OCAgICA5NlxuIFs5LF0gICAgOSAgIDE4ICAgMjcgICAzNiAgIDQ1ICAgNTQgICA2MyAgIDcyICAgODEgICAgOTAgICAgOTkgICAxMDhcblsxMCxdICAgMTAgICAyMCAgIDMwICAgNDAgICA1MCAgIDYwICAgNzAgICA4MCAgIDkwICAgMTAwICAgMTEwICAgMTIwXG5bMTEsXSAgIDExICAgMjIgICAzMyAgIDQ0ICAgNTUgICA2NiAgIDc3ICAgODggICA5OSAgIDExMCAgIDEyMSAgIDEzMlxuWzEyLF0gICAxMiAgIDI0ICAgMzYgICA0OCAgIDYwICAgNzIgICA4NCAgIDk2ICAxMDggICAxMjAgICAxMzIgICAxNDRcbiJ9 -->
-<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
- [1,]    1    2    3    4    5    6    7    8    9    10    11    12
- [2,]    2    4    6    8   10   12   14   16   18    20    22    24
- [3,]    3    6    9   12   15   18   21   24   27    30    33    36
- [4,]    4    8   12   16   20   24   28   32   36    40    44    48
- [5,]    5   10   15   20   25   30   35   40   45    50    55    60
- [6,]    6   12   18   24   30   36   42   48   54    60    66    72
- [7,]    7   14   21   28   35   42   49   56   63    70    77    84
- [8,]    8   16   24   32   40   48   56   64   72    80    88    96
- [9,]    9   18   27   36   45   54   63   72   81    90    99   108
-[10,]   10   20   30   40   50   60   70   80   90   100   110   120
-[11,]   11   22   33   44   55   66   77   88   99   110   121   132
-[12,]   12   24   36   48   60   72   84   96  108   120   132   144</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Question 8. Write a function that takes a vector, and creates a text
-art histogram, like the one below.</p>
-<p>You may want to use the function cat(). This is similar to print(),
-but prints directly, without vector markers. You can also include
-newlines “” when using cat().</p>
-<p>For example, the vector c(1, 2, 3, 4, 5, 1, 3, 4, 5, 1, 3, 4, 4, 3,
-3, 3, 3) should produce the histogram below - the histogram dislpays the
-number of times each number appears in the vector.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubnVtX2hpc3QgPC0gZnVuY3Rpb24oeCl7XG4gICAgIG8gPSBzdW0oeD09MSlcbiAgICAgdCA9IHN1bSh4PT0yKVxuICAgICB0aCA9IHN1bSh4PT0zKVxuICAgICBmID0gc3VtKHg9PTQpXG4gICAgIGZpID0gc3VtKHggPT01KVxuICAgIFxuICAgIGNhdChcIjF8XCIsIHJlcChcIipcIiwgbykpXG4gICAgY2F0KFwiXFxuXCIpXG4gICAgY2F0KFwiMnxcIiwgcmVwKFwiKlwiLCB0KSlcbiAgICBjYXQoXCJcXG5cIilcbiAgICBjYXQoXCIzfFwiLHJlcChcIipcIiwgdGgpKVxuICAgIGNhdChcIlxcblwiKVxuICAgIGNhdChcIjR8XCIsIHJlcChcIipcIiwgZikpXG4gICAgY2F0KFwiXFxuXCIpXG4gICAgY2F0KFwiNXxcIiwgcmVwKFwiKlwiLCBmaSkpXG4gICAgXG4gICAgXG4gIH1cbmBgYCJ9 -->
-<pre class="r"><code>num_hist &lt;- function(x){
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiICAgICAgWywxXSBbLDJdIFssM10gWyw0XSBbLDVdIFssNl0gWyw3XSBbLDhdIFssOV0gWywxMF0gWywxMV0gWywxMl1cbiBbMSxdICAgIDEgICAgMiAgICAzICAgIDQgICAgNSAgICA2ICAgIDcgICAgOCAgICA5ICAgIDEwICAgIDExICAgIDEyXG4gWzIsXSAgICAyICAgIDQgICAgNiAgICA4ICAgMTAgICAxMiAgIDE0ICAgMTYgICAxOCAgICAyMCAgICAyMiAgICAyNFxuIFszLF0gICAgMyAgICA2ICAgIDkgICAxMiAgIDE1ICAgMTggICAyMSAgIDI0ICAgMjcgICAgMzAgICAgMzMgICAgMzZcbiBbNCxdICAgIDQgICAgOCAgIDEyICAgMTYgICAyMCAgIDI0ICAgMjggICAzMiAgIDM2ICAgIDQwICAgIDQ0ICAgIDQ4XG4gWzUsXSAgICA1ICAgMTAgICAxNSAgIDIwICAgMjUgICAzMCAgIDM1ICAgNDAgICA0NSAgICA1MCAgICA1NSAgICA2MFxuIFs2LF0gICAgNiAgIDEyICAgMTggICAyNCAgIDMwICAgMzYgICA0MiAgIDQ4ICAgNTQgICAgNjAgICAgNjYgICAgNzJcbiBbNyxdICAgIDcgICAxNCAgIDIxICAgMjggICAzNSAgIDQyICAgNDkgICA1NiAgIDYzICAgIDcwICAgIDc3ICAgIDg0XG4gWzgsXSAgICA4ICAgMTYgICAyNCAgIDMyICAgNDAgICA0OCAgIDU2ICAgNjQgICA3MiAgICA4MCAgICA4OCAgICA5NlxuIFs5LF0gICAgOSAgIDE4ICAgMjcgICAzNiAgIDQ1ICAgNTQgICA2MyAgIDcyICAgODEgICAgOTAgICAgOTkgICAxMDhcblsxMCxdICAgMTAgICAyMCAgIDMwICAgNDAgICA1MCAgIDYwICAgNzAgICA4MCAgIDkwICAgMTAwICAgMTEwICAgMTIwXG5bMTEsXSAgIDExICAgMjIgICAzMyAgIDQ0ICAgNTUgICA2NiAgIDc3ICAgODggICA5OSAgIDExMCAgIDEyMSAgIDEzMlxuWzEyLF0gICAxMiAgIDI0ICAgMzYgICA0OCAgIDYwICAgNzIgICA4NCAgIDk2ICAxMDggICAxMjAgICAxMzIgICAxNDRcbiJ9 --&gt;
+</code></pre>
+<pre><code>  [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]</code></pre>
+<p>[1,] 1 2 3 4 5 6 7 8 9 10 11 12 [2,] 2 4 6 8 10 12 14 16 18 20 22 24
+[3,] 3 6 9 12 15 18 21 24 27 30 33 36 [4,] 4 8 12 16 20 24 28 32 36 40
+44 48 [5,] 5 10 15 20 25 30 35 40 45 50 55 60 [6,] 6 12 18 24 30 36 42
+48 54 60 66 72 [7,] 7 14 21 28 35 42 49 56 63 70 77 84 [8,] 8 16 24 32
+40 48 56 64 72 80 88 96 [9,] 9 18 27 36 45 54 63 72 81 90 99 108 [10,]
+10 20 30 40 50 60 70 80 90 100 110 120 [11,] 11 22 33 44 55 66 77 88 99
+110 121 132 [12,] 12 24 36 48 60 72 84 96 108 120 132 144</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+
+
+Question 8.
+Write a function that takes a vector, and creates a text art histogram, like the one below.
+
+You may want to use the function cat(). This is similar to print(), but prints directly, without vector markers. You can also include newlines &quot;\n&quot; when using cat().
+
+For example, the vector c(1, 2, 3, 4, 5, 1, 3, 4, 5, 1, 3, 4, 4, 3, 3, 3, 3) should produce the histogram below - the histogram dislpays the number of times each number appears in the vector.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubnVtX2hpc3QgPC0gZnVuY3Rpb24oeCl7XG4gICAgIG8gPSBzdW0oeD09MSlcbiAgICAgdCA9IHN1bSh4PT0yKVxuICAgICB0aCA9IHN1bSh4PT0zKVxuICAgICBmID0gc3VtKHg9PTQpXG4gICAgIGZpID0gc3VtKHggPT01KVxuICAgIFxuICAgIGNhdChcXDF8XFwsIHJlcChcXCpcXCwgbykpXG4gICAgY2F0KFxcXFxuXFwpXG4gICAgY2F0KFxcMnxcXCwgcmVwKFxcKlxcLCB0KSlcbiAgICBjYXQoXFxcXG5cXClcbiAgICBjYXQoXFwzfFxcLHJlcChcXCpcXCwgdGgpKVxuICAgIGNhdChcXFxcblxcKVxuICAgIGNhdChcXDR8XFwsIHJlcChcXCpcXCwgZikpXG4gICAgY2F0KFxcXFxuXFwpXG4gICAgY2F0KFxcNXxcXCwgcmVwKFxcKlxcLCBmaSkpXG4gICAgXG4gICAgXG4gIH1cbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+num_hist &lt;- function(x){
      o = sum(x==1)
      t = sum(x==2)
      th = sum(x==3)
      f = sum(x==4)
      fi = sum(x ==5)
     
-    cat(&quot;1|&quot;, rep(&quot;*&quot;, o))
-    cat(&quot;\n&quot;)
-    cat(&quot;2|&quot;, rep(&quot;*&quot;, t))
-    cat(&quot;\n&quot;)
-    cat(&quot;3|&quot;,rep(&quot;*&quot;, th))
-    cat(&quot;\n&quot;)
-    cat(&quot;4|&quot;, rep(&quot;*&quot;, f))
-    cat(&quot;\n&quot;)
-    cat(&quot;5|&quot;, rep(&quot;*&quot;, fi))
+    cat(\1|\, rep(\*\, o))
+    cat(\\n\)
+    cat(\2|\, rep(\*\, t))
+    cat(\\n\)
+    cat(\3|\,rep(\*\, th))
+    cat(\\n\)
+    cat(\4|\, rep(\*\, f))
+    cat(\\n\)
+    cat(\5|\, rep(\*\, fi))
     
     
   }</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGVzdCA8LSBjKDEsMiwzLDQsMiwzLDQpXG5udW1faGlzdCh0ZXN0KVxuYGBgIn0= -->
-<pre class="r"><code>test &lt;- c(1,2,3,4,2,3,4)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudGVzdCA8LSBjKDEsMiwzLDQsMiwzLDQpXG5udW1faGlzdCh0ZXN0KVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+test &lt;- c(1,2,3,4,2,3,4)
 num_hist(test)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiMXwgKlxuMnwgKiAqXG4zfCAqICpcbjR8ICogKlxuNXwgXG4ifQ== -->
-<pre><code>1| *
-2| * *
-3| * *
-4| * *
-5| </code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiMXwgKlxuMnwgKiAqXG4zfCAqICpcbjR8ICogKlxuNXwgXG4ifQ== --&gt;
+</code></pre>
+<p>1| <em> 2| </em> <em> 3| </em> <em> 4| </em> * 5| ```</p>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>make_histogram &lt;- function(x){</p>
+<p>distinct &lt;- sort(unique(x)) &lt;==== it’s in order</p>
+<p>for (i in distinct){</p>
+<pre><code>count &lt;- sum(x == i)
+
+cat(i)
+cat(&quot; | &quot;)
+cat(rep(&quot;*&quot;, count))
+cat(&quot;\n&quot;)</code></pre>
+<p>}</p>
+<p>}</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKMSBNVlAKCgpRdWVzdGlvbiAxLgpGaW5kIHRoZSB3ZWF0aGVyIGZvcmVjYXN0IGZvciB0aGUgbmV4dCB0aHJlZSBkYXlzIG9ubGluZS4gQ3JlYXRlIGEgbGlzdCBvZiBsaXN0cyBpbiB3aGljaCBlYWNoIGlubmVyIGxpc3Qgc2hvdWxkIGJlIGxhYmVsbGVkIHdpdGggdGhlIG5hbWUgb2YgdGhlIGRheSBvZiB0aGUgd2Vlay4gRWFjaCBpbm5lciBsaXN0IHNob3VsZCBjb250YWluIG5hbWVkIGVsZW1lbnRzIHRlbGxpbmcgeW91IHRoZSB0ZW1wZXJhdHVyZSwgY2hhbmNlIG9mIHJhaW4gYW5kIHdpbmQgc3BlZWQuCgpUaHUtMTI6MjEsIDIwJSwgN21waApGcmktMTEtMTksIDgwJSwgOW1waApTYXQtMTY6MjEsIDgwJSwgMTFtcGgKCmBgYHtyfQp3ZWF0aGVyIDwtIGxpc3QoCiAgVGh1ID0gbGlzdChUZW0gPSAiMTItMjEiLCBQcmUgPSAyMCwgV2luZCA9IDcgKSwKICBGcmkgPSBsaXN0KFRlbSA9ICIxMS0xOSIsIFByZSA9IDgwLCBXaW5kID0gOSApLAogIFNhdCA9IGxpc3QoVGVtID0gIjE2LTIxIiwgUHJlID0gODAsIFdpbmQgPSAxMSkKKQpgYGAKCgpRdWVzdGlvbiAyLgpVc2luZyB0aGUgbGlzdCB5b3XigJl2ZSBqdXN0IG1hZGUgZmluZDoKClRoZSBjaGFuY2Ugb2YgcmFpbiB0b21vcnJvdwpUaGUgd2luZCBzcGVlZCBvbiB0aGUgZGF5IGFmdGVyIHRvbW9ycm93ClRoZSB0ZW1wZXJhdHVyZSB0b21vcnJvdy4KYGBge3J9CndlYXRoZXIkVGh1JFByZQoKd2VhdGhlciRGcmkkV2luZAoKd2VhdGhlciRUaHUkVGVtCmBgYAoKClF1ZXN0aW9uIDMuCkZpbmQgYSAxNCBkYXkgZm9yZWNhc3Qgb25saW5lIGFuZCBjcmVhdGUgYSBtYXRyaXggb2YgdGhlIGZvcmVjYXN0cyBmb3IgdGVtcGVyYXR1cmUsIHdoZXJlIGVhY2ggd2VlayBpcyBvbmUgcm93IGFuZCBjb2x1bW5zIGNvcnJlc3BvbmQgdG8gZGF5cy4KCllvdSB3aWxsIHdhbnQgdG8gZ2l2ZSBhIG5hbWUgdG8gdGhlIG1hdHJpeCB5b3UgY3JlYXRlLgpgYGB7cn0Kd2VhdGhlcl8xNCA8LSBtYXRyaXgoYygiMjEvMTIiLCIxOS8xMSIsIjIxLzE2IiwiMTkvMTUiLCIxOC8xMiIsIjE5LzkiLCIxNy84IiwKICAiMTgvMTAiLCIxOC8xMSIsIjE4LzEzIiwiMTcvMTIiLCIxOS8xMSIsIjIwLzExIiwiMjIvMTEiKSwKICBucm93ID0gMiwgbmNvbCA9IDcsIGJ5cm93ID0gVFJVRSkKCmNvbG5hbWVzKHdlYXRoZXJfMTQpIDwtIGMoIlRodSIsIkZyaSIsIlNhdCIsIlN1biIsIk1vbiIsIlR1ZSIsIldlZCIpCnJvd25hbWVzKHdlYXRoZXJfMTQpIDwtIGMoIldlZWtfMSIsICJXZWVrXzIiKQp3ZWF0aGVyXzE0CmBgYAoKCgpRdWVzdGlvbiA0LgpGcm9tIHRoZSBtYXRyaXggeW91IGp1c3QgbWFkZSBzZWxlY3Q6CgpUaGUgdGhpcmQgZGF5IG9mIHRoZSBzZWNvbmQgd2VlawpUaGUgd2hvbGUgc2Vjb25kIHdlZWsKVGhlIGZpcnN0LCB0aGlyZCBhbmQgZmlmdGggZGF5cyBpbiBib3RoIHdlZWtzLgpgYGB7cn0Kd2VhdGhlcl8xNFsyLDNdCndlYXRoZXJfMTRbMixdCndlYXRoZXJfMTRbLGMoMSwzLDUpXQpgYGAKCgpRdWVzdGlvbiA1LgpXcml0ZSBhIGZ1bmN0aW9uIHRoYXQgcHJlLWFwcGVuZHMg4oCcVGhlIGFuc3dlciBpczrigJ0gdG8gYW55IGNoYXJhY3RlciBpbnB1dCwgd2hpbGUgZm9yIG51bWVyaWMgaW5wdXQsIGl0IGVpdGhlciBqdXN0IHJldHVybnMgdGhlIG51bWJlciBmb3IgbnVtYmVycyBsZXNzIHRoYW4gMTAsIG9yIGRpdmlkZXMgdGhlIG51bWJlciBieSAxMCBmb3IgbnVtYmVycyBncmVhdGVyIHRoYW4gMTAuIEZvciBhbnl0aGluZyBlbHNlIHJldHVybiDigJxJbnZhbGlkIGlucHV04oCdLgoKYGBge3J9CmFucyA8LSBmdW5jdGlvbih4KXsKICBpZihpcy5jaGFyYWN0ZXIoeCkpewogICAgcmV0dXJuKHBhc3RlKCJUaGUgYW5zd2VyICBpczoiLCB4KSkKICB9ZWxzZXsKICAgIGlmKGlzLm51bWVyaWMoeCkpewogICAgaWYoeDwxMCl7CiAgICAgIHJldHVybih4KQogICAgfWVsc2V7CiAgICAgIHJldHVybih4LzEwKQogICAgfQogICAgICB9ZWxzZXsKICAgIHJldHVybigiSW52YWxpZCBpbnB1dCIpCiAgfQogIH0KfQphbnMoNSkKYW5zKDIwKQphbnMoIkhpIikKYW5zKFRSVUUpCmBgYAoKClF1ZXN0aW9uIDYuCldyaXRlIGEgZnVuY3Rpb24gd2hpY2ggY2hlY2tzIGlmIHR3byB2ZWN0b3JzIGhhdmUgdGhlIHNhbWUgZWxlbWVudHMuCgpJZiB0aGV5IGhhdmUgdGhlIHNhbWUgZWxlbWVudHMgaW4gdGhlIHNhbWUgb3JkZXIsIHJldHVybiDigJxFeGFjdGx5IHRoZSBzYW1l4oCdCklmIHRoZXkgaGF2ZSB0aGUgc2FtZSBlbGVtZW50cyBidXQgaW4gYSBkaWZmZXJlbnQgb3JkZXIsIHJldHVybiDigJxUaGUgc2FtZeKAnQpJZiB0aGV5IGRvbuKAmXQgaGF2ZSB0aGUgc2FtZSBlbGVtZW50cywgcmV0dXJuIOKAnERpZmZlcmVudOKAnS4KSGludHMKWW91IGNhbiBjaGVjayBpZiB0d28gdmVjdG9ycyBoYXZlIHRoZSBzYW1lIGVsZW1lbnRzIGJ1dCBpbiBhIGRpZmZlcmVudCBvcmRlciBieSB1c2luZyBzb3J0IHRvIHNvcnQgZWFjaCB2ZWN0b3IgZmlyc3QgYW5kIHRoZW4gY2hlY2tpbmcgaWYgdGhleSBhcmUgZXF1YWwuCkhhdmUgYSBsb29rIGF0IHRoZSBhbGwoKSBmdW5jdGlvbgoKYGBge3J9Cj9zb3J0CnNhbWUgPC0gZnVuY3Rpb24oeCx5KXsKICBpZihpZGVudGljYWwoeCx5KSl7CiAgICByZXR1cm4oIkV4YWN0bHkgdGhlIHNhbWUiKQogIH1lbHNlewogICAgaWYoaWRlbnRpY2FsKHNvcnQoeCksIHNvcnQoeSkpKXsKICAgICAgcmV0dXJuKCJUaGUgc2FtZSIpCiAgICB9ZWxzZXsKICAgICAgcmV0dXJuKCJEaWZmZXJlbnQiKQogICAgfQogIH0KICAgIAp9CgphIDwtIGMoMSwyLDMpCmIgPC0gYygyLDMsMSkKYyA8LSBjKDQsNSw2KQpkIDwtIGMoMSwyLDMpCgpzYW1lKGEsYikKc2FtZShhLGMpCnNhbWUoYSxkKQpgYGAKCgoKUXVlc3Rpb24gNy4KV3JpdGUgY29kZSB0aGF0IHByaW50cyBhIG11bHRpcGxpY2F0aW9uIHRhYmxlIGZvciBudW1iZXJzIHVwIHRvIDEyLiBpLmUuIHRoZXJlIHdpbGwgYmUgMTIgcm93cyBhbmQgMTIgY29sdW1ucywgYW5kIGVhY2ggZWxlbWVudCBzaG91bGQgYmUgdGhlIHJvdyBudW1iZXIgbXVsdGlwbGllZCBieSB0aGUgY29sdW1uIG51bWJlci4KYGBge3J9CiNEb24ndCBrbm93IHdoYXQgaXQgbWVhbnMgYnkgIldyaXRlIGNvZGUiIEZ1bmN0aW9uPyBvciBjcmVhdGUgYSBtYXRyaXg/Cm0gPC0gbWF0cml4KG5yb3c9MTIsbmNvbD0xMikKCm51bV9yb3dzIDwtIGRpbShtKVsxXQpudW1fY29scyA8LSBkaW0obSlbMl0KCmZvcihyIGluIDE6bnVtX3Jvd3MpeyAgCiAgZm9yKGMgaW4gMTpudW1fY29scyl7IAogICAgIG1bciwgY10gPC1yKmMKICB9Cn0KCm0KIyBpc24ndCBpdCB0aGUgc2FtZSBhcyB3ZSBkaWQgdGhpcyBhZnRlcm5vb24/IEkgZG9uJ3QgdGhuayB0aGF0IEkgdW5kZXJzdGFuZCB0aGlzIHF1ZXN0aW9uIApgYGAKCgoKClF1ZXN0aW9uIDguCldyaXRlIGEgZnVuY3Rpb24gdGhhdCB0YWtlcyBhIHZlY3RvciwgYW5kIGNyZWF0ZXMgYSB0ZXh0IGFydCBoaXN0b2dyYW0sIGxpa2UgdGhlIG9uZSBiZWxvdy4KCllvdSBtYXkgd2FudCB0byB1c2UgdGhlIGZ1bmN0aW9uIGNhdCgpLiBUaGlzIGlzIHNpbWlsYXIgdG8gcHJpbnQoKSwgYnV0IHByaW50cyBkaXJlY3RseSwgd2l0aG91dCB2ZWN0b3IgbWFya2Vycy4gWW91IGNhbiBhbHNvIGluY2x1ZGUgbmV3bGluZXMgIlxuIiB3aGVuIHVzaW5nIGNhdCgpLgoKRm9yIGV4YW1wbGUsIHRoZSB2ZWN0b3IgYygxLCAyLCAzLCA0LCA1LCAxLCAzLCA0LCA1LCAxLCAzLCA0LCA0LCAzLCAzLCAzLCAzKSBzaG91bGQgcHJvZHVjZSB0aGUgaGlzdG9ncmFtIGJlbG93IC0gdGhlIGhpc3RvZ3JhbSBkaXNscGF5cyB0aGUgbnVtYmVyIG9mIHRpbWVzIGVhY2ggbnVtYmVyIGFwcGVhcnMgaW4gdGhlIHZlY3Rvci4KCmBgYHtyfQpudW1faGlzdCA8LSBmdW5jdGlvbih4KXsKICAgICBvID0gc3VtKHg9PTEpCiAgICAgdCA9IHN1bSh4PT0yKQogICAgIHRoID0gc3VtKHg9PTMpCiAgICAgZiA9IHN1bSh4PT00KQogICAgIGZpID0gc3VtKHggPT01KQogICAgCiAgICBjYXQoIjF8IiwgcmVwKCIqIiwgbykpCiAgICBjYXQoIlxuIikKICAgIGNhdCgiMnwiLCByZXAoIioiLCB0KSkKICAgIGNhdCgiXG4iKQogICAgY2F0KCIzfCIscmVwKCIqIiwgdGgpKQogICAgY2F0KCJcbiIpCiAgICBjYXQoIjR8IiwgcmVwKCIqIiwgZikpCiAgICBjYXQoIlxuIikKICAgIGNhdCgiNXwiLCByZXAoIioiLCBmaSkpCiAgICAKICAgIAogIH0KYGBgCgpgYGB7cn0KdGVzdCA8LSBjKDEsMiwzLDQsMiwzLDQpCm51bV9oaXN0KHRlc3QpCmBgYAoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKMSBNVlAKCgpRdWVzdGlvbiAxLgpGaW5kIHRoZSB3ZWF0aGVyIGZvcmVjYXN0IGZvciB0aGUgbmV4dCB0aHJlZSBkYXlzIG9ubGluZS4gQ3JlYXRlIGEgbGlzdCBvZiBsaXN0cyBpbiB3aGljaCBlYWNoIGlubmVyIGxpc3Qgc2hvdWxkIGJlIGxhYmVsbGVkIHdpdGggdGhlIG5hbWUgb2YgdGhlIGRheSBvZiB0aGUgd2Vlay4gRWFjaCBpbm5lciBsaXN0IHNob3VsZCBjb250YWluIG5hbWVkIGVsZW1lbnRzIHRlbGxpbmcgeW91IHRoZSB0ZW1wZXJhdHVyZSwgY2hhbmNlIG9mIHJhaW4gYW5kIHdpbmQgc3BlZWQuCgpUaHUtMTI6MjEsIDIwJSwgN21waApGcmktMTEtMTksIDgwJSwgOW1waApTYXQtMTY6MjEsIDgwJSwgMTFtcGgKCmBgYHtyfQp3ZWF0aGVyIDwtIGxpc3QoCiAgVGh1ID0gbGlzdChUZW0gPSAiMTItMjEiLCBQcmUgPSAyMCwgV2luZCA9IDcgKSwKICBGcmkgPSBsaXN0KFRlbSA9ICIxMS0xOSIsIFByZSA9IDgwLCBXaW5kID0gOSApLAogIFNhdCA9IGxpc3QoVGVtID0gIjE2LTIxIiwgUHJlID0gODAsIFdpbmQgPSAxMSkKKQpgYGAKCgpRdWVzdGlvbiAyLgpVc2luZyB0aGUgbGlzdCB5b3XigJl2ZSBqdXN0IG1hZGUgZmluZDoKClRoZSBjaGFuY2Ugb2YgcmFpbiB0b21vcnJvdwpUaGUgd2luZCBzcGVlZCBvbiB0aGUgZGF5IGFmdGVyIHRvbW9ycm93ClRoZSB0ZW1wZXJhdHVyZSB0b21vcnJvdy4KYGBge3J9CndlYXRoZXIkVGh1JFByZQoKd2VhdGhlciRGcmkkV2luZAoKd2VhdGhlciRUaHUkVGVtCmBgYAoKClF1ZXN0aW9uIDMuCkZpbmQgYSAxNCBkYXkgZm9yZWNhc3Qgb25saW5lIGFuZCBjcmVhdGUgYSBtYXRyaXggb2YgdGhlIGZvcmVjYXN0cyBmb3IgdGVtcGVyYXR1cmUsIHdoZXJlIGVhY2ggd2VlayBpcyBvbmUgcm93IGFuZCBjb2x1bW5zIGNvcnJlc3BvbmQgdG8gZGF5cy4KCllvdSB3aWxsIHdhbnQgdG8gZ2l2ZSBhIG5hbWUgdG8gdGhlIG1hdHJpeCB5b3UgY3JlYXRlLgpgYGB7cn0Kd2VhdGhlcl8xNCA8LSBtYXRyaXgoYygiMjEvMTIiLCIxOS8xMSIsIjIxLzE2IiwiMTkvMTUiLCIxOC8xMiIsIjE5LzkiLCIxNy84IiwKICAiMTgvMTAiLCIxOC8xMSIsIjE4LzEzIiwiMTcvMTIiLCIxOS8xMSIsIjIwLzExIiwiMjIvMTEiKSwKICBucm93ID0gMiwgbmNvbCA9IDcsIGJ5cm93ID0gVFJVRSkKCmNvbG5hbWVzKHdlYXRoZXJfMTQpIDwtIGMoIlRodSIsIkZyaSIsIlNhdCIsIlN1biIsIk1vbiIsIlR1ZSIsIldlZCIpCnJvd25hbWVzKHdlYXRoZXJfMTQpIDwtIGMoIldlZWtfMSIsICJXZWVrXzIiKQp3ZWF0aGVyXzE0CmBgYAoKCgpRdWVzdGlvbiA0LgpGcm9tIHRoZSBtYXRyaXggeW91IGp1c3QgbWFkZSBzZWxlY3Q6CgpUaGUgdGhpcmQgZGF5IG9mIHRoZSBzZWNvbmQgd2VlawpUaGUgd2hvbGUgc2Vjb25kIHdlZWsKVGhlIGZpcnN0LCB0aGlyZCBhbmQgZmlmdGggZGF5cyBpbiBib3RoIHdlZWtzLgpgYGB7cn0Kd2VhdGhlcl8xNFsyLDNdCndlYXRoZXJfMTRbMixdCndlYXRoZXJfMTRbLGMoMSwzLDUpXQpgYGAKCgpRdWVzdGlvbiA1LgpXcml0ZSBhIGZ1bmN0aW9uIHRoYXQgcHJlLWFwcGVuZHMg4oCcVGhlIGFuc3dlciBpczrigJ0gdG8gYW55IGNoYXJhY3RlciBpbnB1dCwgd2hpbGUgZm9yIG51bWVyaWMgaW5wdXQsIGl0IGVpdGhlciBqdXN0IHJldHVybnMgdGhlIG51bWJlciBmb3IgbnVtYmVycyBsZXNzIHRoYW4gMTAsIG9yIGRpdmlkZXMgdGhlIG51bWJlciBieSAxMCBmb3IgbnVtYmVycyBncmVhdGVyIHRoYW4gMTAuIEZvciBhbnl0aGluZyBlbHNlIHJldHVybiDigJxJbnZhbGlkIGlucHV04oCdLgoKYGBge3J9CmFucyA8LSBmdW5jdGlvbih4KXsKICBpZihpcy5jaGFyYWN0ZXIoeCkpewogICAgcmV0dXJuKHBhc3RlKCJUaGUgYW5zd2VyICBpczoiLCB4KSkKICB9ZWxzZXsKICAgIGlmKGlzLm51bWVyaWMoeCkpewogICAgaWYoeDwxMCl7CiAgICAgIHJldHVybih4KQogICAgfWVsc2V7CiAgICAgIHJldHVybih4LzEwKQogICAgfQogICAgICB9ZWxzZXsKICAgIHJldHVybigiSW52YWxpZCBpbnB1dCIpCiAgfQogIH0KfQphbnMoNSkKYW5zKDIwKQphbnMoIkhpIikKYW5zKFRSVUUpCmBgYAoKClF1ZXN0aW9uIDYuCldyaXRlIGEgZnVuY3Rpb24gd2hpY2ggY2hlY2tzIGlmIHR3byB2ZWN0b3JzIGhhdmUgdGhlIHNhbWUgZWxlbWVudHMuCgpJZiB0aGV5IGhhdmUgdGhlIHNhbWUgZWxlbWVudHMgaW4gdGhlIHNhbWUgb3JkZXIsIHJldHVybiDigJxFeGFjdGx5IHRoZSBzYW1l4oCdCklmIHRoZXkgaGF2ZSB0aGUgc2FtZSBlbGVtZW50cyBidXQgaW4gYSBkaWZmZXJlbnQgb3JkZXIsIHJldHVybiDigJxUaGUgc2FtZeKAnQpJZiB0aGV5IGRvbuKAmXQgaGF2ZSB0aGUgc2FtZSBlbGVtZW50cywgcmV0dXJuIOKAnERpZmZlcmVudOKAnS4KSGludHMKWW91IGNhbiBjaGVjayBpZiB0d28gdmVjdG9ycyBoYXZlIHRoZSBzYW1lIGVsZW1lbnRzIGJ1dCBpbiBhIGRpZmZlcmVudCBvcmRlciBieSB1c2luZyBzb3J0IHRvIHNvcnQgZWFjaCB2ZWN0b3IgZmlyc3QgYW5kIHRoZW4gY2hlY2tpbmcgaWYgdGhleSBhcmUgZXF1YWwuCkhhdmUgYSBsb29rIGF0IHRoZSBhbGwoKSBmdW5jdGlvbgoKYGBge3J9CnNvcnQKc2FtZSA8LSBmdW5jdGlvbih4LHkpewogIGlmKGlkZW50aWNhbCh4LHkpKXsKICAgIHJldHVybigiRXhhY3RseSB0aGUgc2FtZSIpCiAgfWVsc2V7CiAgICBpZihpZGVudGljYWwoc29ydCh4KSwgc29ydCh5KSkpewogICAgICByZXR1cm4oIlRoZSBzYW1lIikKICAgIH1lbHNlewogICAgICByZXR1cm4oIkRpZmZlcmVudCIpCiAgICB9CiAgfQogICAgCn0KCmEgPC0gYygxLDIsMykKYiA8LSBjKDIsMywxKQpjIDwtIGMoNCw1LDYpCmQgPC0gYygxLDIsMykKCnNhbWUoYSxiKQpzYW1lKGEsYykKc2FtZShhLGQpCmBgYAoKCgpRdWVzdGlvbiA3LgpXcml0ZSBjb2RlIHRoYXQgcHJpbnRzIGEgbXVsdGlwbGljYXRpb24gdGFibGUgZm9yIG51bWJlcnMgdXAgdG8gMTIuIGkuZS4gdGhlcmUgd2lsbCBiZSAxMiByb3dzIGFuZCAxMiBjb2x1bW5zLCBhbmQgZWFjaCBlbGVtZW50IHNob3VsZCBiZSB0aGUgcm93IG51bWJlciBtdWx0aXBsaWVkIGJ5IHRoZSBjb2x1bW4gbnVtYmVyLgpgYGB7cn0KI0Rvbid0IGtub3cgd2hhdCBpdCBtZWFucyBieSAiV3JpdGUgY29kZSIgRnVuY3Rpb24/IG9yIGNyZWF0ZSBhIG1hdHJpeD8KbSA8LSBtYXRyaXgobnJvdz0xMixuY29sPTEyKQoKbnVtX3Jvd3MgPC0gZGltKG0pWzFdCm51bV9jb2xzIDwtIGRpbShtKVsyXQoKZm9yKHIgaW4gMTpudW1fcm93cyl7ICAKICBmb3IoYyBpbiAxOm51bV9jb2xzKXsgCiAgICAgbVtyLCBjXSA8LXIqYwogIH0KfQoKbQoKIzE6MTIgJSolIDE6MTIgIGlzIHRoZSBzYW1lIGFzIGFib3ZlIAojIGlzbid0IGl0IHRoZSBzYW1lIGFzIHdlIGRpZCB0aGlzIGFmdGVybm9vbj8gSSBkb24ndCB0aG5rIHRoYXQgSSB1bmRlcnN0YW5kIHRoaXMgcXVlc3Rpb24gCmBgYAoKCgoKUXVlc3Rpb24gOC4KV3JpdGUgYSBmdW5jdGlvbiB0aGF0IHRha2VzIGEgdmVjdG9yLCBhbmQgY3JlYXRlcyBhIHRleHQgYXJ0IGhpc3RvZ3JhbSwgbGlrZSB0aGUgb25lIGJlbG93LgoKWW91IG1heSB3YW50IHRvIHVzZSB0aGUgZnVuY3Rpb24gY2F0KCkuIFRoaXMgaXMgc2ltaWxhciB0byBwcmludCgpLCBidXQgcHJpbnRzIGRpcmVjdGx5LCB3aXRob3V0IHZlY3RvciBtYXJrZXJzLiBZb3UgY2FuIGFsc28gaW5jbHVkZSBuZXdsaW5lcyAiXG4iIHdoZW4gdXNpbmcgY2F0KCkuCgpGb3IgZXhhbXBsZSwgdGhlIHZlY3RvciBjKDEsIDIsIDMsIDQsIDUsIDEsIDMsIDQsIDUsIDEsIDMsIDQsIDQsIDMsIDMsIDMsIDMpIHNob3VsZCBwcm9kdWNlIHRoZSBoaXN0b2dyYW0gYmVsb3cgLSB0aGUgaGlzdG9ncmFtIGRpc2xwYXlzIHRoZSBudW1iZXIgb2YgdGltZXMgZWFjaCBudW1iZXIgYXBwZWFycyBpbiB0aGUgdmVjdG9yLgoKYGBge3J9Cm51bV9oaXN0IDwtIGZ1bmN0aW9uKHgpewogICAgIG8gPSBzdW0oeD09MSkKICAgICB0ID0gc3VtKHg9PTIpCiAgICAgdGggPSBzdW0oeD09MykKICAgICBmID0gc3VtKHg9PTQpCiAgICAgZmkgPSBzdW0oeCA9PTUpCiAgICAKICAgIGNhdCgiMXwiLCByZXAoIioiLCBvKSkKICAgIGNhdCgiXG4iKQogICAgY2F0KCIyfCIsIHJlcCgiKiIsIHQpKQogICAgY2F0KCJcbiIpCiAgICBjYXQoIjN8IixyZXAoIioiLCB0aCkpCiAgICBjYXQoIlxuIikKICAgIGNhdCgiNHwiLCByZXAoIioiLCBmKSkKICAgIGNhdCgiXG4iKQogICAgY2F0KCI1fCIsIHJlcCgiKiIsIGZpKSkKICAgIAogICAgCiAgfQpgYGAKCmBgYHtyfQp0ZXN0IDwtIGMoMSwyLDMsNCwyLDMsNCkKbnVtX2hpc3QodGVzdCkKYGBgCgptYWtlX2hpc3RvZ3JhbSA8LSBmdW5jdGlvbih4KXsKICAKICBkaXN0aW5jdCA8LSBzb3J0KHVuaXF1ZSh4KSkgICA8PT09PSBpdCdzIGluIG9yZGVyIAogIAogIGZvciAoaSBpbiBkaXN0aW5jdCl7CiAgICAKICAgIGNvdW50IDwtIHN1bSh4ID09IGkpCiAgICAKICAgIGNhdChpKQogICAgY2F0KCIgfCAiKQogICAgY2F0KHJlcCgiKiIsIGNvdW50KSkKICAgIGNhdCgiXG4iKQogICAgCiAgfQogIAp9</div>
 
 
 

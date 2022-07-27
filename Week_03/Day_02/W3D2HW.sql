@@ -144,6 +144,10 @@ SELECT DISTINCT (employee_id), count(committee_id) AS num_comm
 FROM employees_committees
 GROUP BY employee_id; 
 
+SELECT 
+  count(DISTINCT(employee_id)) AS num_employees_on_committees
+FROM employees_committees;
+
 
 /*
 Question 6.

@@ -186,12 +186,33 @@ those employees with a stored start_date.
 */
 
 SELECT 
-concat(first_name ,' ', last_name ,'-', department,'(joined ',
---EXTRACT (MONTH FROM to_char(start_date, 'Mon-DD-YYYY')),'-', 
-EXTRACT (YEAR FROM start_date),')')
+concat(first_name ,' ', last_name ,' - ', department,'(joined ',
+       to_char(start_date, 'Mon'),'-', 
+       EXTRACT (YEAR FROM start_date),')')
 FROM employees;
 
+
 --I don't know how to chnage the month from number to words...
+/*
+ * select
+ * fn,
+ * ln,
+ * depart,
+ * start_date
+ * concat(first_n, ' ', last_n, '-', depart, '(joined',
+ * extract(Year from start_date),  ')') as badge_label
+ * from employees
+ * where f-date is not null;
+ * 
+ * 
+ * 
+ * select
+ * extract(year from now()), 1, 'hello'
+ * 
+ * select
+ * extract(year from now()),
+ *  to_char(now(), 'Month')
+ */
 
 /*
 Question 18.

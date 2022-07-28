@@ -258,6 +258,19 @@ GROUP BY id, first_name, last_name, salary;
   
                     
 
+
+WITH biggest_dept_details(name, avg_salary, avg_fte_hours) AS (
+  SELECT 
+     department,
+     AVG(salary),
+     AVG(fte_hours)
+  FROM employees
+  GROUP BY department
+  ORDER BY COUNT(id) DESC NULLS LAST
+  LIMIT 1
+)
+
+-- can do more than one col 
 /*
  [Extension - really tough! - how could you generalise your query 
 to be able to handle the fact that two or more departments may be tied in their counts of employees. 
@@ -312,22 +325,29 @@ Hints
 You likely want to count DISTINCT() employees in each salary_class
 You will need to GROUP BY salary_class
 */
-SELECT count(DISTINCT(e.id), 
-CASE
-    WHEN salary < 40000 THEN 'low'
-    WHEN salary >=  40000 THEN 'high'
+SELECT CASE
+    WHEN e.salary < 40000 THEN 'low'
+    WHEN e.salary >=  40000 THEN 'high'
     ELSE 'none' 
-    END AS salary_class
+    END AS salary_class,
+    count(DISTINCT(e.id)) 
 FROM employees AS e 
 INNER JOIN employees_committees AS ec ON ec.employee_id = e.id 
-GROUP BY CASE
-    WHEN salary < 40000 THEN 'low'
-    WHEN salary >=  40000 THEN 'high'
-    ELSE 'none'
-END;
+GROUP BY salary_class;
 
 
-
+SELECT 
+  CASE 
+    WHEN e.salary < 40000 THEN 'low'
+    WHEN e.salary IS NULL THEN 'none'
+    ELSE 'high' 
+  END AS salary_class,
+  COUNT(DISTINCT(e.id)) AS num_committee_members
+FROM employees AS e INNER JOIN employees_committees AS ec
+ON e.id = ec.employee_id
+INNER JOIN committees AS c
+ON ec.committee_id = c.id
+GROUP BY salary_class
 
 
 

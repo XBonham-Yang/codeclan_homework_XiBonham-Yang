@@ -113,27 +113,46 @@ All plots should use colours from the following company colour scheme.
 ```{r}
 col_scheme <- c("#E89FE9", "#50434F", "#B6A7B5", "#F9A472", "#BD7040")
 
-my_theme <- function(base_size = 12) {
-  theme( panel.background = element_rect(fill = "white", colour = "grey"),
-         panel.grid.major = element_line(colour = "grey",
+my_theme <- function() {
+  theme( text = element_text(size = 12),
+         panel.background = element_rect(fill = "white", colour = "grey"),
+         panel.grid = element_line(colour = "grey",
                                          linetype = 2, 
                                         size = 0.1),
+         title = element_text(size = 16),
          axis.text = element_text(size = 8),
          axis.title = element_text(size = 8)
   )
 }
-my_theme <- list(my_theme, scale_colour_manual(values = col_scheme), scale_fill_manual(values = col_scheme))
+
 ```
 
 
 
 
 ```{r}
+#plot 1
 revenue %>% 
   ggplot(aes(x = Product, y = Revenue))+
   geom_col(aes(fill = Year)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))+
   labs(title = "Sources of revenue across 2018 and 2019\n")+
-  my_theme
+  my_theme()+scale_fill_manual(values = col_scheme)
+  
 ```
+
+
+```{r}
+sales %>% 
+  filter(Cashflow == "Kwikbit Unit 1 Sales") %>% 
+  ggplot() +
+  geom_line(aes(x = Date, y = Amount, group = Cashflow),
+            colour = col_scheme[1], size = 4)+
+  labs(title = "Sale of KwikBit Unit 1\n")+
+  my_theme()
+```
+
+
+
+
 

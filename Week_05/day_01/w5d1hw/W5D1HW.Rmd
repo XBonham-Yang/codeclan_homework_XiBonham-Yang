@@ -1,0 +1,139 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Data:
+qb_revenue_breakdown
+qb_monthly_sales
+qb_competitors
+qb_device_data
+```{r}
+library(tidyverse)
+```
+```{r}
+revenue <- CodeClanData::qb_revenue_breakdown
+sales <-CodeClanData::qb_monthly_sales
+competitors <- CodeClanData::qb_competitors
+device <- CodeClanData::qb_device_data
+```
+
+2 MVP
+2.1 Part 1
+Question 1.
+Take the data in the dataset qb_revenue_breakdown and make a stacked bar chart showing the sources of revenue across the two years in the dataset.
+```{r}
+revenue %>% 
+  ggplot(aes(x = Product, y = Revenue))+
+  geom_col(aes(fill = Year)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  labs(title = "Sources of revenue across 2018 and 2019\n")
+```
+
+Question 2.
+Make a line chart showing monthly sales of the “flagship product” - the ‘KwikBit Unit 1’ - over the last year. This data is inside qb_monthly_sales, but you will need to use filter() or subset() (base R).
+```{r}
+sales %>% 
+  filter(Cashflow == "Kwikbit Unit 1 Sales") %>% 
+  ggplot() +
+  geom_line(aes(x = Date, y = Amount, group = Cashflow),
+            colour = "pink", size = 4)+
+  labs(title = "Sale of KwikBit Unit 1\n")
+```
+
+
+
+Question 3.
+Make a line chart showing monthly revenue and costs over the last year. This data is also in qb_monthly_sales.
+```{r}
+sales %>% 
+  filter(Cashflow == "Total Revenue") %>% 
+  ggplot() +
+  geom_line(aes(x = Date, y = Amount, group = Cashflow),
+            colour = "lightblue", size = 4)+
+  labs(title = "Cost of revenue\n")
+```
+
+
+Question 4.
+Show annual sales of personal fitness trackers over the last 5 years broken down by company as a ribbon plot (use geom_area). This data is in qb_competitors.
+```{r}
+competitors %>% 
+  ggplot(aes(x = Year,
+             y = Revenue))+
+  geom_area(aes(group = Company,
+            fill = Company))+
+  labs(title = "Sale of personal fitness tracker over last 5 years")
+```
+
+Question 5.
+Now show the sales from the four competitors as a line graph. Include an extra layer that shows the data points used to make the lines.
+```{r}
+competitors %>% 
+  ggplot(aes(x = Year,
+             y = Revenue))+
+  geom_line(aes(group = Company,
+            colour = Company),
+            size = 2,
+            alpha = 0.5)+
+  geom_point(aes(colour = Company),
+             size = 3)+
+  labs(title = "Sale of personal fitness tracker over last 5 years",
+       subtitle = "As line graph\n")
+```
+
+
+Question 6.
+Now the company wants to compare the number of steps that their device counts vs. their competitors. Make a line graph of the number of steps throughout time, and use faceting to compare between companies and people. The data for this is in qb_device_data.
+```{r}
+device %>% 
+  unite(time, c(hours, mins), sep = ".") %>% 
+  mutate(time = as.numeric(time)) %>% 
+  ggplot(aes(x= time, y = counts)) +
+  geom_line(aes(group = id, colour = id))+
+  facet_grid(id~device,scales = "free_y")+
+  labs(title = "Compare of Steps Counts between Companies\n")
+```
+
+
+
+2.2 Part 2
+Question 1.
+Take the plots that you produced in part one and now polish them by:
+
+Adding appropriate labels
+Changing the scales and coordinates when appropriate.
+
+Applying a unified theme, which is described below:
+Graphs should have white backgrounds, and use colour .
+There should be faint grid lines.
+Font sizes should be ~12pt although titles should be slightly larger and axis labels can be slightly smaller.
+All plots should use colours from the following company colour scheme.
+
+
+```{r}
+col_scheme <- c("#E89FE9", "#50434F", "#B6A7B5", "#F9A472", "#BD7040")
+
+my_theme <- function(base_size = 12) {
+  theme( panel.background = element_rect(fill = "white", colour = "grey"),
+         panel.grid.major = element_line(colour = "grey",
+                                         linetype = 2, 
+                                        size = 0.1),
+         axis.text = element_text(size = 8),
+         axis.title = element_text(size = 8)
+  )
+}
+my_theme <- list(my_theme, scale_colour_manual(values = col_scheme), scale_fill_manual(values = col_scheme))
+```
+
+
+
+
+```{r}
+revenue %>% 
+  ggplot(aes(x = Product, y = Revenue))+
+  geom_col(aes(fill = Year)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  labs(title = "Sources of revenue across 2018 and 2019\n")+
+  my_theme
+```
+

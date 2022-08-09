@@ -1,0 +1,125 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+deliveries <- read_csv("data/late_deliveries.csv")
+recovery <- read_csv("data/recovery_times.csv")
+fitness <- read_csv("data/fitness_levels.csv")
+```
+
+```{r}
+deliveries <- deliveries %>% 
+  mutate(year = str_sub(date, 0,4))
+
+ggplot(deliveries)+
+  aes(year, late_deliveries)+
+  geom_col(aes(fill = year))+
+   labs(x = "\nYears",
+       y = "Late Deliveries",
+       title = "Late Deliveries by Year\n")
+```
+```{r}
+recovery%>% 
+  ggplot(aes(x = reorder(treatment_group, recovery),
+             y = recovery,
+             fill = prognosis)) + 
+  geom_col() +
+  labs(x = "\nTreatment Group",
+       y = "Recovery Time",
+       title = "Recovery time of different treatments\n",
+       fill = "Prognosis")
+```
+```{r}
+ggplot(fitness)+
+  aes(child, fitness_score)+
+  geom_point(aes(colour = group))+
+  facet_grid(~age)+
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank())
+```
+
+```{r}
+fitness %>%
+  group_by(group, age) %>% 
+  mutate(mean_group_score = mean(fitness_score)) %>%
+  mutate(group = as_factor(group)) %>% 
+  ggplot() +
+  aes(x = age, y = mean_group_score, group = group, colour = group) +
+  geom_line()
+```
+
+
+```{r}
+ggplot(fitness)+
+  aes(age, fitness_score)+
+  geom_point(aes(group = child))+
+  facet_grid(~group)+
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank())
+```
+connection 
+```{r}
+blood <- read_csv("data/blood_pressure.csv")
+car <- read_csv("data/car_use.csv")
+```
+```{r}
+colnames(blood)
+```
+
+```{r}
+ggplot(blood)+
+  aes(x = daily_saturated_fat_intake_mg, y = systolic_blood_pressure_mm_hg)+
+  geom_point()+
+  geom_smooth()+
+  labs(x = "Daily fat intake (mg)",
+       y = "Blood pressure (hg)",
+       title = "Daily fat intake vs Blood pressure\n")
+```
+```{r}
+colnames(car)
+```
+
+```{r}
+ggplot(car)+
+  aes(x = car_use_percent, y = air_so2_concentration_ppm)+
+  geom_point(aes(size = population), colour = "lightblue",
+             alpha = 0.5)+
+  labs(x = "Car use percentage",
+       y = "Air SO2 Concentration(ppm)",
+       title = "SO2 concentration VS car use percentage\n")
+```
+
+```{r}
+d20 <- read_csv("data/d20_outcomes.csv")
+d20_5 <- read_csv("data/d20x5_outcomes.csv")
+```
+
+```{r}
+ggplot(d20)+
+  aes(outcome)+
+  geom_bar(fill = "pink", colour = "white")+
+  scale_x_continuous(
+    breaks = (0:22)
+  )+
+  labs(x = "Outcome",
+       y = "Count",
+       title = "D20 outcomes\n")
+```
+
+```{r}
+ggplot(d20_5)+
+  aes(outcome)+
+  geom_bar(fill = "pink", colour = "white")+
+  scale_x_continuous(breaks=seq(15,95,5))+
+  labs(x = "Outcome",
+       y = "Count",
+       title = "D20_5 Outcomes\n")
+```
+
+
+
+
+

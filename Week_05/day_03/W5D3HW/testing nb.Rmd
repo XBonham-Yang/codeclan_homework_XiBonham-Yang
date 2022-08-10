@@ -1,0 +1,29 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+colnames(students)
+```
+```{r}
+students %>% 
+  select(region) %>% 
+  distinct() %>% 
+  pull()
+```
+c("Home Counties", "North East","South West", "West Midlands" ,"North West",
+"South" ,"East", "East Midlands", "South East")
+
+"score_in_memory_game"81dbl , "reaction_time"112dbl ,
+"region"29chr ,"ageyears" 9dbl 
+```{r}
+students %>% 
+  filter(region == "North East", gender == "M") %>% 
+  ggplot()+
+  aes(x = score_in_memory_game, y = reaction_time) +
+  geom_point(aes(colour = as.factor(ageyears))) +
+  labs(x = "\nMemory game score",
+       y = "Reaction time",
+       colour = "Age")
+```
+

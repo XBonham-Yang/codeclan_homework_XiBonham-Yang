@@ -1,0 +1,214 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+2 MVP
+
+
+Question 1.
+
+Load in the libraries you need, and look at the backpack data. Take note of variable names and dimensions.
+```{r}
+library(tidyverse)
+backpack <- CodeClanData::backpack
+colnames(backpack)
+dim(backpack)
+```
+
+Question 2.
+
+What is the distribution of backpack weights that students are carrying? Choose an appropriate graph to show the distribution.
+```{r}
+ggplot(backpack)+
+  aes(x = backpack_weight)+
+  geom_bar(fill = "seagreen")+
+  labs(x = "Backpack Weight",
+       y = "Count",
+       title = "Distribution of Backpack Weight")+
+  scale_y_continuous(breaks = (0:12))
+
+#The graph shows a rough normal distribution with the center around 10. 
+#Towards the higher end there are some gaps in the graph
+```
+
+Question 3.
+
+Are there differences in backpack weight between sex?
+```{r}
+ggplot(backpack)+
+  aes(x = backpack_weight)+
+  geom_bar(aes(fill = sex))+
+  facet_grid(~sex)+
+  labs(x = "Backpack Weight",
+       y = "Count",
+       title = "Distribution of Backpack Weight\n")+
+  scale_y_continuous(breaks = (0:12))
+#Female has a higher backpack weight on average. 
+```
+
+Question 4.
+
+What is the relationship between body weight and backpack weight?
+```{r}
+ggplot(backpack)+
+  aes(x = body_weight, y = backpack_weight)+
+  geom_point(colour = "blue")+
+  geom_smooth()+
+  labs(y = "Backpack Weight",
+       x = "Body Weight",
+       title = "Backpack Weight vs Body Weight")
+
+#Doesn't seem to have a clear corelation 
+  
+```
+
+
+Question 5.
+
+Is this relationship different between men and women? Choose an appropriate plot and interpret your findings.
+```{r}
+ggplot(backpack)+
+  aes(x = body_weight, y = backpack_weight)+
+  geom_point(aes(colour = sex))+
+  facet_wrap(~sex, scales ="free")+
+  geom_smooth()+
+  labs(y = "Backpack Weight",
+       x = "Body Weight",
+       title = "Backpack Weight vs Body Weight",
+       subtitle = "Compareing between men and women")
+#No corelation still 
+```
+
+Question 6.
+
+What proportion of students report back pain?
+```{r}
+backpack_p <- backpack %>% 
+  mutate(back_problems = ifelse(back_problems == 1,"Back Pain", "No Back Pain"))
+
+ggplot(backpack_p)+
+  aes(y = back_problems, x = "",fill = back_problems)+
+  geom_bar(width = 1, stat = "identity")+
+  coord_polar("y", start = 0) + 
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank())+
+  labs(x = "",
+       y = "",
+       title = "Back problems among students\n",
+       fill = "Back Problems")
+
+  #Most students don't have back problems but it's till a high percentage 
+```
+
+Question 7.
+
+Is this proportion different between men and women?
+```{r}
+ggplot(backpack_p)+
+ aes(x=sex, fill=back_problems) +
+ geom_bar(position = "fill") +
+ facet_grid(~sex)+
+ coord_polar("y", start = 0)+
+ theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank(),
+       axis.ticks.y = element_blank(),
+        axis.text.y = element_blank())+
+  labs(x = "",
+       y = "",
+       title = "Back problems among students",
+       subtitle = "Male vs female\n",
+       fill = "Back Problems",)
+#Higher percentage female experience back pain, it's a lot higher than male. 
+```
+
+Question 8.
+
+Now you’ve investigated your data separately, create plots to describe the relationship between backpack weight, body weight, gender and reported backpain.
+
+Try both backpack_weight and body_weight as well as the ratio.
+
+Hint: faceting would be useful here.
+```{r}
+ggplot(backpack_p)+
+  aes(x=backpack_weight, y=body_weight)+
+  geom_point(aes(shape = back_problems, colour = sex))+
+  facet_grid(back_problems~sex)+
+  geom_smooth()+
+  labs(x = "Backpack weight",
+       y = "Body weight",
+       title = "Body weight/Backpack weight relationsip with back problems")
+#there is not clear correlation between body weight and backpack weight
+#only few male experiecen back pain
+```
+```{r}
+ggplot(backpack_p)+
+  aes(x=back_problems, y = ratio, fill=back_problems) +
+  geom_boxplot() + 
+  geom_jitter(width=0.1,alpha=0.2) +
+  labs(x = "Back Problems",
+       y = "Ratio",
+       title = "Ratio vs Back Problems")
+#people have back pain has a higher mean ratio 
+```
+```{r}
+ggplot(backpack_p)+
+  aes(x=back_problems, y = ratio, fill=back_problems) +
+  geom_boxplot() + 
+  geom_jitter(width=0.1,alpha=0.2) +
+  facet_grid(~sex)+
+  labs(x = "Back Problems",
+       y = "Ratio",
+       title = "Ratio vs Back Problems",
+       subtitle = "for both female and male")
+#people have back pain has a higher mean ratio 
+#male has slight lower ratio and lower percentage of back pain 
+```
+
+
+
+
+
+3 Extensions
+
+
+Question 1.
+
+Does reported backpain differ across the year groups? Ignore year 0 in your data.
+```{r}
+backpack_p %>% 
+  filter(year != 0) %>% 
+  ggplot(aes(x=year))+
+  geom_bar(aes(fill = back_problems),position = "fill") +
+  labs(x = "Years",
+       y = "Percentage",
+       title = "Back pain across years\n",
+       fill = "Back pain")+
+  scale_x_continuous(breaks = (1:6))
+#year 3 has the highest percentage of backpain reports
+#year6 has no backpain reported. 
+```
+
+
+Question 2.
+
+Is there a difference between how heavy the bags those in different years carry?
+```{r}
+backpack_mean <- backpack %>% 
+  group_by(year) %>% 
+  summarise(mean = mean(backpack_weight)) %>% 
+  filter(year != 0)
+
+
+ggplot(backpack_mean)+
+  aes(x = year, y = mean)+
+  geom_line(colour = "pink", size = 2)+
+  geom_point(colour = "red4", size = 3)+
+  scale_x_continuous(breaks = (1:6))+
+  labs(x = "Year",
+       y = "Mean backpack weight",
+       title = "Backpack weight across all years\n")
+#the graph shows a clear increase from year 1 to 5 and a sharp drop at year 6
+#The data from year 6 is not a lot, this could be why
+#it also explains why year 6 has no backpain reports 
+```
+

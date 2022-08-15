@@ -1,0 +1,142 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Calculate the  and  to settle this dispute.
+create a crew column containing values TRUE or FALSE to help with this
+For prob(survived∣crew) think ‘what proportion of the crew survived?’, and similar for prob(survived∣passenger)
+You may want to use prob and gtools later in the homework
+```{r}
+library(tidyverse)
+library(gtools)
+titanic <- read_csv('data/titanic.csv')
+source('prob.R')
+```
+have a look at the data
+```{r}
+titanic %>% 
+  distinct(survived)
+```
+```{r}
+titanic_s <- titanic %>% 
+  select(class, survived) %>% 
+  mutate(is_passenger = case_when(class %in% c('3rd','2nd','1st') ~ TRUE,
+                           TRUE ~ FALSE)) %>% 
+  mutate(survived = case_when(survived == 'no' ~ FALSE,
+                              TRUE ~ TRUE))
+titanic_s
+```
+```{r}
+library(janitor)
+titanic_s %>% 
+   tabyl(survived, is_passenger) %>% 
+  adorn_percentages(denominator = 'all') %>% 
+  adorn_title()
+#for me to check my answers 
+
+crew_percent <- titanic_s %>% 
+  filter(!is_passenger) %>% 
+  summarise(n()/nrow(titanic_s))
+
+pass_precent <- 1 - pass_percent
+
+survived_percent <- titanic_s %>% 
+  filter(survived) %>% 
+  summarise(n()/nrow(titanic_s))
+
+not_survived_percent <- 1 - survived_percent
+
+crew_percent #0.40326
+pass_precent #0.59673
+survived_percent # 0.3221
+not_survived_percent #0.6778
+```
+
+
+prob(survived∣crew) from above maths prob = 0.0956/0.40326 = 0.237
+
+```{r}
+titanic_s %>% 
+  filter(!is_passenger) %>% 
+  summarise(prob = mean(survived))
+```
+
+
+prob(survived∣passenger)  by maths prob = 0.22655/0.59673 = 0.379
+```{r}
+titanic_s %>% 
+  filter(is_passenger) %>% 
+  summarise(prob = mean(survived))
+```
+passenger is more likely to survive 
+
+--------------------------------------------
+
+Question 1.
+If I roll a six-sided dice once, what is the probability of getting a number less than 5?
+```
+P(a < 5) = 4/6 = 2/3
+```
+
+
+Question 2.
+How many outcomes are there in the sample space of an experiment in which we toss three dice?
+```
+6*6*6*6= 1296
+```
+
+
+Question 3.
+In an experiment where we roll four dice:
+
+how many outcomes are in the event where the total of the four dice equals 5, 6 or 7)?
+```{r}
+four_dice <- rolldie(4)
+
+num_5_6_7 <- four_dice %>% 
+  mutate(total = X1 + X2 + X3 + X4) %>% 
+  filter(total %in% c(5,6,7)) %>% 
+  summarise(num = n())
+
+#34 outcomes 
+```
+
+what is the probability of this event?
+```{r}
+four_dice %>% 
+  mutate(total = X1 + X2 + X3 + X4) %>% 
+  filter(total %in% c(5,6,7)) %>% 
+  summarise(prob = n()/nrow(four_dice))
+
+#0.0262
+```
+what assumptions do we apply in answering part ii?
+
+_the event_ means roll a total of 5 OR 6 OR 7
+
+
+Question 4.
+Five chairs are placed in a row in a room, along with five people of differing height. The people sit down randomly on the chairs. What is the probability that they sit in order of decreasing height, left to right?
+```{r}
+1/5 * 1/4 * 1/3 *1/2 = 1/120
+```
+
+
+Question 5.
+I roll _six dice_:
+what is the probability I see the numbers 6, 5, 4, 3, 2 and 1 in order on the dice, left to right?
+```
+1/6 ^6 = 1/46656
+```
+what is the probability I see one each of the numbers 6, 5, 4, 3, 2 and 1 on the dice regardless of order?
+```
+(1/46656)/(6!)= 0.0154
+```
+
+Question 6.
+If I draw a single card from a 52-card deck, and it is black, what is the probability that its suit is spades?
+```
+(1/8) / (1/2) = 1/4
+```
+

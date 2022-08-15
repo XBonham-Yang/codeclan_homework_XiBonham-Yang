@@ -6,7 +6,6 @@ games <- CodeClanData::game_sales
 genre <- unique(games$genre)
 # ui ----------------------------------------------------------------------
 
-
 ui <- fluidPage(
     theme = bs_theme(bootswatch = 'sketchy'),
   

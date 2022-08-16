@@ -85,6 +85,7 @@ How many outcomes are there in the sample space of an experiment in which we tos
 ```
 6*6*6*6= 1296
 ```
+#i did 4 dice for some reason ....
 
 
 Question 3.
@@ -138,5 +139,6 @@ Question 6.
 If I draw a single card from a 52-card deck, and it is black, what is the probability that its suit is spades?
 ```
 (1/8) / (1/2) = 1/4
-```
 
+```
+I didn't know black only has two suits, i thought both red and black has 4 

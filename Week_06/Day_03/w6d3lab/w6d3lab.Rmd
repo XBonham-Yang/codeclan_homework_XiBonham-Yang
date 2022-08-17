@@ -1,0 +1,143 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Load and explore the data held in heart.csv. A data dictionary is also available.
+```{r}
+library(janitor)
+library(tidyverse)
+heart <- read_csv('data/heart.csv')
+```
+
+
+Plot a histogram and/or boxplot for thalach (maximum heart rate achieved in stress testing). How normal is the distribution?
+```{r}
+heart %>% ggplot(aes(thalach))+
+  geom_boxplot()
+```
+
+```{r}
+heart %>% ggplot(aes(thalach))+
+  geom_histogram()
+```
+
+
+
+Also plot a barplot of exang (whether the patient displayed exercise induced angina)
+```{r}
+heart %>% 
+  ggplot(aes(x = exang))+
+  geom_bar()
+```
+
+Now calculate population parameters: what is the mean thalach in the population. What proportion of patients have exercise induced angina (exang)?
+```{r}
+sum_heart <- heart %>% 
+  summarise(
+    mean_thalach = mean(thalach),
+    prop_exang = mean(exang)
+  )
+sum_heart
+```
+
+Now take a single sample of 50-patients from the population and calculate point estimates for mean thalach and proportion of exang from this sample (let’s call these mean_thalach and prop_exang going forward).
+[Hint - use rep_sample_n() from the infer package to do this]
+```{r}
+library(infer)
+sample_50 <- heart %>%
+  rep_sample_n(size = 50, reps = 1)
+
+sum_50 <- sample_50 %>% 
+  ungroup() %>% 
+  summarise(
+    mean_thalach = mean(thalach),
+    prop_exang = mean(exang)
+  )
+sum_50
+```
+
+What are the sampling errors of these point estimates?
+[Hint - remember a sampling error is defined as the difference between a point estimate drawn from a sample, and a population parameter]
+```{r}
+sum_heart %>% 
+  summarise(
+    se_mean_thalach = sum_heart$mean_thalach - sum_50$mean_thalach,
+    se_prop_exang = sum_heart$prop_exang - sum_50$prop_exang
+  )
+```
+
+Now we’re going to repeatedly sample 50-patients from the population and build up sampling distributions for the mean_thalach and prop_exang point estimates. Take 5000 samples and store the sampling distributions in a variable rep_sample_50.
+[Hint - again, use rep_sample_n() to do this.]
+```{r}
+rep_sample_50 <- heart %>%
+  rep_sample_n(size = 50, reps = 5000)
+rep_sample_50 
+```
+
+
+Visualise the sampling distributions of mean_thalach and prop_exang as histograms. How normal do the sampling distributions look?
+```{r}
+sum_rep_sample_50 <- rep_sample_50%>% 
+  summarise(
+    mean_thalach = mean(thalach),
+    prop_exang = mean(exang)
+  ) 
+
+sum_rep_sample_50 %>% 
+ ggplot(aes(x = mean_thalach)) + 
+  geom_histogram(col = "white")
+
+sum_rep_sample_50 %>% 
+ ggplot(aes(x = prop_exang)) + 
+  geom_histogram(col = "white")
+```
+
+
+Obtain standard errors of the sampling distribution of mean_thalach and prop_exang directly as the standard deviations of the sampling distributions held in rep_sample_50
+```{r}
+std_errs <- sum_rep_sample_50 %>%
+  summarise(
+    se_mean_thalach = sd(mean_thalach),
+    se_prop_exang = sd(prop_exang)
+  )
+std_errs
+```
+
+
+Repeat steps 7. and 9. (omitting step 8.) once more with samples of size 100-patients, and again with samples of size 200-patients. How do the standard errors of mean_thalach and prop_exang change as sample size increases? Does the uncertainty in the calculated statistics increase or decrease as sample size increases?
+[Hint - it’s OK to copy, paste and alter code to do this!]
+```{r}
+rep_sample_100 <- heart %>%
+  rep_sample_n(size = 100, reps = 5000) %>% 
+  summarise(
+    mean_thalach = mean(thalach),
+    prop_exang = mean(exang)
+  ) 
+
+std_errs_100 <- rep_sample_100 %>%
+  summarise(
+    se_mean_thalach = sd(mean_thalach),
+    se_prop_exang = sd(prop_exang)
+  )
+
+rep_sample_200 <- heart %>%
+  rep_sample_n(size = 200, reps = 5000) %>% 
+  summarise(
+    mean_thalach = mean(thalach),
+    prop_exang = mean(exang)
+  ) 
+
+std_errs_200 <- rep_sample_200 %>%
+  summarise(
+    se_mean_thalach = sd(mean_thalach),
+    se_prop_exang = sd(prop_exang)
+  )
+std_errs_100
+std_errs_200
+```
+
+
+
+
+
+

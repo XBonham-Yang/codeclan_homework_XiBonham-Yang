@@ -1,0 +1,91 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Question 1.
+Load the data, clean_names() and explore it.
+
+```{r}
+library(janitor)
+library(tidyverse)
+phone <- read_csv('data/20190928-items.csv') %>% clean_names()
+```
+
+
+Question 2.
+Find the brand with the highest numbers of phones in the dataset.
+```{r}
+phone %>% 
+  group_by(brand) %>% 
+  count() %>% 
+  arrange(desc(n))
+#samsung 397
+```
+
+
+
+Question 3.
+For your top brand, plot the distribution of phone ratings as a probability density, overlaying a fitted normal distribution. Do you think the normal distribution provides a good model of these ratings?
+Hint
+You will need to calculate the mean() and sd() of the ratings to plot the appropriate normal distribution. Alternatively, investigate using the fitdistr() function in the MASS package]
+```{r}
+Samsung <- phone %>%
+  select(brand, rating) %>% 
+  filter(brand == "Samsung") %>%
+  summarise(
+    num = n(),
+    mean = mean(rating),
+    sd = sd(rating)
+  )
+Samsung
+```
+```{r}
+phone %>% 
+  filter(brand == 'Samsung') %>%
+  ggplot(aes(x = rating)) +
+  geom_histogram(aes(y = ..density..), col = "white", bins = 25) +
+  stat_function(
+    fun = dnorm, 
+    args = list(
+      mean = Samsung$mean,
+      sd = Samsung$sd
+    ),
+    col = "red"
+  )
+```
+
+
+Question 4.
+We can be more quantitative in comparing the distribution of top brand ratings with a normal distribution. You calculated the mean() and sd() of your distribution in an earlier question. Use these values to calculate the proportions of ratings within one-, two- and three standard deviations of the mean. Compare these proportions with those you expect for a normal distribution.
+
+Hint
+You can use a filter() to get only the ratings within one-, two- and three standard deviations of the mean, and then think about how to calculate what proportion each of these filtered sets make of the total number of ratings. You’ll need to use three separate filter() and summarise() pipes to do this.
+Further hint - code to filter within one SD
+Here’s the code to filter and summarise the proportion of ratings within one standard deviation of the mean.
+
+```{r}
+samsung_ratings <- phone %>% 
+  filter(brand == 'Samsung')
+```
+
+
+```{r}
+
+samsung_ratings %>%
+  filter(rating >= Samsung$mean - Samsung$sd) %>%
+  filter(rating <= Samsung$mean + Samsung$sd) %>%
+  summarise(prop_within_1sd = n() / nrow(samsung_ratings))
+```
+```{r}
+samsung_ratings %>%
+  filter(rating >= Samsung$mean - 2*Samsung$sd) %>%
+  filter(rating <= Samsung$mean + 2*Samsung$sd) %>%
+  summarise(prop_within_1sd = n() / nrow(samsung_ratings))
+```
+```{r}
+samsung_ratings %>%
+  filter(rating >= Samsung$mean - 3*Samsung$sd) %>%
+  filter(rating <= Samsung$mean + 3*Samsung$sd) %>%
+  summarise(prop_within_1sd = n() / nrow(samsung_ratings))
+```
+

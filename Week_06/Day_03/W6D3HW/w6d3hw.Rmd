@@ -1,0 +1,89 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+1 MVP
+Now we’ll go back to CI creation in the normal fashion. We’ll take the ames data from the CIs lab earlier today and regard it now as a sample, we won’t be drawing any smaller samples from within it. This is the usual situation in an analysis: you use all the data available to you!
+
+
+
+Task 1.
+Load the data again, clean_names(), and re-familiarise yourself with it
+```{r}
+library(tidyverse)
+library(janitor)
+library(infer)
+ames <- read_csv("data/ames.csv") %>% clean_names()
+```
+
+
+
+Task 2.
+Investigate the distribution of lot_area. Is the distribution roughly normal? If not, what problems do you find?
+```{r}
+ames %>% 
+  ggplot(aes(lot_area))+
+  geom_histogram(col = "white", fill = "lightblue")
+#no not normal distribution, all data concentrated around small interval
+```
+
+
+
+Task 3.
+Compute and visualise a bootstrap sampling distribution for the mean(lot_area) of the sold houses.
+```{r}
+resample_lot_area <- ames %>%
+  specify(response = lot_area) %>%
+  generate(reps = 5000, type = "bootstrap") %>%
+  calculate(stat = "mean")
+resample_lot_area %>%
+  visualise(bins = 30)
+#it looks almost like a noraml distribution here 
+```
+
+
+
+Task 4.
+Use your bootstrap distribution to calculate a 95% CI for mean(lot_area), and visualise it on the distribution
+```{r}
+infer_ci_95 <- resample_lot_area %>%
+  get_ci(level = 0.95, type = "percentile")
+# lower ci 9880.404
+#upper_ci 10454.81
+
+resample_lot_area %>%
+  visualise(bins = 30) +
+  shade_ci(endpoints = infer_ci_95)
+```
+
+
+
+Task 5.
+You would like to know the mean(lot_area) of the sold houses with higher confidence. Calculate the 99% CI for this variable (you can re-use your bootstrap distribution from above). Is it narrower or broader than the 95% CI? Does that make sense?
+```{r}
+infer_ci_99 <- resample_lot_area %>%
+  get_ci(level = 0.99, type = "percentile")
+# lower ci 9809.478
+#upper_ci 10571.19
+#it's a wider range and makes perfect sense
+resample_lot_area %>%
+  visualise(bins = 30) +
+  shade_ci(endpoints = infer_ci_99)
+```
+
+
+
+Task 6.
+Calculate the point estimate of the mean(lot_area)
+```{r}
+mean_lot_area <- resample_lot_area %>%
+  ungroup() %>%
+  summarise(mean_lot_area = mean(stat)) 
+
+mean_lot_area
+#10148.43
+#i don't think that i understood here?? 
+#point estimate is just a way to refer to
+#the mean of lot_area of this sample in this case? 
+```
+

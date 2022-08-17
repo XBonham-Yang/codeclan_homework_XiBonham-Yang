@@ -1,0 +1,83 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+2 MVP
+
+2.1 Question 1
+We are going to use a dataset on house sales in Ames, Iowa over a number of years. We will be interested in the SalePrice of houses (though we should clean_names() the data, so this will end up as sale_price). Load the data and explore it.
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(infer)
+ames <- read_csv("data/ames.csv") %>% clean_names()
+sale_ames <- ames %>% 
+  select(sale_price)
+```
+
+
+2.2 Question 2
+Plot a histogram of sale_price. Is the distribution normal?
+
+```{r}
+sale_ames %>% ggplot(aes(sale_price))+
+  geom_histogram(col = "white", fill = "lightblue")
+#does look like normal distribution
+```
+
+
+2.3 Question 3
+Calculate the population parameter mean of sale_price. Store it in a variable, as we’ll need this value later when we check if each CI contains the parameter value or not.
+```{r}
+sale_price_mean <- sale_ames %>% 
+  summarise(mean_price = mean(sale_price))
+
+sale_price_mean
+  
+```
+
+
+
+2.4 Question 4
+Now we are going to: - take 1000 random samples each of size 100 from sale_price in ames - create a boostrap sampling distribution of mean(sale_price) from each 100-observation sample (use 1000 reps) - calculate the 95% CI for each bootstrap distribution - store the upper and lower bounds of the CI in a tibble called results
+
+Use the infer workflow to generate the bootstrap distributions and CIs. This code will be pretty hard to write. Think about wrapping the sample creation and infer code in a for loop to generate 1000 random samples and CIs. Create an empty results tibble before the loop, and bind_rows() to it every time you generate a new set of CI bounds.
+```{r}
+list = c()
+for (i in 1:1000){
+resample_sale <- sale_ames %>%
+  rep_sample_n(size = 100, replace = TRUE, reps = 1000) %>%
+  summarise(mean = mean(sale_price),
+       lower_bound = quantile(mean, probs = 0.025),
+       upper_bound = quantile(mean, probs = 0.975)
+  )
+  list[[length(list) + 1]] <- resample_sale
+  return(list)
+}
+list
+```
+
+
+
+
+2.5 Question 5
+Pipe results to mutate() to add a new variable popn_param_in_ci which will be TRUE if the population parameter we calculated earlier is between lower and upper, and FALSE otherwise.
+
+[Hint if you stored your parameter in a tibble earlier (e.g. as the result of a summarise() pipe), extract it here as a numeric before you compare with upper and lower]
+```{r}
+list %>% 
+  mutate(popn_param_in_ci = case_when(lower_bound < 180796.1	& upper_bound > 180796.1	~ TRUE,
+                               TRUE ~ FALSE))
+```
+
+
+2.6 Question 6
+Perform an appropriate summarise() to determine the proportion of CIs that contain the population parameter. Our confidence level was 95% (equivalent to a proportion of 0.95). Is your proportion close to that value?
+
+
+
+2.7 Question 7
+Have a think about what all this means, make a list of any points you don’t understand. - Imagine you had only a single 100-observation sample of the ames data (say from a 100 house survey). - Would you know ahead of time whether the CI for mean(sale_price) from your particular sample contains the correct population parameter or not?
+
+

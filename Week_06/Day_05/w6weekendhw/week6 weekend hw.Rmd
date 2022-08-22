@@ -144,7 +144,7 @@ H1:The percentage of the poeple in the town of 30,000 that know about the coffee
 shop is not 40%. 
 $$
 H0: \pi_{know\ the \ shop } = 0.4\\
-H1: \pi_{know\ the\ shop} \neq 0.4
+H1: \pi_{know\ the\ shop} > 0.4
 $$
 + draw to generate 
 

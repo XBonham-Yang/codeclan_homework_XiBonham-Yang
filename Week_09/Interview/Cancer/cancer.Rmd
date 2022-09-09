@@ -1,0 +1,269 @@
+---
+title: "Cancer NHS Borders"
+output: html_notebook
+---
+# 1 Loading packages and intro 
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(leaflet)
+library(readr)
+library(stringr)
+library(lubridate)
+```
+This report answers to this following question. 
+In order to help inform the planning for provision of cancer treatment services in NHS Borders, we would like to gain better understanding of the incidence of cancer in NHS Borders.
+All the data used are open data from NHS. I will be looking at the cancer incidences 
+in NHS Borders and comparing it with the overall figures for Scotland. 
+
+## reading data
+I used first three data sets in my analysis and check up informations using the
+last data set. I didn't need more than 1 cell of data so I didn't join the
+data set in. 
+```{r}
+incidence <- read_delim("raw_data/opendata_inc9620_hb.csv", delim = "\t") %>% 
+  janitor::clean_names()
+
+incidence_5_year_summary <- read_delim("raw_data/opendata_inc1620comb_hb.csv", 
+                                       delim = "\t") %>% 
+  janitor::clean_names()
+
+scot <- read_delim("raw_data/opendata_inc1620comb_scotland.csv", delim = "\t") %>% 
+  janitor::clean_names()
+
+geo <- read_csv("raw_data/geography_codes_and_labels_hb2014_01042019.csv") %>% janitor::clean_names()
+```
+# 2 Looking into NHS Borders over time 
+```{r}
+incidence <- incidence %>% 
+  select(1,4,6,7,8) %>% 
+  filter(hb == "S08000016")
+```
+
+
+```{r}
+incidence_yearly <- incidence %>% 
+  group_by(year, sex) %>% 
+  summarise(sum_incidence = sum(incidences_all_ages))
+
+incidence_yearly %>% filter(sex == "All") %>% 
+  ggplot(aes(year, sum_incidence))+
+  geom_line()+
+  geom_point(size = 2)+
+  labs(title = "NHS Borders Cancer incidences by year",
+       subtitle = "from 1996 to 2020",
+       x = "Year",
+       y = "Total incidence of the year")
+  
+```
+This line graph suggest that overall from 1996 to 2020, the number of incidences 
+of cancer has been increasing. There are some decreasing in small period of times. 
+As the general population growing, the total cancer incidences are expected to grow
+too, the small drops could be the advance of technology. 
+
+```{r}
+incidence_yearly %>% filter(sex != "All") %>% 
+  ggplot(aes(year, sum_incidence))+
+  geom_line(aes(col = sex))+
+  geom_point(aes(col = sex), size = 2)+
+  labs(title = "NHS Borders Cancer incidences",
+       subtitle = "split by sex",
+       x = "Year",
+       y = "Total incidence of the year",
+       fill = "Sex")
+```
+In general, Cancer incidence in female shows a very slight increase from 1996 to
+2020, and in male, the number has been growing continuously. Before 2015, there
+were more cancer incidence in female, but male overtook in 2015. 
+
+
+# 3 NHS Borders 5 year summary 
+
+```{r}
+incidence_5_year_summary <- incidence_5_year_summary %>% select(1,4,6,26:43) %>% 
+  pivot_longer(4:21, names_to = "age_group", values_to = "rate") %>% 
+  mutate(age_group = case_when(age_group == "incidence_rate_age_under5" ~ "under5",
+                               age_group == "incidence_rate_age85and_over" ~ "over85",
+                               TRUE ~ str_extract(age_group, "[0-9]+to[0-9]+"))) %>% 
+  filter(hb == "S08000016")
+```
+
+```{r}
+incidence_5_year_summary %>% 
+  filter(sex != "All", rate != 0) %>% 
+  ggplot(aes(sex, rate))+
+  geom_boxplot(aes(col = sex))+
+  ylim(c(0,150))+
+  labs(title = "NHS Borders Cancer incidences by Sex",
+       subtitle = "2016 to 2020",
+       x = "Sex",
+       y = "Rate",
+       fill = "Sex")
+```
+
+```{r}
+incidence_5_year_summary %>% 
+  filter(sex != "All", rate != 0) %>% 
+  group_by(sex) %>% 
+  summarise(mean_rate = mean(rate)) %>% 
+  ggplot(aes(sex, mean_rate))+
+  geom_col(aes(fill = sex, col = sex))+
+  labs(title = "NHS Borders Cancer incidences by Sex",
+       subtitle = "2016 to 2020",
+       x = "Sex",
+       y = "Rate",
+       fill = "Sex", col = "Sex")
+```
+Comparing the two graphs together, we can see although it seems that male 
+have a higher rate of incidences, the distribution suggests that both gender
+groups have a very similar distribution. This means there are a lot of very high
+outliers in male group. 
+
+```{r}
+incidence_5_year_summary$age_group <- factor(incidence_5_year_summary$age_group , 
+                                             levels = c("under5", "5to9","10to14",
+                                                        "15to19","20to24","25to29",
+                                                        "30to34","35to39","40to44",
+                                                        "45to49","50to54","55to59",
+                                                        "60to64","65to69","70to74",
+                                                        "75to79","80to84", "over85"))
+                    
+incidence_5_year_summary %>% 
+  filter(sex == "All", rate != 0) %>% 
+  group_by(age_group) %>% 
+  summarise(mean_rate = mean(rate)) %>% 
+  ggplot(aes(age_group, mean_rate))+
+  geom_line(group = 1)+
+  geom_point()+
+  labs(title = "NHS Borders Cancer incidences by Age",
+       subtitle = "2016 to 2020",
+       x = "Age Group",
+       y = "Rate",
+       fill = "Age Group", col = "Age Group")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+The graph shows a clear trend that cancer incidences increase as the age increases, 
+from under 50 groups the increase is tiny and the rate shows big Sharpe increase after 50. 
+
+```{r}
+incidence_5_year_summary %>% 
+  filter(sex != "All", rate != 0) %>% 
+  group_by(age_group, sex) %>% 
+  summarise(mean_rate = mean(rate)) %>% 
+  ggplot(aes(age_group, mean_rate))+
+  geom_line(aes(col = sex, group = sex))+
+  geom_point(aes(col = sex))+
+  labs(title = "NHS Borders Cancer incidences by Age",
+       subtitle = "Split by gender",
+       x = "Age Group",
+       y = "Rate",
+       fill = "Age Group", col = "Age Group")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+For each sex, the overall trend is similar to the overall trend. However, female 
+has smaller increase in rate after 50 compared to male. Which feeds to the sex split
+graph above, the older female groups are thr drivers of the male overall mean. 
+
+
+# 4 Compare NHS Border with Scotland
+
+
+
+```{r}
+scot <- scot %>% select(4,6,27:45) %>% 
+  pivot_longer(3:21, names_to = "age_group",
+               values_to = "rate") %>% 
+  mutate(age_group = case_when(age_group == "incidence_rate_age_under5" ~ "under5",
+                               age_group == "incidence_rate_age90and_over" ~ "over90",
+                               TRUE ~ str_extract(age_group, "[0-9]+to[0-9]+")))
+```
+## Comparing between age groups 
+```{r}
+scot_age <- scot %>% 
+  filter(sex == "All") %>% 
+  mutate(age_group = case_when(age_group %in% c("85to89", "over90") ~ "over85",
+                               TRUE ~ age_group)) %>% 
+  group_by(age_group) %>% 
+  summarise(mean_rate = mean(rate)) %>% 
+  mutate(location = "Scotland")
+
+all_age <- incidence_5_year_summary %>% 
+  filter(sex == "All", rate != 0) %>% 
+  group_by(age_group) %>% 
+  summarise(mean_rate = mean(rate)) %>% 
+  mutate(location = "NHS Borders") %>% 
+  full_join(scot_age, by = c("age_group", "mean_rate", "location"))
+```
+
+```{r}
+all_age$age_group <- factor(all_age$age_group , 
+                                             levels = c("under5", "5to9","10to14",
+                                                        "15to19","20to24","25to29",
+                                                        "30to34","35to39","40to44",
+                                                        "45to49","50to54","55to59",
+                                                        "60to64","65to69","70to74",
+                                                        "75to79","80to84", "over85"))
+all_age
+```
+
+```{r}
+all_age %>% 
+  ggplot(aes(age_group, mean_rate))+
+  geom_line(aes(col = location, group = location))+
+  geom_point(aes(col = location))+
+  labs(title = "NHS Borders Cancer incidences VS Scotland",
+       x = "Age Group",
+       y = "Rate",
+       fill = "Age Group", col = "Age Group")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  scale_colour_manual(values = c("NHS Borders" = "red", "Scotland" = "grey50"))
+```
+In almost all age groups, NHS Borders has a slight higher rate than overall Scotland. 
+
+
+## Comparing between genders
+```{r}
+scot_sex <- scot %>% 
+  filter(sex != "All") %>% 
+  mutate(age_group = case_when(age_group %in% c("85to89", "over90") ~ "over85",
+                               TRUE ~ age_group)) %>% 
+  group_by(sex,age_group) %>% 
+  summarise(mean_rate = mean(rate)) %>% 
+  mutate(location = "Scotland")
+
+all_sex <- incidence_5_year_summary %>% 
+  filter(sex != "All") %>% 
+  group_by(sex,age_group) %>% 
+  summarise(mean_rate = mean(rate)) %>% 
+  mutate(location = "NHS Borders") %>% 
+  full_join(scot_sex, by = c("age_group", "mean_rate", "location", "sex"))
+
+all_sex$age_group <- factor(all_sex$age_group , 
+                                             levels = c("under5", "5to9","10to14",
+                                                        "15to19","20to24","25to29",
+                                                        "30to34","35to39","40to44",
+                                                        "45to49","50to54","55to59",
+                                                        "60to64","65to69","70to74",
+                                                        "75to79","80to84", "over85"))
+
+```
+```{r}
+all_sex %>% 
+  ggplot(aes(age_group, mean_rate))+
+  geom_line(aes(col = location, group = location))+
+  geom_point(aes(col = location))+
+  facet_grid(~sex)+
+  labs(title = "NHS Borders Cancer incidences VS Scotland",
+       subtitle = "split by sex",
+       x = "Age Group",
+       y = "Rate",
+       fill = "Age Group", col = "Age Group")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  scale_colour_manual(values = c("NHS Borders" = "red", "Scotland" = "grey50"))
+```
+Very similar to the overall graph, for female over 70, NHS Borders has lower rate 
+than overall Scotland, Male also has a lower rate between 60 to 80, and overtook 
+Scotland after 80. 
+
+
+NHS Borders male over 80 has a very high rate of cancer incidence. 

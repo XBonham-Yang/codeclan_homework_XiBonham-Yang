@@ -1,0 +1,68 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+The file project_management.csv contains data sampled from the recent work schedule of a small construction company. Column estimated_length contains the estimated length of a building job in days, while column actual_length contains the actual recorded length of the job in days.
+
+We are interested in determining the accuracy of the job estimations made by the company using simple linear regression, so we will eventually want to run a simple linear regression using actual_length as the dependent variable, and estimated_length as the independent variable.
+
+```{r}
+library(tidyverse)
+library(modelr)
+library(infer)
+library(broom)
+```
+
+
+Load the data into a dataframe project
+```{r}
+project <- read_csv("data/project_management.csv")
+```
+
+
+
+Plot the data, taking estimated_length as the independent variable and actual_length as the dependent variable.
+```{r}
+project %>% 
+  ggplot(aes(x = estimated_length, y = actual_length))+
+  geom_point()
+```
+
+
+Calculate the correlation coefficient of estimated_length and actual_length and interpret the value you obtain.
+```{r}
+project %>% summarise(r = cor(estimated_length, actual_length))
+```
+```it's 0.804, this suggests a strong possitive correlation between the two variable. ``` 
+
+Perform a simple linear regression using actual_length as the dependent variable, and estimated_length as the independent variable. Save the model object to a variable.
+```{r}
+model <- lm(formula = actual_length ~ estimated_length, data = project)
+```
+
+
+
+
+Interpret the regression coefficient of estimated_length (i.e. slope, gradient) you obtain from the model. How do you interpret the r2 value reported by the model?
+```{r}
+summary(model)
+```
+``` 
+from the summary we can find out the slope: 1.2235, r_sq is 0.6475. It's not 
+very high but not low either, it's okay valur for 0.6475, which means our model
+is not good but not bad either. 
+```
+
+
+Is the relationship statistically significant? Remember, to assess this you need to check the p-value of the regression coefficient (or slope/gradient). But you should first check the regression diagnostic plots to see if the p-value will be reliable (don’t worry about any outlier points you see in the diagnostic plots, we’ll return to them in the extension).
+
+```{r}
+library(ggfortify)
+autoplot(model)
+```
+```
+this looks fine, p_value from above, is very samll: 1.911e-12
+so the relationship is significant,
+```
+

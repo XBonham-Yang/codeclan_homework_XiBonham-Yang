@@ -1,0 +1,97 @@
+---
+title: "Homework"
+output: html_notebook
+---
+```{r}
+library(tidyverse)
+library(janitor)
+library(GGally)
+library(ggfortify)
+library(mosaic)
+```
+
+
+
+1. Load the `housing_prices.csv` data set and undertake an initial exploration of the data. You will find details on the data set on the relevant [Kaggle page](https://www.kaggle.com/camnugent/california-housing-prices)
+
+```{r}
+price <- read_csv("data/housing_prices.csv")
+head(price)
+summary(price)
+#19675 by 10
+# total_bedrooms has NA 
+```
+
+
+2. We expect the `total_rooms` of houses to be strongly correlated with `total_bedrooms`. Use `ggpairs()` to investigate correlations between these two variables.
+```{r}
+price %>% select(c('total_rooms', 'total_bedrooms')) %>% 
+  ggpairs()
+# strong positive correlations, most data seems to be gathering around 1 to 2000
+```
+
+
+
+3. So, we do find significant correlations. Let's drop `total_bedrooms` from the dataset, and use only `total_rooms` going forward.
+```{r}
+price <- price %>% select(-total_bedrooms)
+```
+
+
+
+4. We are interested in developing a regression model for the `median_house_value` of a house in terms of the possible predictor variables in the dataset. 
+
+  i. Use `ggpairs()` to investigate correlations between `median_house_value` and the predictors (this may take a while to run, don't worry, make coffee or something).
+```{r}
+ggpairs(price)
+# median house value has a positive strong correlation with income. but not too
+#strong. 0.643
+```
+  
+
+  ii. Perform further `ggplot` visualisations of any significant correlations you find.
+```{r}
+#population and households?? they seem to be the same thing just different units 
+#total rooms and households also has strong correlation, let's do this one
+price %>% ggplot(aes(x = total_rooms, y = households))+
+  geom_point()
+
+```
+
+
+5. Shortly we may try a regression model to fit the categorical predictor `ocean_proximity`. Investigate the level of `ocean_proximity` predictors. How many dummy variables do you expect to get from it?
+```{r}
+price %>% distinct(ocean_proximity)
+#there are 5 different categories, so we need 4 dummy variables 
+```
+    
+
+ 
+6. Start with simple linear regression. Regress `median_house_value` on `median_income` and check the regression diagnostics.
+```{r}
+model <- lm(median_house_value ~ median_income, data = price)
+autoplot(model)
+summary(model)
+```
+residuals vs fitted, the points are bit too crowed but the line is almost the 
+same as line 0, so it's okay, 
+normal q-q, bit off 
+scale-location, accpetable
+
+
+7. Add another predictor of your choice. Check your assumptions, diagnostics, and interpret the model.
+
+```{r}
+model_2 <- lm(median_house_value ~ median_income * total_rooms, data = price)
+autoplot(model_2)
+
+```
+
+
+```{r}
+summary(model_2)
+```
+residual standard error dropped comparing to model 1 
+r squared is slightly higher, diagnostics looks very similar to each other 
+
+

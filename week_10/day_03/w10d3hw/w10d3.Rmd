@@ -1,0 +1,222 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(tidyverse)
+library(modelr)
+library(GGally)
+library(ggfortify)
+```
+Q1
+* You might like to think about removing some or all of `date`, `id`, `sqft_living15`, `sqft_lot15` and `zipcode` (`lat` and `long` provide a better measure of location in any event).
+
+
+```{r}
+house <- read_csv("data/kc_house_data.csv") %>% janitor::clean_names()
+```
+
+```{r}
+names(house)
+house <- house %>% select(-c( "date","id", "sqft_lot15",  "sqft_living15", "zipcode"))
+names(house)
+```
+* Have a think about how to treat `waterfront`. Should we convert its type?
+
+```{r}
+house <- house %>% mutate(waterfront = as.logical(waterfront))
+```
+
+* We converted `yr_renovated` into a `renovated` logical variable, indicating whether the property had ever been renovated. You may wish to do the same.
+```{r}
+house <- house %>% mutate(renovated = if_else(yr_renovated == 0, FALSE, TRUE)) %>% 
+  select(-yr_renovated)
+```
+
+* Have a think about how to treat `view`, `condition` and `grade`? Are they interval or categorical ordinal data types?
+
+view - An index from 0 to 4 of how good the view of the property was
+condition - An index from 1 to 5 on the condition of the apartment
+grade - An index from 1 to 13, where 1-3 falls short of building construction and design, 7 has an average level of construction and design, and 11-13 have a high quality level of construction and design
+
+```
+They are all categorical but grades has too many levels
+ I could do the same to the view and condition (use words rather than number but it's 
+ works just as it is)
+```
+
+```{r}
+#house <- house %>% mutate(grade = case_when(grade > 10 ~ "high",
+#                                            grade > 7 ~"above_avg",
+#                                            grade > 3 ~"below_avg",
+#                                            TRUE ~ "low")) %>% 
+#  fastDummies::dummy_cols(select_columns = c("view","grade","condition"), remove_first_dummy = TRUE, remove_selected_columns = TRUE) %>% 
+#    mutate(across(view_1:condition_5, as.logical))
+#I went back here from ggpairs,, well. I will keep them as on col.
+house <- house %>% mutate(grade = case_when(grade > 10 ~ "high",
+                                            grade > 7 ~"above_avg",
+                                            grade > 3 ~"below_avg",
+                                            TRUE ~ "low"),
+                          view = case_when(view == 0 ~ "very_bad",
+                                           view == 1 ~ "bad",
+                                           view == 2 ~ "okay",
+                                           view == 3 ~ "good",
+                                           TRUE ~ "very_good"),
+                          condition = case_when(condition == 1 ~ "very bad",
+                                                condition == 2 ~ "bad",
+                                                condition == 3 ~ "okay",
+                                                condition == 4 ~ "good",
+                                                TRUE ~ "very_good")) 
+```
+
+Check for aliased variables using the alias() function (this takes in a formula object and a data set). [Hint - formula price ~ . says ‘price varying with all predictors’, this is a suitable input to alias()]. Remove variables that lead to an alias. Check the ‘Elements of multiple regression’ lesson for a dropdown containing further information on finding aliased variables in a dataset.
+
+```{r}
+alias(lm(price ~ ., data = house))
+```
+```{r}
+house <- house %>% select(-c("sqft_living", "sqft_above"))
+```
+
+Systematically build a regression model containing up to four main effects (remember, a main effect is just a single predictor with coefficient), testing the regression diagnostics as you go * splitting datasets into numeric and non-numeric columns might help ggpairs() run in manageable time, although you will need to add either a price or resid column to the non-numeric dataframe in order to see its correlations with the non-numeric predictors.
+
+and the same in subsequent rounds of predictor selection with the resid column.
+
+Remember, if you are not sure whether including a categorical predictor is statistically justified, run an anova() test passing in the models with- and without the categorical predictor and check the p-value of the test.
+
+```{r}
+houses_tidy_numeric <- house %>%
+  select_if(is.numeric)
+
+houses_tidy_nonnumeric <- house %>%
+  select_if(function(x) !is.numeric(x))
+
+houses_tidy_nonnumeric$price <- house$price
+
+ggpairs(houses_tidy_numeric, progress =  FALSE)
+ggpairs(houses_tidy_nonnumeric, progress = FALSE)
+```
+
+```{r}
+mod1a <- lm(price ~ bathrooms, data = house)
+summary(mod1a)
+autoplot(mod1a)
+```
+very bad one.... r2 0.2758, 
+diagnositic plot doesn't look too bad, under estimating everthing bit but not
+too crazy ? 
+
+```{r}
+mod1b <- lm(price ~ waterfront, data = house)
+summary(mod1b)
+autoplot(mod1b)
+```
+very bad very bad..... r2 0.0709,
+diagnositic plot are bad too 
+```{r}
+mod1c <- lm(price ~ grade, data = house)
+summary(mod1c)
+autoplot(mod1c)
+```
+grade is slightly better than waterfront 
+
+
+add them together 
+```{r}
+numeric_resid <- houses_tidy_numeric %>% 
+  add_residuals(mod1a) %>% 
+  select(-c(price,bathrooms))
+
+numeric_resid %>% 
+  select(resid, everything()) %>% 
+  ggpairs(aes(alpha = 0.5), progress = FALSE)
+```
+lat highest 
+```{r}
+nonnumeric_resid <- houses_tidy_nonnumeric %>% 
+  add_residuals(mod1b) %>% 
+  select(-c(price,grade))
+
+nonnumeric_resid %>% 
+  select(resid, everything()) %>% 
+  ggpairs(aes(alpha = 0.5), progress = FALSE)
+```
+
+```{r}
+mod2a <- lm(price ~ bathrooms + lat,
+            data = house)
+summary(mod2a)
+```
+
+```{r}
+mod2b <- lm(price ~ bathrooms + grade,
+            data = house)
+summary(mod2b)
+```
+```{r}
+autoplot(mod2b)
+```
+it's better but still alot of postivie errors 
+
+```{r}
+anova(mod1a, mod2b)
+```
+significant, will keep grade
+because I had grade in my mod1, so I have run the ggplair for non_numeric 
+without grade, I will try add third one, Lat 
+```{r}
+mod3a <- lm(price ~ bathrooms + grade + lat,
+            data = house)
+summary(mod3a)
+autoplot(mod3a)
+```
+the r2 is higher again. 
+```{r}
+mod3b <- lm(price ~ bathrooms + grade + view,
+            data = house)
+summary(mod3b)
+autoplot(mod3b)
+```
+
+
+```{r}
+numeric_resid <- houses_tidy_numeric%>% 
+  add_residuals(mod2a) %>% 
+  select(-c(price,bathrooms,lat))
+
+numeric_resid %>% 
+  select(resid, everything()) %>% 
+  ggpairs(aes(alpha = 0.5), progress = FALSE)
+```
+
+
+```{r}
+mod4a <- lm(price ~ bathrooms + grade + lat + bathrooms:grade,
+            data = house)
+summary(mod4a)
+autoplot(mod4a)
+```
+mod4a:0.5254, only normal qq looks bad 
+
+```{r}
+mod4b <- lm(price ~ bathrooms + grade + lat + bathrooms:lat,
+            data = house)
+summary(mod4b)
+autoplot(mod4b)
+```
+r2:0.5032, top two looks bad 
+
+```{r}
+mod4c <- lm(price ~ bathrooms + grade + lat + grade:lat,
+            data = house)
+summary(mod4c)
+autoplot(mod4c)
+```
+r2 0.5006, top two graphs looks bad 
+
+
+
+
+mod4a is the best one 
+
+

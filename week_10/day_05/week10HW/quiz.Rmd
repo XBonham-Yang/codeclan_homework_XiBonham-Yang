@@ -1,0 +1,49 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+1.I want to predict how well 6 year-olds are going to do in their final school exams. Using the following variables am I likely under-fitting, fitting well or over-fitting? Postcode, gender, reading level, score in maths test, date of birth, family income.
+
+```
+over-fitting, it has a lot of variiables but a lot of them are not 
+relatant to school exams. they are feeeding noise to the model. 
+```
+
+2.If I have two models, one with an AIC score of 34,902 and the other with an AIC score of 33,559 which model should I use?
+
+```
+The one with lower AIC score is better. 
+```
+3.I have two models, the first with: r-squared: 0.44, adjusted r-squared: 0.43. The second with: r-squared: 0.47, adjusted r-squared: 0.41. Which one should I use?
+```
+just looking at r2 is not good enough, 0.44 and 0.47 both are okay, 
+but the second one made the adj r2 drop so there are probally overfitted so, r2:0.44-adj r2: 0.43 is  better 
+```
+4.I have a model with the following errors: RMSE error on test set: 10.3, RMSE error on training data: 10.4. Do you think this model is over-fitting?
+```
+training se is higher, this shouldn't happen, so it's overfiitted 
+```
+5.How does k-fold validation work?
+```
+split our data into K parts, make a model K times. Each time we hold out one of them as the test set, and train the data on the other folds, then measure average performance across all the folds.
+```
+
+6.What is a validation set? When do you need one?
+```
+A set that is used neither to test nor train your models. Used as a final measure of accuracy.
+```
+7.Describe how backwards selection works.
+```
+Start with the model containing all variables,
+At each step, check all predictors in the model, and find the one that lowers r2 the least when it is removed
+Remove this predictor from the model
+Keep note of the number of predictors in the model and the current model formula
+Go on to remove another predictor, or stop if all predictors in the model have been removed
+```
+8.Describe how best subset selection works.
+
+```
+At each size of model, search all possible combinations of predictors for the best model (i.e. the model with highest r2) of that size.
+```
+

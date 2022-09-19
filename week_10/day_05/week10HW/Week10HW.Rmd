@@ -1,0 +1,151 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+1 MVP
+
+
+We want to investigate the avocado dataset, and, in particular, to model the AveragePrice of the avocados. Use the tools we’ve worked with this week in order to prepare your dataset and find appropriate predictors. Once you’ve built your model use the validation techniques discussed on Wednesday to evaluate it.
+
+As part of the MVP we want you not to just run the code but also have a go at interpreting the results and write your thinking in comments in your script.
+
+Hints and tips
+
+region may lead to many dummy variables. Think carefully about whether to include this variable or not (there is no one ‘right’ answer to this!)
+Think about whether each variable is categorical or numerical. If categorical, make sure that the variable is represented as a factor.
+We will not treat this data as a time series, so Date will not be needed in your models, but can you extract any useful features out of Date before you discard it?
+If you want to build a predictive model, consider using either leaps or glmulti to help with this.
+
+```{r}
+library(tidyverse)
+library(GGally)
+library(modelr)
+library(leaps)
+library(lubridate)
+library(ggfortify)
+```
+
+
+```{r}
+avocado <- read_csv("data/avocado.csv") %>% janitor::clean_names()
+summary(avocado)
+```
+No NA in any cols, but, total volume doesn't add up, total bags doesn't seem to add up. I also looked at the ggpair graph from the folder. some cols are bit skewed, we will 
+deal with they later. 
+
+
+```{r}
+alias(lm(average_price ~ ., data = avocado))
+# nothing needs to be removed because of alias
+```
+```{r}
+avocado <- avocado %>% select(-c(x1, region, total_bags, total_volume)) %>% 
+  mutate(season = case_when(month(date)%in% c(12,1,2) ~"Winter",
+                            month(date)%in% c(3,4,5) ~"Spring",
+                            month(date)%in% c(6,7,8) ~"Summer",
+                            TRUE ~ "Autumn"),
+         year = as.factor(year),
+         season = as.factor(season),
+         type = as.factor(type)) %>% 
+  select(-date)
+# extract seasons from date and get ride of date, remove things that 
+#I think useless. 
+```
+Split test and train data 20:80
+```{r}
+set.seed(9)
+
+test_index <- sample(1:nrow(avocado), size = nrow(avocado)*0.2)
+
+test  <- slice(avocado, test_index)
+train <- slice(avocado, -test_index)
+```
+
+
+```{r}
+regsubsets_forward <- regsubsets(average_price ~ ., data = train, nvmax = 9, method = "forward")
+summary(regsubsets_forward)
+
+```
+
+
+```{r}
+plot(regsubsets_forward, scale = "adjr2")
+```
+
+
+```{r}
+plot(regsubsets_forward, scale = "bic")
+```
+check the 9th one, which looks the best (highest r2 and lowest bic)
+```{r}
+summary(regsubsets_forward)$which[9,]
+
+```
+
+```{r}
+mod_1 <- lm(average_price ~ x4046 + x4225 + type + year + season, data = train)
+summary(mod_1)
+#all significant, but r2 not very high
+```
+```{r}
+autoplot(mod_1)
+#they look very bad, especially residuals vs fitted, very clear 
+#pattern, scale-location also shows a slight pattern. 
+```
+I shouldn't have done this, I should go back changed my train data, But I am going to test this new model see if it improves anything, so I don't want to break my mod1.
+
+I can also use log but I had 0 in them, I don't want to get ride of my 
+data at this point (as I have split the data already) So i squared 
+them. 
+```{r}
+train_1 <- train %>% mutate(x4046 = (x4046)^2,
+                 x4225 = (x4225)^2,
+                 x4770 = (x4770)^2)
+```
+
+```{r}
+regsubsets_forward_1 <- regsubsets(average_price ~ ., data = train_1, nvmax = 9, method = "forward")
+
+
+summary(regsubsets_forward_1)
+```
+```{r}
+plot(regsubsets_forward, scale = "adjr2")
+```
+```{r}
+mod_2 <- lm(average_price ~ x4046 + x4225 + type + year + season, data = train_1)
+summary(mod_2)
+```
+```{r}
+
+autoplot(mod_2)
+```
+No improve for mod2, I will use mod1. 
+
+
+checking my mod1 with testing data 
+```{r}
+predictions_test <- test %>%
+  add_predictions(mod_1) %>%
+  select(average_price, pred)
+```
+
+```{r}
+mse_test <- mean((predictions_test$pred - test$average_price)**2)
+mse_test
+```
+
+```{r}
+predictions_train <- train %>%
+  add_predictions(mod_1) %>%
+  select(average_price, pred)
+```
+
+```{r}
+mse_train <- mean((predictions_train$pred - train$average_price)**2)
+mse_train
+```
+this model is over fitted, train se is higher than test. 
+
+

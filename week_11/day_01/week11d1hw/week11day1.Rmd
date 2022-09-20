@@ -1,0 +1,107 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library('readxl')
+library('tidyverse')
+library('janitor')
+library(modelr)
+```
+
+
+```{r}
+telco_churn <- read_excel("data/telecomms_churn.xlsx")
+telco_churn <- clean_names(telco_churn)
+```
+
+```{r}
+telco_clean <- telco_churn %>%
+  filter(!is.na(total_charges)) %>% 
+  select(-customer_id) %>% 
+  mutate(across(where(is_character), as_factor)) %>%
+  mutate(senior_citizen = as_factor(if_else(senior_citizen == 1, "Yes", "No")))
+```
+
+1. Let’s perform logistic regression using the churn column as the binary dependent variable. Create three separate single predictor logistic regression models choosing from amongst the promising predictor columns found in the analysis above (look at the pairs plots). Try to have at least one continuous predictor, and at least one categorical predictor. Check that the coefficient of the single predictor in each model is statistically significant.
+
+Hint
+From split 1, we observe significant looking relationships between churn, senior_citizen and partner; from split 2, with tenure; and from split 3, with monthly_charges and total_charges
+
+```{r}
+mod_mc <- glm(
+  churn ~ monthly_charges,
+  family = binomial(link = 'logit'),
+  data = telco_clean
+)
+summary(mod_mc)
+
+mod_sc <- glm(
+  churn ~ senior_citizen,
+  family = binomial(link = 'logit'),
+  data = telco_clean
+)
+summary(mod_sc)
+
+mod_t <- glm(
+  churn ~ tenure,
+  family = binomial(link = 'logit'),
+  data = telco_clean
+)
+summary(mod_t)
+#all good all hvae 3 * so significant 
+```
+
+
+2. So far so good! Now we’ll treat the logistic regression models as potential classifiers. Plot ROC curves for each classifier (it would be nice to put these on the same axes). Obtain AUC values for each of your classifiers and say which of them is likely to be the best classifier.
+```{r}
+library(pROC)
+#sc
+churn_pred_sc <- telco_clean %>% 
+  add_predictions(model = mod_sc, type = 'response')
+
+roc_obj_sc <- churn_pred_sc %>%
+  roc(response = churn, predictor = pred)
+#mc
+churn_pred_mc <- telco_clean %>% 
+  add_predictions(model = mod_mc, type = 'response')
+
+roc_obj_mc <- churn_pred_mc %>%
+  roc(response = churn, predictor = pred)
+#t
+churn_pred_t <- telco_clean %>% 
+  add_predictions(model = mod_t, type = 'response')
+
+roc_obj_t <- churn_pred_t %>%
+  roc(response = churn, predictor = pred)
+
+roc_curve <- ggroc(data = list(sc=roc_obj_sc, mc=roc_obj_mc, t=roc_obj_t), legacy.axes = TRUE) +
+  coord_fixed()
+
+roc_curve
+```
+```
+from the graph tenure looks the best 
+```
+```{r}
+auc(roc_obj_mc)
+auc(roc_obj_sc)
+auc(roc_obj_t)
+
+#tenure has the highested auc as it looked like from the graph 
+```
+
+
+3. Take the model generating the best classifier (highest AUC value) from amongst your three and interpret the fitted coefficient of the particular predictor in that model in a meaningful way. Think in terms of odds ratio, i.e. how does changing the predictor value affect the odds that a customer will churn?
+
+```{r}
+telco_clean %>% 
+  mutate(churn=if_else(churn == 'Yes', 1,0)) %>% 
+ggplot()+
+  geom_jitter(aes(x = tenure, y = churn, col = tenure), alpha = 0.2,
+              position = position_jitter(h = 0.1))+
+  geom_line(data = churn_pred_t, aes(x = tenure, y = pred))+
+  labs(y = 'estimated churn')
+```
+
+

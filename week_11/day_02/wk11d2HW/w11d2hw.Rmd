@@ -1,0 +1,133 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(rpart)
+library(rpart.plot)
+library(tidyverse)
+
+library(tidyverse)
+titanic_set <- read_csv('data/titanic_decision_tree_data.csv')
+
+shuffle_index <- sample(1:nrow(titanic_set))
+
+# shuffle the data so class order isn't in order - need this for training/testing split later on 
+titanic_set <- titanic_set[shuffle_index, ]
+```
+```{r}
+titanic_clean <- titanic_set %>%
+  filter(survived %in% c(0,1)) %>%
+# Convert to factor level
+    mutate(sex = as.factor(sex), 
+           age_status = as.factor(if_else(age <= 16, "child", "adult")),
+         class = factor(pclass, levels = c(3,2,1), labels = c("Lower", "Middle", "Upper")), 
+           survived_flag = factor(survived, levels = c(0,1), labels = c("No", "Yes")), 
+           port_embarkation = as.factor(embarked)) %>%
+  select(sex, age_status, class, port_embarkation, sib_sp, parch, survived_flag) %>%
+  na.omit()
+```
+
+1.2 Question 2
+
+Have a look at your data and create some plots to ensure you know what you’re working with before you begin. Write a summary of what you have found in your plots. Which variables do you think might be useful to predict whether or not people are going to die? Knowing this before you start is the best way to have a sanity check that your model is doing a good job.
+```{r}
+library(GGally)
+ggpairs(titanic_clean)
+```
+just from this graph all apart from slib_sp and parch doesn't seem to have a 
+big impact on survided. others all seem to. 
+
+
+1.3 Question 3
+
+Now you can start to build your model. Create your testing and training set using an appropriate split. Check you have balanced sets. Write down why you chose the split you did and produce output tables to show whether or not it is balanced. 
+[Extra - if you want to force balanced testing and training sets, have a look at the stratified() function in package splitstackshape (you can specify multiple variables to stratify on by passing a vector of variable names to the group argument, and get back testing and training sets with argument bothSets = TRUE)]
+```{r}
+n_data <- nrow(titanic_clean)
+
+test_index <- sample(1:n_data, size = n_data*0.2)
+
+
+titanic_test  <- slice(titanic_clean, test_index)
+
+
+titanic_train <- slice(titanic_clean, -test_index)
+```
+
+```{r}
+titanic_test %>%
+ janitor::tabyl(survived_flag)
+
+titanic_train %>%
+ janitor::tabyl(survived_flag)
+```
+I did 80% training and 20% for testing and the output looks good, very similar but not the same. 
+
+
+1.4 Question 4
+
+Create your decision tree to try and predict survival probability using an appropriate method, and create a decision tree plot.
+```{r}
+titanic_fit <- rpart(
+  formula = survived_flag ~ ., 
+  data = titanic_train, 
+  method = 'class'
+)
+
+rpart.plot(titanic_fit, 
+           yesno = 2, 
+           fallen.leaves = TRUE, 
+           faclen = 6, 
+           digits = 4)
+```
+
+1.5 Question 5
+
+Write down what this tells you, in detail. What variables are important? What does each node tell you? Who has the highest chance of surviving? Who has the lowest? Provide as much detail as you can.
+
+```
+it's little bit surprising how simple this tree is. 
+Only the sex and class is important, 
+Taking all data, only 39.47% of people are survived
+If you are male, only 19.56% chance of survived which(being male) is 63.68%
+of the entire dataset 
+If you are female (36.32% of the data), your chance of survived is 74.4%
+If you are female and lower class(14.04% of whole), only 14.04% chance to survive. but if you are female not from lower class, then you have 94.49% chance of survived which is only 22.28% of the population on titanic. 
+
+male is the lowest and female not from lower class is the highest 
+```
+
+1.6 Question 6
+
+
+Test and add your predictions to your data. Create a confusion matrix. Write down in detail what this tells you for this specific dataset.
+
+```{r}
+library(modelr)
+library(yardstick)
+```
+
+```{r}
+titanic_test_pred <- titanic_test %>% 
+  add_predictions(titanic_fit, type = 'class')
+```
+
+```{r}
+conf_mat<- titanic_test_pred %>% 
+  conf_mat(truth = survived_flag, 
+           estimate = pred)
+conf_mat
+```
+```{r}
+(77+28)/(77+35+2+28)
+```
+it's 73.94% current, for the mistakes they make, most of them 
+are false negative(predicited No but they survived)
+
+
+
+
+
+
+

@@ -95,13 +95,26 @@ auc(roc_obj_t)
 3. Take the model generating the best classifier (highest AUC value) from amongst your three and interpret the fitted coefficient of the particular predictor in that model in a meaningful way. Think in terms of odds ratio, i.e. how does changing the predictor value affect the odds that a customer will churn?
 
 ```{r}
-telco_clean %>% 
-  mutate(churn=if_else(churn == 'Yes', 1,0)) %>% 
-ggplot()+
-  geom_jitter(aes(x = tenure, y = churn, col = tenure), alpha = 0.2,
-              position = position_jitter(h = 0.1))+
-  geom_line(data = churn_pred_t, aes(x = tenure, y = pred))+
-  labs(y = 'estimated churn')
+telco_clean <- telco_clean %>% 
+  mutate(churn=if_else(churn == 'Yes', 1,0))
+
+predict_log <- tibble(tenure = seq(1, 72, 1)) %>%
+              add_predictions(mod_t, type = 'response')
+
+ggplot(telco_clean) +
+  geom_jitter(aes(x = tenure, y = churn), shape = 1,
+               position = position_jitter(h = 0.03)) + 
+   geom_line(data = predict_log, aes(x = tenure , y = pred), col = 'red') + 
+  ylab("Probability")
 ```
 
+```{r}
+summary(mod_t)
+```
+
+$$
+ln(odds_{success}(x)) = -0.039 \times x + 0.037
+$$
+
+higher tenure number has a lower chance of churn 
 

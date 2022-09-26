@@ -1,0 +1,138 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+ glmulti()
+ 
+```{r}
+library(tidyverse)
+library(glmulti)
+```
+```{r}
+juice <- read_csv("data/orange_juice.csv") %>% 
+  janitor::clean_names()
+```
+ 
+The Purchase dependent variable will require wrangling to work in logistic regression. We replaced it with a purchase_mm logical variable.
+Wrangle other categorical variables to be factors too.
+```{r}
+juice <- juice %>% mutate(purchase_mm = if_else(purchase == "MM", 1, 0),
+                 .after = purchase)
+juice <- juice %>% mutate(
+  store_id = as.factor(store_id),
+  store = as.factor(store)
+  #weekof_purchase = as.factor(weekof_purchase)
+)
+
+#what's so special about store 7? 
+#store and store ID ? 
+```
+
+
+
+
+WeekOfPurchase is also quite tough to deal with: should it be added as a factor variable (it will lead to many coefficients), left as numeric, or omitted entirely? See if you can come up with a strategy to decide what to do with it.
+```{r}
+juice %>% select(weekof_purchase) %>% 
+  distinct()
+
+#There are a lot of weeks, I don't think the week will have a big impact 
+#on people's behabiour of buying what juice. I am going to put them into 
+# fewer groups just in case there are some seasonal impact. 
+```
+```{r}
+juice <- juice %>% mutate(weekof_purchase = case_when(weekof_purchase >= 270 ~ 7,
+                                             weekof_purchase >= 260 ~ 6,
+                                             weekof_purchase >= 250 ~ 5,
+                                             weekof_purchase >= 240 ~ 4,
+                                             weekof_purchase >= 230 ~ 3,
+                                             TRUE ~ 2)) %>% 
+  mutate(weekof_purchase = as.factor(weekof_purchase))
+```
+
+
+Check for aliased variables and remove any aliases before you set off to find your best models. Remember, you can use something like alias(purchase_mm ~ ., data = oj) to do this, the dot . here means ‘all variables’. Aliased variables will be listed down the left-hand side, and you can subsequently remove them.
+
+```{r}
+alias(purchase_mm ~ ., data = juice)
+```
+```{r}
+juice <- juice %>% select(-c(list_price_diff,store7,sale_price_mm,sale_price_ch,
+                 price_diff,store))
+alias(purchase_mm ~ ., data = juice)
+```
+split 
+```{r}
+n_data <- nrow(juice)
+
+test_index <- sample(1:n_data, size = n_data*0.2)
+
+
+test  <- slice(juice, test_index)
+
+
+train <- slice(juice, -test_index)
+```
+
+
+```{r}
+glmulti_search_all_mains <- glmulti(
+  purchase_mm ~ ., 
+  data = train,
+  level = 1,               # No interactions considered, main effects only
+  method = "h",            # Exhaustive approach
+  crit = "bic",            # BIC as criteria
+  confsetsize = 10,        # Keep 10 best models
+  plotty = F, 
+  report = T,              # No plots, but provide interim reports
+  fitfunction = "glm",     # glm function
+  family = binomial(link = "logit")) # binomial family for logistic regression
+
+summary(glmulti_search_all_mains)
+
+```
+```{r}
+```
+
+
+"purchase_mm ~ 1 + disc_mm + loyal_ch + pct_disc_ch"```{r}
+
+
+
+
+
+
+
+"purchase_mm ~ 1 + disc_mm + loyal_ch + pct_disc_ch"
+
+
+
+
+
+
+
+```{r}
+glmulti_search_previous_mains_one_pair <- glmulti(
+  purchase_mm ~  disc_mm  + loyal_ch + pct_disc_ch, 
+  data = train,
+  level = 2,               # Interactions considered
+  method = "h",            # Exhaustive approach
+  crit = "bic",            # BIC as criteria
+  confsetsize = 10,        # Keep 10 best models
+  marginality = TRUE,      # consider pairs only if both main effects in model
+  minsize = 6,             # minsize, maxsize and marginality here force 
+  maxsize = 6,             # inclusion of a single pair beyond the five main effects
+  plotty = F, 
+  report = T,              # No plots, but provide interim reports
+  fitfunction = "glm",     # glm function
+  family = binomial(link = "logit")) # binomial family for logistic regression
+
+summary(glmulti_search_previous_mains_one_pair)
+```
+
+this code breaks my R studio, when it runs, some of the other codes disappears ...
+
+
+
+
+
